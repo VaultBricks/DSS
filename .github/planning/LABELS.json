@@ -1,0 +1,100 @@
+[
+  {
+    "name": "type: bug",
+    "color": "d73a4a",
+    "description": "Something isn't working"
+  },
+  {
+    "name": "type: feature",
+    "color": "a2eeef",
+    "description": "New feature or category"
+  },
+  {
+    "name": "type: documentation",
+    "color": "0075ca",
+    "description": "Improvements or additions to documentation"
+  },
+  {
+    "name": "type: maintenance",
+    "color": "e99695",
+    "description": "Refactoring, updating dependencies, CI/CD"
+  },
+  {
+    "name": "type: question",
+    "color": "d876e3",
+    "description": "Further information is requested"
+  },
+  {
+    "name": "priority: critical",
+    "color": "ff4500",
+    "description": "Must fix immediately / Blocks release"
+  },
+  {
+    "name": "priority: high",
+    "color": "ff8c00",
+    "description": "Important for next milestone"
+  },
+  {
+    "name": "priority: medium",
+    "color": "f9d0c4",
+    "description": "Normal priority"
+  },
+  {
+    "name": "priority: low",
+    "color": "eeeeee",
+    "description": "Nice to have"
+  },
+  {
+    "name": "status: blocked",
+    "color": "bfdadc",
+    "description": "Waiting on something else"
+  },
+  {
+    "name": "status: in progress",
+    "color": "e4e669",
+    "description": "Currently being worked on"
+  },
+  {
+    "name": "status: needs review",
+    "color": "fef2c0",
+    "description": "PR submitted"
+  },
+  {
+    "name": "status: help wanted",
+    "color": "008672",
+    "description": "Extra attention is needed"
+  },
+  {
+    "name": "status: good first issue",
+    "color": "7057ff",
+    "description": "Good for newcomers"
+  },
+  {
+    "name": "component: part-a",
+    "color": "c5def5",
+    "description": "Code Quality & Implementation"
+  },
+  {
+    "name": "component: part-b",
+    "color": "c5def5",
+    "description": "Economic Validation"
+  },
+  {
+    "name": "component: part-c",
+    "color": "c5def5",
+    "description": "Operational Security"
+  },
+  {
+    "name": "component: part-d",
+    "color": "c5def5",
+    "description": "Governance & Compliance"
+  },
+  {
+    "name": "component: examples",
+    "color": "c5def5",
+    "description": "Code examples and reference implementation"
+  }
+]
+
+
+

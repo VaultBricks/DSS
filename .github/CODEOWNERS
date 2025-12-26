@@ -1,0 +1,24 @@
+# VaultBricks DSS CODEOWNERS
+# This file defines code ownership and review requirements
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @VaultBricks/dss-maintainers
+
+# Specification files require review from standards team
+/specification/ @VaultBricks/dss-maintainers @VaultBricks/standards-team
+
+# Certification checklists require review from certification team
+/certification/ @VaultBricks/dss-maintainers @VaultBricks/certification-team
+
+# Documentation files
+*.md @VaultBricks/dss-maintainers
+
+# CI/CD configuration
+/.github/workflows/ @VaultBricks/dss-maintainers
+
+# Code examples
+/examples/ @VaultBricks/dss-maintainers
+
+
+

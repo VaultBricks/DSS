@@ -1,0 +1,33 @@
+{
+  "name": "defi-strategy-project",
+  "version": "1.0.0",
+  "description": "DeFi Strategy implementing DSS requirements",
+  "scripts": {
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "test:dss": "hardhat test --grep \"DSS\"",
+    "test:compliance": "hardhat test --grep \"DSS-\"",
+    "test:part-a": "hardhat test --grep \"DSS-[1-8]\"",
+    "test:fuzz": "hardhat test --grep \"FUZZ\"",
+    "test:invariants": "hardhat test --grep \"INVARIANT\"",
+    "test:gas": "hardhat test --grep \"Gas\"",
+    "test:mutation": "ts-node scripts/mutation-test.ts",
+    "compile": "hardhat compile",
+    "verify": "hardhat verify"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^10.0.0",
+    "chai": "^4.3.0",
+    "fast-check": "^3.15.0",
+    "hardhat": "^2.19.0",
+    "mocha": "^10.2.0",
+    "solidity-coverage": "^0.8.5",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.3.0"
+  }
+}
+
+
+

@@ -1,0 +1,113 @@
+# .github/workflows/dss-compliance.yml
+name: DSS Compliance
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  FUZZ_ITERS: 1000
+  INVARIANT_ITERS: 500
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run compile
+      - run: npm test
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run coverage
+      - name: Check coverage thresholds
+        run: |
+          COVERAGE=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+          if (( $(echo "$COVERAGE < 90" | bc -l) )); then
+            echo "Coverage $COVERAGE% is below 90% threshold"
+            exit 1
+          fi
+      - uses: codecov/codecov-action@v4
+
+  fuzzing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run test:fuzz
+        env:
+          FUZZ_ITERS: ${{ env.FUZZ_ITERS }}
+
+  invariants:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run test:invariants
+        env:
+          INVARIANT_ITERS: ${{ env.INVARIANT_ITERS }}
+
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: crytic/slither-action@v0.3.0
+        with:
+          fail-on: high
+          sarif: results.sarif
+      - uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
+
+  gas-benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run test:gas
+      - name: Compare gas snapshots
+        run: |
+          if ! git diff --exit-code .gas-snapshot; then
+            echo "::warning::Gas usage changed"
+          fi
+
+  mutation-testing:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install gambit-sol
+      - run: npm ci
+      - run: npm run test:mutation
+      - name: Check mutation score
+        run: |
+          SCORE=$(cat mutation-report.json | jq '.score')
+          if (( $(echo "$SCORE < 75" | bc -l) )); then
+            echo "Mutation score $SCORE% is below 75% threshold"
+            exit 1
+          fi
+
+
+

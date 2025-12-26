@@ -1,0 +1,20 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/VaultBricks/DSS/blob/main/README.md
+    about: Read the DSS documentation and guides
+  - name: ❓ FAQ
+    url: https://github.com/VaultBricks/DSS/blob/main/FAQ.md
+    about: Check frequently asked questions
+  - name: 🤝 Contributing Guide
+    url: https://github.com/VaultBricks/DSS/blob/main/CONTRIBUTING.md
+    about: Learn how to contribute to DSS
+  - name: 💬 GitHub Discussions
+    url: https://github.com/VaultBricks/DSS/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🔒 Security Vulnerabilities
+    url: mailto:security@vaultbricks.io
+    about: Report security vulnerabilities privately (DO NOT create public issues)
+
+
+

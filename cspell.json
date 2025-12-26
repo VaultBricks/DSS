@@ -1,0 +1,40 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "DeFi",
+    "DSS",
+    "DSTS",
+    "VaultBricks",
+    "MAS",
+    "Hardhat",
+    "Slither",
+    "Mythril",
+    "Certora",
+    "Gambit",
+    "fast-check",
+    "Mocha",
+    "Chai",
+    "Solidity",
+    "TypeScript",
+    "reentrancy",
+    "invariant",
+    "fuzzing",
+    "mainnet",
+    "testnet",
+    "codecov",
+    "sarif",
+    "npm",
+    "yaml",
+    "markdownlint",
+    "cspell"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    ".git/**",
+    "*.lock"
+  ]
+}
+
+
+

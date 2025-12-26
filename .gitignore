@@ -1,0 +1,28 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.log
+*.cache
+
+# Build artifacts (if any)
+dist/
+build/
+*.pyc
+__pycache__/
+
+# Node modules (if examples include code)
+node_modules/
+package-lock.json
+yarn.lock
+
