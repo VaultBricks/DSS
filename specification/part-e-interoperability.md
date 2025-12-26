@@ -11,7 +11,7 @@ This document covers DSS-11, which ensures compatibility with industry standards
 
 ### 11.1 Overview
 
-Interoperability ensures that vaults can integrate seamlessly with other DeFi protocols and standards. DSS-11 requires compliance with ERC-4626 (Tokenized Vault Standard) and MAS (Multi-Asset Strategy) protocol standards.
+Interoperability ensures that vaults can integrate seamlessly with other DeFi protocols and standards. DSS-11 requires compliance with ERC-4626 (Tokenized Vault Standard) and MAS (Multi-Asset Standard) protocol standards.
 
 ### 11.2 ERC-4626 Compliance
 
@@ -68,11 +68,20 @@ describe("ERC-4626 Compliance", () => {
     expect(shares).to.equal(expectedShares);
   });
 
-  it("withdraw returns correct assets", async () => {
-    const shares = parseEther("100");
-    const expectedAssets = await vault.previewWithdraw(shares);
+  it("withdraw returns correct shares", async () => {
+    const assets = parseEther("100");
+    const expectedShares = await vault.previewWithdraw(assets);
     
-    const assets = await vault.withdraw(shares, user.address, user.address);
+    const shares = await vault.withdraw(assets, user.address, user.address);
+    
+    expect(shares).to.equal(expectedShares);
+  });
+
+  it("redeem returns correct assets", async () => {
+    const shares = parseEther("100");
+    const expectedAssets = await vault.previewRedeem(shares);
+    
+    const assets = await vault.redeem(shares, user.address, user.address);
     
     expect(assets).to.equal(expectedAssets);
   });
@@ -149,7 +158,7 @@ describe("ERC-4626 Edge Cases", () => {
 
 #### 11.3.1 MAS Architecture Requirements
 
-Vaults must comply with MAS (Multi-Asset Strategy) architecture:
+Vaults must comply with MAS (Multi-Asset Standard) architecture:
 
 | Requirement | Description | Test |
 |-------------|-------------|------|

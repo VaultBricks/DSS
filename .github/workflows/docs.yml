@@ -2,7 +2,7 @@ name: Documentation Checks
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -41,6 +41,7 @@ jobs:
             "specification/part-b-economic.md"
             "specification/part-c-operational.md"
             "specification/part-d-governance.md"
+            "specification/part-e-interoperability.md"
           )
           for file in "${required_files[@]}"; do
             if [ ! -f "$file" ]; then

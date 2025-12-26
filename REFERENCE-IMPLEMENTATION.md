@@ -1,30 +1,25 @@
 # Reference Implementation: VaultBricks
 
-**VaultBricks** is DSS-certified and serves as the reference implementation. It demonstrates how to implement a fully compliant strategy testing suite.
+**VaultBricks** serves as a reference implementation example. It demonstrates how to implement a DSS-compliant strategy testing suite.
 
-- ✅ **DSS Gold Certified**
-- 📊 **525+ tests** across all DSS categories
-- 🎯 **>98% statement coverage, >90% branch coverage** (DSS Gold requirements)
-- 🔒 **Zero high-severity findings**
-
-This document provides the test suite metrics and structure as a reference for implementing your own DSS-compliant testing framework.
+> **Note:** This document provides example metrics and structure as a reference for implementing your own DSS-compliant testing framework. Actual certification requires verification through the [Certification Process](CERTIFICATION-PROCESS.md).
 
 ## Test Suite Overview
 
-| Metric | Value |
-|--------|-------|
-| **DSS Certification** | 🥇 Gold |
-| **Total Tests** | 525+ |
-| **Test Files** | 60+ |
-| **Statement Coverage** | >98% |
-| **Branch Coverage** | >90% |
+| Metric | Example Value (Reference) |
+|--------|---------------------------|
+| **Target Certification Level** | Gold |
+| **Example Test Count** | 525+ |
+| **Example Test Files** | 60+ |
+| **Target Statement Coverage** | >98% (Gold requirement) |
+| **Target Branch Coverage** | >90% (Gold requirement) |
 | **Fuzz Iterations** | 600 (local), 1000 (CI) |
 | **Invariant Iterations** | 200 |
 
 ## Strategy Facet Coverage
 
-| Facet | Unit Tests | Fuzz Tests | Invariant Tests | Status |
-|-------|------------|------------|-----------------|--------|
+| Facet | Unit Tests | Fuzz Tests | Invariant Tests | Example Status |
+|-------|------------|------------|-----------------|----------------|
 | HODLFacet | ✅ 15 tests | ✅ 11 tests | ✅ 4 invariants | Complete |
 | Fixed6040Facet | ✅ 12 tests | ✅ 3 tests | ✅ 4 invariants | Complete |
 | MomentumFacet | ✅ 18 tests | ✅ 5 tests | ✅ 4 invariants | Complete |
@@ -32,6 +27,8 @@ This document provides the test suite metrics and structure as a reference for i
 | OracleFacet | ✅ 25 tests | ⚠️ In Progress | ⚠️ In Progress | 80% |
 | RebalanceFacet | ✅ 30 tests | ⚠️ In Progress | ⚠️ In Progress | 75% |
 | GatedFacet | ✅ 8 tests | ❌ Deferred | ❌ Deferred | 60% |
+
+> **Note:** This table shows example test coverage distribution. Actual implementations should aim for complete coverage across all facets to meet DSS Gold requirements.
 
 ## Test Execution Times
 

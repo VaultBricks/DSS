@@ -2,9 +2,6 @@
   "ignorePatterns": [
     {
       "pattern": "^http://localhost"
-    },
-    {
-      "pattern": "^https://github.com/VaultBricks"
     }
   ],
   "timeout": "20s",

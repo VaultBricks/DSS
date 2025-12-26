@@ -5,12 +5,12 @@ All notable changes to the DeFi Strategy Standard (DSS) will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-01-XX
+## [1.0.0] - 2025-12-26
 
 ### Initial Release
 
 **Core Architecture (DSS 1-11):**
-- **DSS-1 to DSS-6**: Core engineering and security tests based on VTS architecture
+- **DSS-1 to DSS-6**: Core engineering and security tests
 - **DSS-7 & DSS-8**: Advanced stress testing and gas efficiency
 - **DSS-9 & DSS-10**: Consolidated operational and governance requirements
 - **DSS-11**: Interoperability standards for ERC-4626 and MAS Protocol

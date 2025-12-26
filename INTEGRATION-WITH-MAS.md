@@ -53,7 +53,7 @@ MAS and DSS are complementary standards:
 
 VaultBricks demonstrates both standards:
 - ✅ MAS-compliant architecture
-- ✅ DSS Gold certified testing
+- ✅ DSS-compliant testing (example implementation)
 - ✅ DSS-11: Full ERC-4626 + MAS interoperability compliance
 
 See [REFERENCE-IMPLEMENTATION.md](REFERENCE-IMPLEMENTATION.md) for detailed implementation metrics.

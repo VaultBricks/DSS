@@ -74,5 +74,5 @@
 - [ ] Contracts verified on block explorer
 - [ ] Multiple audit reports published
 - [ ] Bug bounty program active
-- [ ] VTS Compliance Report published
+- [ ] DSS Compliance Report published
 - [ ] All checklist items completed
