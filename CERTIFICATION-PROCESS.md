@@ -169,3 +169,4 @@ Certified protocols can display DSS badges:
 - [Certification Matrix](CERTIFICATION-MATRIX.md) - Complete requirements table
 - [FAQ](FAQ.md) - Frequently asked questions about certification
 - [Implementation Guidelines](IMPLEMENTATION-GUIDELINES.md) - How to implement DSS requirements
+
