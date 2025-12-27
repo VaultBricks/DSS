@@ -12,13 +12,13 @@ This document covers DSS-9, which consolidates deployment security, access manag
 **Priority:** P1 — High
 **Certification:** Required for Silver+
 
-### 12.1 Overview
+### 9.1.1 Overview
 
 Secure deployment practices prevent configuration errors and ensure reproducible deployments. DSS requires documented, tested deployment procedures.
 
-### 12.2 Deployment Requirements
+### 9.1.2 Deployment Requirements
 
-#### 12.2.1 Deployment Checklist
+#### 9.1.2.1 Deployment Checklist
 
 | Requirement            | Description                      | Required     |
 |------------------------|----------------------------------|--------------|
@@ -28,7 +28,7 @@ Secure deployment practices prevent configuration errors and ensure reproducible
 | **Staged Rollout**     | Testnet → Staging → Mainnet      | ✅ Silver+   |
 | **Deployment Tests**   | Automated post-deployment checks  | ✅ All       |
 
-#### 12.2.2 Deployment Script
+#### 9.1.2.2 Deployment Script
 
 ```typescript
 // scripts/deploy/deploy.ts
@@ -96,7 +96,7 @@ async function runPostDeploymentTests(diamond: Contract) {
 }
 ```
 
-### 12.3 Environment Configuration
+### 9.1.3 Environment Configuration
 
 ```typescript
 // config/deployment.config.ts
@@ -121,7 +121,7 @@ export const deploymentConfigs: Record<string, DeploymentConfig> = {
 };
 ```
 
-### 12.4 Verification Requirements
+### 9.1.4 Verification Requirements
 
 ```bash
 # Verify all contracts on Arbiscan
@@ -135,7 +135,7 @@ for facet in HODLFacet Fixed6040Facet MomentumFacet; do
 done
 ```
 
-### 12.5 Coverage Thresholds
+### 9.1.5 Coverage Thresholds
 
 | Level  | Requirements                            |
 |--------|-----------------------------------------|
@@ -150,13 +150,13 @@ done
 **Priority:** P0 — Critical
 **Certification:** Required for all levels
 
-### 13.1 Overview
+### 9.2.1 Overview
 
 Proper key management prevents unauthorized access and single points of failure. DSS requires multi-signature controls and role-based access.
 
-### 13.2 Access Control Requirements
+### 9.2.2 Access Control Requirements
 
-#### 13.2.1 Role Definitions
+#### 9.2.2.1 Role Definitions
 
 | Role       | Permissions                  | Holder             |
 |------------|------------------------------|--------------------|
@@ -166,7 +166,7 @@ Proper key management prevents unauthorized access and single points of failure.
 | **Guardian**| Emergency pause only         | Multi-sig (1/3)    |
 | **User**    | Deposit, withdraw            | Any address        |
 
-#### 13.2.2 Multi-Sig Requirements
+#### 9.2.2.2 Multi-Sig Requirements
 
 | Level  | Owner | Admin | Guardian |
 |--------|-------|-------|----------|
@@ -174,7 +174,7 @@ Proper key management prevents unauthorized access and single points of failure.
 | Silver | 3/5   | 2/3   | 1/3      |
 | Gold   | 4/7   | 3/5   | 2/5      |
 
-### 13.3 Implementation
+### 9.2.3 Implementation
 
 ```solidity
 // contracts/access/AccessControl.sol
@@ -214,7 +214,7 @@ contract StrategyAccessControl {
 }
 ```
 
-### 13.4 Key Storage Requirements
+### 9.2.4 Key Storage Requirements
 
 | Requirement            | Description                    | Required     |
 |------------------------|--------------------------------|--------------|
@@ -223,7 +223,7 @@ contract StrategyAccessControl {
 | **Backup Procedures** | Documented key recovery        | ✅ All       |
 | **Rotation Schedule**  | Regular key rotation           | ✅ Gold      |
 
-### 13.5 Testing Requirements
+### 9.2.5 Testing Requirements
 
 ```typescript
 describe("Access Control", () => {
@@ -258,7 +258,7 @@ describe("Access Control", () => {
 });
 ```
 
-### 13.6 Coverage Thresholds
+### 9.2.6 Coverage Thresholds
 
 | Level  | Requirements                            |
 |--------|-----------------------------------------|
@@ -273,13 +273,13 @@ describe("Access Control", () => {
 **Priority:** P1 — High
 **Certification:** Required for Silver+
 
-### 14.1 Overview
+### 9.3.1 Overview
 
 Continuous monitoring enables early detection of issues. DSS requires comprehensive monitoring and documented incident response procedures.
 
-### 14.2 Monitoring Requirements
+### 9.3.2 Monitoring Requirements
 
-#### 14.2.1 On-Chain Monitoring
+#### 9.3.2.1 On-Chain Monitoring
 
 | Metric              | Alert Threshold | Response            |
 |---------------------|-----------------|---------------------|
@@ -290,7 +290,7 @@ Continuous monitoring enables early detection of issues. DSS requires comprehens
 | **Oracle Staleness**| > 1 hour        | Switch to TWAP      |
 | **Rebalance Failure**| Any failure     | Manual intervention |
 
-#### 14.2.2 Off-Chain Monitoring
+#### 9.3.2.2 Off-Chain Monitoring
 
 | Metric          | Alert Threshold | Response        |
 |-----------------|-----------------|-----------------|
@@ -299,7 +299,7 @@ Continuous monitoring enables early detection of issues. DSS requires comprehens
 | **API Errors**  | > 1%            | Investigate     |
 | **Disk Space**  | > 80%           | Cleanup/expand  |
 
-### 14.3 Implementation
+### 9.3.3 Implementation
 
 ```typescript
 // monitoring/alerts.ts
@@ -351,9 +351,9 @@ async function checkAlerts(diamond: Contract) {
 setInterval(() => checkAlerts(diamond), 60_000);
 ```
 
-### 14.4 Incident Response Procedures
+### 9.3.4 Incident Response Procedures
 
-#### 14.4.1 Severity Levels
+#### 9.3.4.1 Severity Levels
 
 | Level          | Description           | Response Time | Escalation     |
 |----------------|-----------------------|--------------|----------------|
@@ -362,7 +362,7 @@ setInterval(() => checkAlerts(diamond), 60_000);
 | **P2 - Medium**  | Degraded performance  | < 4 hours    | Business hours |
 | **P3 - Low**     | Minor issues          | < 24 hours   | Next sprint    |
 
-#### 14.4.2 Response Playbooks
+#### 9.3.4.2 Response Playbooks
 
 **Playbook: Oracle Failure**
 ```markdown
@@ -424,7 +424,7 @@ setInterval(() => checkAlerts(diamond), 60_000);
 - Detailed post-mortem within 48 hours
 ```
 
-### 14.5 Coverage Thresholds
+### 9.3.5 Coverage Thresholds
 
 | Level  | Requirements                            |
 |--------|-----------------------------------------|

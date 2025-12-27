@@ -12,13 +12,13 @@ This document covers DSS-10, which consolidates governance security and document
 **Priority:** P1 — High
 **Certification:** Required for Gold
 
-### 15.1 Overview
+### 10.1.1 Overview
 
 Upgradeable contracts introduce governance risks. DSS requires safeguards to prevent malicious upgrades and ensure community oversight.
 
-### 15.2 Upgrade Security Requirements
+### 10.1.2 Upgrade Security Requirements
 
-#### 15.2.1 Timelock Requirements
+#### 10.1.2.1 Timelock Requirements
 
 | Level  | Minimum Delay  | Emergency Bypass    |
 |--------|----------------|---------------------|
@@ -26,7 +26,7 @@ Upgradeable contracts introduce governance risks. DSS requires safeguards to pre
 | Silver | 24 hours       | Guardian pause only |
 | Gold   | 48 hours       | Multi-sig (4/7)     |
 
-#### 15.2.2 Implementation
+#### 10.1.2.2 Implementation
 
 ```solidity
 // contracts/governance/Timelock.sol
@@ -97,7 +97,7 @@ contract StrategyTimelock {
 }
 ```
 
-### 15.3 Governance Testing
+### 10.1.3 Governance Testing
 
 ```typescript
 describe("Governance Security", () => {
@@ -162,7 +162,7 @@ describe("Governance Security", () => {
 });
 ```
 
-### 15.4 Coverage Thresholds
+### 10.1.4 Coverage Thresholds
 
 | Level  | Requirements                            |
 |--------|-----------------------------------------|
@@ -177,13 +177,13 @@ describe("Governance Security", () => {
 **Priority:** P2 — Medium
 **Certification:** Required for all levels
 
-### 16.1 Overview
+### 10.2.1 Overview
 
 Clear documentation enables users to understand risks and developers to maintain the codebase. DSS requires comprehensive documentation at all levels.
 
-### 16.2 Documentation Requirements
+### 10.2.2 Documentation Requirements
 
-#### 16.2.1 Required Documents
+#### 10.2.2.1 Required Documents
 
 | Document          | Description                    | Required     |
 |-------------------|--------------------------------|--------------|
@@ -195,7 +195,7 @@ Clear documentation enables users to understand risks and developers to maintain
 | **Incident History**| Past incidents, resolutions    | ✅ Silver+   |
 | **Runbooks**      | Operational procedures         | ✅ Silver+   |
 
-#### 16.2.2 Risk Disclosure Template
+#### 10.2.2.2 Risk Disclosure Template
 
 ```markdown
 # Risk Disclosure
@@ -257,7 +257,7 @@ and emergency actions may be delayed or impossible.
 **Mitigation:** Geographic distribution, backup signers
 ```
 
-### 16.3 NatSpec Requirements
+### 10.2.3 NatSpec Requirements
 
 All public functions must have complete NatSpec documentation:
 
@@ -284,7 +284,7 @@ contract HODLFacet is ITargetWeightProvider {
 }
 ```
 
-### 16.4 Coverage Thresholds
+### 10.2.4 Coverage Thresholds
 
 | Level  | Requirements                                    |
 |--------|-------------------------------------------------|
