@@ -5,7 +5,7 @@ import fc from "fast-check";
 /**
  * HODLStrategy Fuzzing Tests
  * 
- * Adapted from BOLD-APEX hodl.fuzz.spec.ts
+ * Property-based fuzzing tests
  * Tests weight calculation invariants across random inputs
  * 
  * DSS-7: Stress Tests & Fuzzing

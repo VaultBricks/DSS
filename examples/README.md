@@ -1,8 +1,8 @@
 # DSS Examples
 
-**Production-grade strategy examples based on BOLD-APEX**
+**Production-grade strategy examples**
 
-This directory contains complete, battle-tested DSS-compliant strategy implementations adapted from [BOLD-APEX](https://github.com/VaultBricks/BOLD-APEX) - a production Diamond proxy system managing real DeFi funds.
+This directory contains complete, battle-tested DSS-compliant strategy implementations with production-ready code.
 
 ## 📋 Overview
 
@@ -29,7 +29,6 @@ examples/
 ### 1. HODLStrategy - Equal-Weight Allocation
 
 **Path:** `sdk/basic-strategy/`  
-**Source:** BOLD-APEX `HODLFacet.sol`  
 **Complexity:** ⭐ Basic
 
 Equal-weight distribution across all active assets with automatic rebalancing.
@@ -49,7 +48,6 @@ Equal-weight distribution across all active assets with automatic rebalancing.
 ### 2. Fixed6040Strategy - Balanced Portfolio
 
 **Path:** `sdk/rebalancing-strategy/`  
-**Source:** BOLD-APEX `Fixed6040Facet.sol`  
 **Complexity:** ⭐ Basic
 
 Classic 60/40 portfolio allocation with weekly rebalancing.
@@ -69,7 +67,6 @@ Classic 60/40 portfolio allocation with weekly rebalancing.
 ### 3. Foundry Examples
 
 **Path:** `foundry/`  
-**Source:** Adapted from BOLD-APEX test patterns  
 **Complexity:** ⭐ Basic
 
 Same strategies as above, but using Foundry test framework.
@@ -135,12 +132,12 @@ forge test
 - Fuzz testing best practices
 - Gas optimization techniques
 
-## 🔬 Advanced Patterns from BOLD-APEX
+## 🔬 Advanced Patterns
 
 ### 1. Weight Normalization
 
 ```solidity
-// From DSSWeightLib (BOLD-APEX WeightLib)
+// From DSSWeightLib
 weights = DSSWeightLib.clampAndNormalizeToBps(
     weights,
     minWeights,
@@ -158,7 +155,7 @@ weights = DSSWeightLib.clampAndNormalizeToBps(
 ### 2. Seedable PRNG for Testing
 
 ```typescript
-// From InvariantHelpers (BOLD-APEX pattern)
+// From InvariantHelpers
 const rng = makeRng(12345); // Reproducible tests
 for (let i = 0; i < 1000; i++) {
   const randomValue = rng(); // [0, 1)
@@ -174,7 +171,7 @@ for (let i = 0; i < 1000; i++) {
 ### 3. Invariant Testing
 
 ```typescript
-// From BOLD-APEX invariant tests
+// Invariant test patterns
 for (let iter = 0; iter < 200; iter++) {
   // Random operations
   
@@ -192,27 +189,12 @@ for (let iter = 0; iter < 200; iter++) {
 | Learn DSS basics | `basic-strategy` (HODLStrategy) |
 | Build balanced portfolio | `rebalancing-strategy` (Fixed6040) |
 | Use Foundry/Forge | `foundry/` |
-| See production patterns | All (from BOLD-APEX) |
+| See production patterns | All examples |
 | Prepare for audit | All (comprehensive tests) |
 
 ## 🙏 Credits
 
-All examples are based on production code from **BOLD-APEX**:
-
-| Example | Source File | License |
-|---------|-------------|---------|
-| HODLStrategy | `HODLFacet.sol` | MIT |
-| Fixed6040Strategy | `Fixed6040Facet.sol` | MIT |
-| DSSWeightLib | `WeightLib.sol` | MIT |
-| Test patterns | `test/fuzz/`, `test/invariants/` | MIT |
-
-BOLD-APEX is a Diamond proxy-based vault architecture with:
-- 8+ strategy facets
-- $XXX TVL (at time of writing)
-- Full security audit
-- Production deployment on Ethereum mainnet
-
-We are grateful to the BOLD-APEX team for open-sourcing their basic strategies and enabling the community to learn from production-grade code.
+All examples use production-tested patterns and are designed to demonstrate best practices for DSS-compliant strategies.
 
 ## 📖 Next Steps
 
@@ -226,7 +208,6 @@ We are grateful to the BOLD-APEX team for open-sourcing their basic strategies a
 
 - **DSS Specification:** `../specification/`
 - **SDK Packages:** `../packages/`
-- **BOLD-APEX:** [github.com/VaultBricks/BOLD-APEX](https://github.com/VaultBricks/BOLD-APEX)
 
 ---
 

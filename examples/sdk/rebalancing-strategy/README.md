@@ -1,8 +1,8 @@
 # Fixed6040Strategy - DSS Rebalancing Example
 
-**Production-tested 60/40 portfolio strategy adapted from BOLD-APEX**
+**Production-tested 60/40 portfolio strategy**
 
-This example demonstrates a classic balanced portfolio allocation with automatic rebalancing. The code is adapted from [BOLD-APEX Fixed6040Facet](https://github.com/VaultBricks/BOLD-APEX), a production system managing real user funds.
+This example demonstrates a classic balanced portfolio allocation with automatic rebalancing.
 
 ## 📋 Overview
 
@@ -122,7 +122,7 @@ strategy.grantKeeperRole(keeperBot);
 
 ## 🙏 Credits
 
-Based on BOLD-APEX `Fixed6040Facet.sol` - production-tested code managing real DeFi positions.
+Production-tested code demonstrating best practices for DSS-compliant strategies.
 
 ## 📄 License
 

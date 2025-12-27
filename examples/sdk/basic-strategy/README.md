@@ -1,8 +1,8 @@
 # HODLStrategy - DSS Basic Example
 
-**Production-tested equal-weight rebalancing strategy adapted from BOLD-APEX**
+**Production-tested equal-weight rebalancing strategy**
 
-This example demonstrates a complete DSS-compliant strategy implementation with comprehensive test coverage. The code is adapted from [BOLD-APEX](https://github.com/VaultBricks/BOLD-APEX), a production system managing real user funds.
+This example demonstrates a complete DSS-compliant strategy implementation with comprehensive test coverage.
 
 ## 📋 Overview
 
@@ -36,7 +36,6 @@ This example demonstrates a complete DSS-compliant strategy implementation with 
   - Uses: `DSSWeightLib` for weight normalization
   
 - **`DSSWeightLib.sol`** - Weight calculation library
-  - Ported from BOLD-APEX `WeightLib`
   - Battle-tested in production
   - Handles min/max bounds and normalization
 
@@ -149,9 +148,9 @@ strategy.setAssetActive(2, false);
 // → weights become [5000, 5000, 0]
 ```
 
-## 🔬 Testing Patterns from BOLD-APEX
+## 🔬 Testing Patterns
 
-This example adapts proven testing patterns from production:
+This example uses proven testing patterns from production:
 
 ### 1. Seedable PRNG
 ```typescript
@@ -188,30 +187,12 @@ expect(weight).to.be.lte(maxWeight);
 
 ## 📚 Learn More
 
-- **BOLD-APEX Source**: [github.com/VaultBricks/BOLD-APEX](https://github.com/VaultBricks/BOLD-APEX)
 - **DSS Specification**: See `../../specification/`
 - **Advanced Examples**: See `../` for more complex strategies
 
-## 🙏 Credits
-
-This example is based on production code from **BOLD-APEX**, specifically:
-
-- `HODLFacet.sol` - Equal-weight strategy logic
-- `WeightLib.sol` - Weight normalization library  
-- `hodl.fuzz.spec.ts` - Fuzzing test patterns
-- `weight.invariant.spec.ts` - Invariant test patterns
-- `strategy.facets.invariant.spec.ts` - Multi-strategy invariants
-
-The BOLD-APEX system is a Diamond-proxy based vault architecture managing real DeFi positions. The code has been:
-
-1. **Simplified** - Removed Diamond-specific features
-2. **Adapted** - Added DSS interfaces and base contracts
-3. **Enhanced** - Added comprehensive documentation
-4. **Tested** - Maintained production-grade test coverage
-
 ## 📄 License
 
-MIT License - Same as BOLD-APEX basic facets
+MIT License
 
 ---
 

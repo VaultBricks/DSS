@@ -4,7 +4,7 @@ import { ethers } from "hardhat";
 /**
  * HODLStrategy Invariant Tests
  * 
- * Adapted from BOLD-APEX weight.invariant.spec.ts and strategy.facets.invariant.spec.ts
+ * Invariant testing patterns
  * Tests critical invariants that must hold across all state transitions
  * 
  * DSS-2: Economic Invariants
@@ -36,7 +36,7 @@ describe("HODLStrategy - Invariant Tests (DSS-2)", function () {
 
   /**
    * Seedable PRNG for reproducibility
-   * Adapted from BOLD-APEX testing utilities
+   * Seedable PRNG for reproducible testing
    */
   function makeRng(seed?: number): () => number {
     let state = seed ?? (process.env.RANDOM_SEED ? parseInt(process.env.RANDOM_SEED) : Date.now());

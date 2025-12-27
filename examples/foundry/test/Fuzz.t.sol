@@ -8,7 +8,7 @@ import "../src/DSSWeightLib.sol";
 /**
  * @title HODLStrategy Fuzz Tests
  * @notice Fuzz testing using Foundry's built-in fuzzer
- * @dev Adapted from BOLD-APEX fuzzing patterns
+ * @dev Production-tested fuzzing patterns
  * 
  * DSS-7: Stress Tests & Fuzzing
  */

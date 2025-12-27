@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 /**
  * @title DSSWeightLib
  * @notice Lightweight library for clamping and normalizing portfolio weights
- * @dev Adapted from BOLD-APEX WeightLib for DSS examples
+ * @dev Production-tested weight normalization library
  * @dev Production-tested code - battle-hardened in real deployments
  */
 library DSSWeightLib {

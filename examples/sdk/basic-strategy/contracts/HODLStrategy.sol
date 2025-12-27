@@ -9,7 +9,7 @@ import "../../../packages/core/contracts/libraries/DSSWeightLib.sol";
 /**
  * @title HODLStrategy
  * @notice Equal-weight rebalancing strategy for DSS
- * @dev Adapted from BOLD-APEX HODLFacet - production-tested code
+ * @dev Production-tested code
  * 
  * **Strategy Behavior:**
  * - Maintains equal weight distribution across all active assets

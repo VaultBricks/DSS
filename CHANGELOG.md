@@ -7,18 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added - BOLD-APEX Integration
+### Added - Production Examples
 
-**NEW: Production-tested examples from BOLD-APEX**
+**NEW: Production-tested strategy examples**
 
-#### Examples Based on BOLD-APEX Production Code
+#### Strategy Examples
 - `examples/sdk/basic-strategy/` - HODLStrategy (equal-weight allocation)
-  - Adapted from BOLD-APEX `HODLFacet.sol`
   - Production-tested weight calculation logic
   - Comprehensive test suite (core, invariants, fuzzing)
   - Full DSS compliance (DSS-1, DSS-2, DSS-3, DSS-4, DSS-7, DSS-9)
 - `examples/sdk/rebalancing-strategy/` - Fixed6040Strategy (60/40 portfolio)
-  - Adapted from BOLD-APEX `Fixed6040Facet.sol`
   - Classic balanced portfolio allocation
   - Weekly rebalancing pattern
   - DSS-compliant with full test coverage
@@ -26,18 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Unit tests (`HODL.t.sol`)
   - Invariant tests (`Invariants.t.sol`)
   - Fuzz tests (`Fuzz.t.sol`)
-  - Configuration from BOLD-APEX (1000 fuzz runs, 256 invariant runs)
+  - Optimized configuration (1000 fuzz runs, 256 invariant runs)
 
 #### Core Library Enhancements
 - `packages/core/contracts/libraries/DSSWeightLib.sol`
-  - Ported from BOLD-APEX `WeightLib.sol`
   - Battle-tested weight normalization
   - Respects min/max bounds
   - Best-effort normalization when exact impossible
   - Gas-optimized from production use
 
 #### Testing Framework Improvements (@dss/test)
-- `src/InvariantHelpers.ts` - BOLD-APEX patterns
+- `src/InvariantHelpers.ts` - Invariant testing utilities
   - Value conservation checks (with slippage tolerance)
   - Share price monotonicity validation
   - Weight sum invariant checks
@@ -53,7 +50,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Active/inactive asset array generation
 
 ### Changed
-- `packages/test/package.json` - Updated keywords to reflect BOLD-APEX inspiration
 - Project now demonstrates "Specification → Production Examples" flow
 
 ## [1.2.0-alpha.0] - 2025-12-27

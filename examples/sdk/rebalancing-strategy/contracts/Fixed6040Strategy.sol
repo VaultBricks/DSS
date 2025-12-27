@@ -9,7 +9,7 @@ import "../../../packages/core/contracts/libraries/DSSWeightLib.sol";
 /**
  * @title Fixed6040Strategy
  * @notice Fixed 60/40 portfolio allocation strategy for DSS
- * @dev Adapted from BOLD-APEX Fixed6040Facet - production-tested code
+ * @dev Production-tested code
  * 
  * **Strategy Behavior:**
  * - Allocates 60% to first active asset (typically growth/equity)

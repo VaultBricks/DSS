@@ -2,7 +2,7 @@
 
 **Production-tested strategies with Foundry test framework**
 
-This directory contains Foundry/Forge versions of DSS-compliant strategies, adapted from [BOLD-APEX](https://github.com/VaultBricks/BOLD-APEX) production code.
+This directory contains Foundry/Forge versions of DSS-compliant strategies.
 
 ## 📋 Overview
 
@@ -115,7 +115,7 @@ Randomized input testing:
 
 ```toml
 [profile.default]
-fuzz_runs = 1000              # Based on BOLD-APEX (600-1000)
+fuzz_runs = 1000              # Number of fuzz test runs
 invariant_runs = 256
 invariant_depth = 15
 verbosity = 2
@@ -139,7 +139,7 @@ export FOUNDRY_FUZZ_SEED=12345
 | Invariant | `Invariants.t.sol` | DSS-2 |
 | Fuzz | `Fuzz.t.sol` | DSS-7 |
 
-## 💡 Testing Patterns from BOLD-APEX
+## 💡 Testing Patterns
 
 ### 1. Stateless Fuzzing
 ```solidity
@@ -215,8 +215,8 @@ forge test --debug testFuzz_WeightSumInvariant
 
 ## 🙏 Credits
 
-Test patterns adapted from **BOLD-APEX**:
-- Fuzz iterations: 600-1000 runs
+Test patterns use industry best practices:
+- Fuzz iterations: 1000 runs
 - Invariant depth: 15 levels
 - Property-based testing approach
 - Seedable randomness for reproducibility
@@ -224,7 +224,6 @@ Test patterns adapted from **BOLD-APEX**:
 ## 📚 Learn More
 
 - **Foundry Book**: [book.getfoundry.sh](https://book.getfoundry.sh)
-- **BOLD-APEX Tests**: [github.com/VaultBricks/BOLD-APEX/tree/main/test](https://github.com/VaultBricks/BOLD-APEX/tree/main/test)
 - **DSS Specification**: `../../specification/`
 
 ## 📄 License

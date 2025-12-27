@@ -3,7 +3,7 @@ import fc from 'fast-check';
 /**
  * Fuzzing Helpers for DSS Testing
  * 
- * Adapted from BOLD-APEX fuzzing utilities
+ * Production-tested fuzzing utilities
  * Provides arbitraries for property-based testing
  * 
  * @module FuzzHelpers
@@ -63,7 +63,7 @@ export function arbitraryPrice(
  * Generate arbitrary price sequence (for backtesting/simulation)
  * Simulates realistic price movements with volatility
  * 
- * Adapted from BOLD-APEX meanreversion.fuzz.spec.ts
+ * Price sequence generation with volatility
  * 
  * @param length - Number of price points
  * @param startPrice - Starting price (default: 1e18 = 1 USD)

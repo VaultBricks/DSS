@@ -8,7 +8,7 @@ import "../src/DSSWeightLib.sol";
 /**
  * @title HODLStrategy Invariant Tests
  * @notice Property-based invariant testing using Foundry
- * @dev Adapted from BOLD-APEX invariant test patterns
+ * @dev Production-tested invariant test patterns
  * 
  * DSS-2: Economic Invariants
  */

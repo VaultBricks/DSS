@@ -1,7 +1,7 @@
 /**
  * Invariant Testing Helpers
  * 
- * Adapted from BOLD-APEX testing utilities
+ * Production-tested invariant testing utilities
  * Provides common invariant checks for DSS strategies
  * 
  * @module InvariantHelpers
@@ -188,7 +188,7 @@ export function checkShareAccountingInvariant(
 
 /**
  * Seedable PRNG (Mulberry32)
- * Adapted from BOLD-APEX for reproducible random testing
+ * Seedable PRNG for reproducible random testing
  * 
  * @param seed - Initial seed value (default: from env or Date.now())
  * @returns Function that generates random numbers in [0, 1)

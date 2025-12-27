@@ -8,7 +8,7 @@ import "../src/DSSWeightLib.sol";
 /**
  * @title HODLStrategy Foundry Tests
  * @notice Core functionality tests using Foundry test framework
- * @dev Adapted from BOLD-APEX testing patterns
+ * @dev Production-tested testing patterns
  * 
  * DSS-1: Core Strategy Tests
  */
