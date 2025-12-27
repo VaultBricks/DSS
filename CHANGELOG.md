@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reorganized `specification/part-a-code-quality.md` to follow sequential DSS ordering (DSS-1 through DSS-8).
 - Refactored `specification/part-b-economic.md` into Economic Reference & Methodology document.
 - Updated section numbering in Part B to align with its role as supplementary reference material.
+- Fixed section numbering in `specification/part-c-operational.md` (DSS-9: 12.x/13.x/14.x → 9.1.x/9.2.x/9.3.x).
+- Fixed section numbering in `specification/part-d-governance.md` (DSS-10: 15.x/16.x → 10.1.x/10.2.x).
 
 ### Added
 - Comprehensive **DSS-3: Trigger & Timing Tests** section with cooldown enforcement, trigger conditions, and stale data handling.
