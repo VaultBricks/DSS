@@ -1,21 +1,29 @@
-﻿# DSS-7: Backtesting (Part of Stress Tests)
+﻿# Part B: Economic Reference & Methodology
 
-**Note:** Backtesting is part of DSS-7 (Stress Tests & Fuzzing). This section is retained for reference.
+This document serves as a reference for economic validation methodology and advanced testing patterns for the DeFi Strategy Standard (DSS).
+
+## Overview
+
+Economic validation ensures that strategies' mathematical models are sound and resilient to market dynamics. This document provides detailed methodology and implementation examples that support the requirements outlined in **DSS-6: Security Tests** and **DSS-7: Stress Tests & Fuzzing** in Part A.
+
+This reference material includes:
+- Advanced backtesting and simulation techniques
+- Economic attack resistance testing
+- Market condition testing across various scenarios
 
 ---
 
-## Backtesting & Simulation
+## 1. Backtesting & Simulation
 
-**Priority:** P1 — High
-**Certification:** Required for Silver+
+*Supports DSS-7 (Stress Tests & Fuzzing)*
 
-### 9.1 Overview
+### 1.1 Overview
 
 Backtesting validates strategy performance against historical data. DSS requires rigorous backtesting methodology to prevent overfitting and ensure realistic performance expectations.
 
-### 9.2 Backtesting Requirements
+### 1.2 Backtesting Requirements
 
-#### 9.2.1 Data Requirements
+#### 1.2.1 Data Requirements
 
 | Requirement         | Bronze            | Silver                    | Gold                        |
 |---------------------|-------------------|---------------------------|-----------------------------|
@@ -24,7 +32,7 @@ Backtesting validates strategy performance against historical data. DSS requires
 | **Assets Covered**   | Strategy assets   | + correlated assets       | + macro indicators          |
 | **Data Source**      | Single source     | 2+ sources                | 3+ sources + validation     |
 
-#### 9.2.2 Methodology Requirements
+#### 1.2.2 Methodology Requirements
 
 | Requirement          | Description              | Required     |
 |----------------------|--------------------------|--------------|
@@ -34,7 +42,7 @@ Backtesting validates strategy performance against historical data. DSS requires
 | **Survivorship Bias**| Include delisted assets  | ✅ Gold      |
 | **Look-Ahead Bias**   | No future data leakage   | ✅ All       |
 
-### 9.3 Implementation
+### 1.3 Implementation
 
 ```typescript
 // scripts/backtest/backtest.ts
@@ -89,7 +97,7 @@ async function runBacktest(
 }
 ```
 
-### 9.4 Required Metrics
+### 1.4 Required Metrics
 
 | Metric             | Formula                              | Benchmark        |
 |--------------------|--------------------------------------|------------------|
@@ -100,7 +108,7 @@ async function runBacktest(
 | **Calmar Ratio**    | `annualizedReturn / maxDrawdown`      | > 0.5            |
 | **Win Rate**        | `winning_trades / total_trades`      | > 50%            |
 
-### 9.5 Stress Testing Scenarios
+### 1.5 Stress Testing Scenarios
 
 | Scenario              | Description              | Required     |
 |-----------------------|--------------------------|--------------|
@@ -110,7 +118,7 @@ async function runBacktest(
 | **Correlation Breakdown**| Assets move together   | ✅ Gold      |
 | **Liquidity Crisis**   | Wide spreads, low volume | ✅ Gold      |
 
-### 9.6 Coverage Thresholds
+### 1.6 Coverage Thresholds
 
 | Level  | Requirements                                    |
 |-------|-------------------------------------------------|
@@ -120,18 +128,17 @@ async function runBacktest(
 
 ---
 
-## Economic Attack Resistance (Part of DSS-6: Security Tests)
+## 2. Economic Attack Resistance
 
-**Priority:** P1 — High
-**Certification:** Required for Silver+
+*Supports DSS-6 (Security Tests)*
 
-### 10.1 Overview
+### 2.1 Overview
 
 DeFi strategies are vulnerable to economic attacks that exploit protocol mechanics. DSS requires testing against known attack vectors.
 
-### 10.2 Attack Categories
+### 2.2 Attack Categories
 
-#### 10.2.1 Oracle Manipulation
+#### 2.2.1 Oracle Manipulation
 
 | Attack                   | Description                      | Mitigation            |
 |--------------------------|----------------------------------|-----------------------|
@@ -164,7 +171,7 @@ describe("Oracle Manipulation Resistance", () => {
 });
 ```
 
-#### 10.2.2 MEV Attacks
+#### 2.2.2 MEV Attacks
 
 | Attack          | Description                    | Mitigation                      |
 |-----------------|--------------------------------|---------------------------------|
@@ -201,7 +208,7 @@ describe("MEV Resistance", () => {
 });
 ```
 
-#### 10.2.3 Governance Attacks
+#### 2.2.3 Governance Attacks
 
 | Attack                | Description            | Mitigation                      |
 |-----------------------|------------------------|----------------------------------|
@@ -209,7 +216,7 @@ describe("MEV Resistance", () => {
 | **Timelock Bypass**   | Rush malicious proposals| Minimum delay                   |
 | **Quorum Manipulation**| Inflate voting power  | Token-weighted + time-lock       |
 
-### 10.3 Economic Invariants
+### 2.3 Economic Invariants
 
 ```typescript
 describe("Economic Invariants", () => {
@@ -245,7 +252,7 @@ describe("Economic Invariants", () => {
 });
 ```
 
-### 10.4 Coverage Thresholds
+### 2.4 Coverage Thresholds
 
 | Level  | Requirements                                    |
 |--------|-------------------------------------------------|
@@ -255,16 +262,15 @@ describe("Economic Invariants", () => {
 
 ---
 
-## Market Condition Testing (Part of DSS-7: Stress Tests)
+## 3. Market Condition Testing
 
-**Priority:** P2 — Medium
-**Certification:** Required for Silver+
+*Supports DSS-7 (Stress Tests)*
 
-### 11.1 Overview
+### 3.1 Overview
 
 Strategies must perform correctly across various market conditions. DSS requires testing under bull, bear, sideways, and volatile markets.
 
-### 11.2 Market Condition Categories
+### 3.2 Market Condition Categories
 
 | Condition          | Characteristics                    | Test Focus              |
 |--------------------|------------------------------------|-------------------------|
@@ -275,7 +281,7 @@ Strategies must perform correctly across various market conditions. DSS requires
 | **Low Liquidity**  | Wide spreads, thin books           | Slippage handling       |
 | **Correlation Shift**| Assets move together              | Diversification failure |
 
-### 11.3 Implementation
+### 3.3 Implementation
 
 ```typescript
 describe("Market Condition Testing", () => {
@@ -374,7 +380,7 @@ describe("Market Condition Testing", () => {
 });
 ```
 
-### 11.4 Scenario Matrix
+### 3.4 Scenario Matrix
 
 | Scenario | Trend | Volatility | Correlation | Liquidity |
 |----------|-------|------------|-------------|-----------|
@@ -385,7 +391,7 @@ describe("Market Condition Testing", () => {
 | Recovery | +50%  | 50%        | 0.4         | Normal    |
 | Sideways | 0%    | 10%        | 0.3         | Normal    |
 
-### 11.5 Coverage Thresholds
+### 3.5 Coverage Thresholds
 
 | Level  | Requirements                                    |
 |-------|-------------------------------------------------|

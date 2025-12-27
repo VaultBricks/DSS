@@ -2,15 +2,16 @@
 
 This document covers DSS-1 through DSS-8, which ensure that strategy implementation is correct, secure, and performant.
 
-**Note:** This document reflects the DSS 1.0 structure. The requirements map as follows:
-- **DSS-1**: Core Strategy Tests (formerly DSS-1)
-- **DSS-2**: Economic Invariants (formerly DSS-3)
-- **DSS-3**: Trigger & Timing Tests (NEW)
-- **DSS-4**: Risk Management Tests (NEW)
-- **DSS-5**: Integration Tests (formerly DSS-2)
-- **DSS-6**: Security Tests (formerly DSS-6)
-- **DSS-7**: Stress Tests & Fuzzing (formerly DSS-4 + DSS-9)
-- **DSS-8**: Gas Efficiency (formerly DSS-5)
+## Summary of Categories
+
+- **DSS-1**: Core Strategy Tests
+- **DSS-2**: Economic Invariants
+- **DSS-3**: Trigger & Timing Tests
+- **DSS-4**: Risk Management Tests
+- **DSS-5**: Integration Tests
+- **DSS-6**: Security Tests (includes Formal Verification & Attack Resistance)
+- **DSS-7**: Stress Tests & Fuzzing (includes Backtesting & Market Conditions & Mutation Testing)
+- **DSS-8**: Gas Efficiency
 
 ---
 
@@ -168,135 +169,20 @@ describe("HODLFacet", () => {
 
 ---
 
-## DSS-5: Integration Tests
+## DSS-2: Economic Invariants
 
 **Priority:** P1 — High
 **Certification:** Required for all levels
 
 ### 2.1 Overview
 
-Integration tests validate that components work correctly together. In DeFi strategies, this includes:
-
-- Strategy ↔ Rebalance execution
-- Strategy ↔ Oracle price feeds
-- Strategy ↔ DEX swaps
-- Strategy ↔ Lending protocols
-
-### 2.2 Requirements
-
-#### 2.2.1 Diamond Proxy Integration
-
-For Diamond-pattern implementations:
-
-| Test Category         | Description                          | Required     |
-|-----------------------|---------------------------------------|--------------|
-| **Facet Routing**     | Correct function dispatch to facets   | ✅ All       |
-| **Storage Isolation** | No storage collisions between facets  | ✅ All       |
-| **Upgrade Safety**     | DiamondCut preserves state            | ✅ Silver+   |
-| **Selector Conflicts**| No duplicate selectors                | ✅ All       |
-
-```typescript
-describe("Diamond Integration", () => {
-  it("routes calls to correct facet");
-  it("preserves storage across upgrades");
-  it("rejects duplicate selectors in DiamondCut");
-  it("maintains facet address mapping consistency");
-});
-```
-
-#### 2.2.2 Rebalance Integration
-
-| Test Category           | Description                          | Required     |
-|------------------------|--------------------------------------|--------------|
-| **Weight Application** | Target weights applied correctly     | ✅ All       |
-| **Swap Execution**      | DEX swaps execute with correct parameters | ✅ All       |
-| **Slippage Protection**| Reverts on excessive slippage        | ✅ All       |
-| **Cooldown Enforcement**| Respects rebalance interval           | ✅ All       |
-
-```typescript
-describe("Rebalance Integration", () => {
-  it("applies strategy weights during rebalance");
-  it("executes swaps through configured DEX");
-  it("reverts when slippage exceeds maxSlippageBps");
-  it("enforces cooldown between rebalances");
-  it("emits Rebalanced event with correct parameters");
-});
-```
-
-#### 2.2.3 Oracle Integration
-
-| Test Category          | Description                     | Required     |
-|------------------------|---------------------------------|--------------|
-| **Price Fetching**     | Correct prices from Chainlink   | ✅ All       |
-| **Staleness Handling** | Rejects stale prices            | ✅ All       |
-| **TWAP Fallback**      | Uses TWAP when Chainlink fails  | ✅ Silver+   |
-| **Decimal Normalization**| Consistent 18-decimal output    | ✅ All       |
-
-```typescript
-describe("Oracle Integration", () => {
-  it("fetches prices from Chainlink feeds");
-  it("reverts on stale prices (>1 hour)");
-  it("falls back to TWAP when Chainlink unavailable");
-  it("normalizes all prices to 18 decimals");
-});
-```
-
-#### 2.2.4 Lending Protocol Integration
-
-| Test Category           | Description                     | Required     |
-|------------------------|---------------------------------|--------------|
-| **Supply/Withdraw**     | Correct Aave interactions       | ✅ All       |
-| **Health Factor**       | Maintains safe health factor  | ✅ All       |
-| **Interest Accrual**    | Tracks aToken balance correctly| ✅ Silver+   |
-| **Liquidation Protection**| Prevents unsafe positions      | ✅ All       |
-
-### 2.3 Fork Testing Requirements
-
-For Silver and Gold certification, fork tests against mainnet are required:
-
-| Test Category   | Description                      | Required     |
-|-----------------|----------------------------------|--------------|
-| **Mainnet Fork**| Test against real protocol state | ✅ Silver+   |
-| **Real Liquidity**| Verify slippage on actual pools | ✅ Silver+   |
-| **Gas Estimation**| Accurate gas costs on mainnet   | ✅ Silver+   |
-| **Multi-Block** | Test across block boundaries    | ✅ Gold      |
-
-```typescript
-describe("Arbitrum Mainnet Fork", () => {
-  before(async () => {
-    await network.provider.request({
-      method: "hardhat_reset",
-      params: [{
-        forking: {
-          jsonRpcUrl: process.env.ARBITRUM_RPC_URL,
-          blockNumber: 150000000
-        }
-      }]
-    });
-  });
-
-  it("executes rebalance with real Aave V3 pool");
-  it("swaps through real Uniswap V3 router");
-  it("fetches prices from real Chainlink feeds");
-});
-```
-
----
-
-## DSS-2: Economic Invariants
-
-**Priority:** P1 — High
-**Certification:** Required for all levels
-
-### 3.1 Overview
-
 Invariant tests verify that critical properties hold across all possible state transitions. Unlike unit tests that check specific scenarios, invariants must hold **always**.
 
-### 3.2 Core Invariants
+### 2.2 Core Invariants
 
 Every DeFi strategy must maintain these fundamental invariants:
 
-#### 3.2.1 Weight Invariants
+#### 2.2.1 Weight Invariants
 
 | Invariant           | Description                        | Formula                          |
 |---------------------|------------------------------------|----------------------------------|
@@ -339,7 +225,7 @@ describe("Weight Invariants", () => {
 });
 ```
 
-#### 3.2.2 Balance Invariants
+#### 2.2.2 Balance Invariants
 
 | Invariant              | Description                              | Formula                                      |
 |------------------------|------------------------------------------|----------------------------------------------|
@@ -366,7 +252,7 @@ describe("Balance Invariants", () => {
 });
 ```
 
-#### 3.2.3 Share Price Invariants
+#### 2.2.3 Share Price Invariants
 
 | Invariant        | Description                              | Formula                              |
 |------------------|------------------------------------------|--------------------------------------|
@@ -391,7 +277,7 @@ describe("Share Price Invariants", () => {
 });
 ```
 
-#### 3.2.4 Rebalance Invariants
+#### 2.2.4 Rebalance Invariants
 
 | Invariant        | Description                       | Formula                              |
 |------------------|-----------------------------------|--------------------------------------|
@@ -400,7 +286,7 @@ describe("Share Price Invariants", () => {
 | **Health Factor** | Aave health factor maintained    | `healthFactor >= MIN_HEALTH_FACTOR`  |
 | **Event Emission**| Rebalance always emits event     | `emit Rebalanced(...)`               |
 
-### 3.3 Diamond Proxy Invariants
+### 2.3 Diamond Proxy Invariants
 
 For Diamond-pattern implementations:
 
@@ -432,7 +318,7 @@ describe("Diamond Invariants", () => {
 });
 ```
 
-### 3.4 Invariant Testing Framework
+### 2.4 Invariant Testing Framework
 
 DSS recommends a custom invariant runner for Hardhat:
 
@@ -477,7 +363,7 @@ export class InvariantRunner {
 }
 ```
 
-### 3.5 Coverage Thresholds
+### 2.5 Coverage Thresholds
 
 | Level  | Required Invariants                  | Iterations |
 |--------|--------------------------------------|------------|
@@ -487,352 +373,412 @@ export class InvariantRunner {
 
 ---
 
-## DSS-7: Stress Tests & Fuzzing
+## DSS-3: Trigger & Timing Tests
 
 **Priority:** P1 — High
 **Certification:** Required for all levels
 
-### 4.1 Overview
+### 3.1 Overview
 
-Fuzzing (property-based testing) generates random inputs to discover edge cases that example-based tests miss. DSS requires fuzzing for all strategy weight calculations.
+Trigger and timing tests ensure that rebalancing and other time-sensitive operations occur only when expected and respect all timing constraints. Proper timing is critical to prevent excessive trading costs, MEV exploitation, and operational inefficiencies.
 
-### 4.2 Fuzzing Framework
+### 3.2 Requirements
 
-**Recommended:** `fast-check` library for Hardhat/TypeScript
+#### 3.2.1 Cooldown & Intervals
 
-```bash
-npm install --save-dev fast-check
-```
+Every strategy must enforce a minimum interval between rebalances to prevent excessive trading costs:
 
-**Configuration:**
-```typescript
-// Environment variables
-FUZZ_ITERS=600        // Local development
-FUZZ_ITERS_CI=1000    // CI pipeline
-FUZZ_SEED=42          // Reproducible runs (optional)
-FUZZ_VERBOSE=true     // Debug logging
-```
-
-### 4.3 Required Fuzzing Tests
-
-#### 4.3.1 Weight Calculation Fuzzing
-
-Every strategy must have fuzzing tests for weight calculations:
+| Test Category          | Description                                           | Required     |
+|------------------------|-------------------------------------------------------|--------------|
+| **Cooldown Enforcement**| Rebalance fails if called before interval elapsed     | ✅ All       |
+| **State Reset**         | lastRebalance timestamp updates correctly             | ✅ All       |
+| **Parameter Updates**   | Cooldown interval can be updated by governance       | ✅ Silver+   |
 
 ```typescript
-import fc from 'fast-check';
-
-describe("HODLFacet Fuzzing", () => {
-  const FUZZ_ITERS = parseInt(process.env.FUZZ_ITERS || "600");
-
-  it("FUZZ: weight sum always equals 10000", async () => {
-    await fc.assert(
-      fc.asyncProperty(
-        fc.array(fc.boolean(), { minLength: 1, maxLength: 10 }),
-        async (activeFlags) => {
-          // Setup assets with random active/inactive states
-          await setupAssetsWithFlags(facet, activeFlags);
-
-          const weights = await facet.calculateInverseVolatilityWeights();
-
-          // Property: sum always equals 10000 (basis points)
-          const sum = weights.reduce(
-            (a: bigint, b: bigint) => a + b,
-            0n
-          );
-          return sum === 10000n;
-        }
-      ),
-      { numRuns: FUZZ_ITERS }
-    );
+describe("Cooldown Tests", () => {
+  it("rejects rebalance before cooldown period elapsed", async () => {
+    await rebalance();
+    
+    // Try to rebalance immediately
+    await expect(rebalance())
+      .to.be.revertedWith("CooldownNotElapsed");
   });
 
-  it("FUZZ: equal distribution for any number of active assets", async () => {
-    await fc.assert(
-      fc.asyncProperty(
-        fc.integer({ min: 1, max: 10 }),
-        async (activeCount) => {
-          await setupNActiveAssets(facet, activeCount);
+  it("allows rebalance after cooldown period", async () => {
+    await rebalance();
+    
+    // Fast forward past cooldown
+    await advanceTime(REBALANCE_INTERVAL + 1);
+    
+    // Should succeed
+    await expect(rebalance()).to.not.be.reverted;
+  });
 
-          const weights = await facet.calculateInverseVolatilityWeights();
-          const expectedBase = Math.floor(10000 / activeCount);
-
-          // Property: all weights within 1 of expected
-          return weights.every(w =>
-            Math.abs(w.toNumber() - expectedBase) <= 1
-          );
-        }
-      ),
-      { numRuns: FUZZ_ITERS }
-    );
+  it("updates lastRebalance timestamp correctly", async () => {
+    const tx = await rebalance();
+    const receipt = await tx.wait();
+    const timestamp = await getBlockTimestamp(receipt.blockNumber);
+    
+    expect(await strategy.lastRebalance()).to.equal(timestamp);
   });
 });
 ```
 
-#### 4.3.2 Price History Fuzzing
+#### 3.2.2 Trigger Conditions
 
-For volatility-based strategies:
+Strategies may use different trigger conditions for rebalancing:
+
+| Trigger Type           | Description                                           |
+|------------------------|-------------------------------------------------------|
+| **Price Deviation**    | Triggered when asset prices move beyond threshold     |
+| **Drift Threshold**    | Triggered when current weights deviate from targets   |
+| **Time-based**         | Triggered at fixed intervals (daily/weekly)           |
 
 ```typescript
-describe("OracleFacet Fuzzing", () => {
-  it("FUZZ: handles any valid price sequence", async () => {
-    await fc.assert(
-      fc.asyncProperty(
-        fc.array(
-          fc.integer({ min: 1, max: 1000000 }), // Price in cents
-          { minLength: 30, maxLength: 365 }
-        ),
-        async (prices) => {
-          await setPriceHistory(oracle, prices);
-
-          const weights = await facet.calculateInverseVolatilityWeights();
-
-          // Properties
-          const sum = weights.reduce((a, b) => a + b, 0);
-          const allNonNegative = weights.every(w => w >= 0);
-
-          return sum === 10000 && allNonNegative;
-        }
-      ),
-      { numRuns: FUZZ_ITERS }
-    );
+describe("Trigger Conditions", () => {
+  it("triggers rebalance when price deviation exceeds threshold", async () => {
+    // Set price deviation threshold to 5%
+    await strategy.setMaxPriceDeviation(500);
+    
+    // Simulate 6% price move
+    await oracle.setPrice("WETH", initialPrice.mul(106).div(100));
+    
+    expect(await strategy.shouldRebalance()).to.be.true;
   });
 
-  it("FUZZ: inverse volatility ordering", async () => {
-    await fc.assert(
-      fc.asyncProperty(
-        fc.array(
-          fc.array(fc.integer({ min: 1, max: 1000000 }), { minLength: 30, maxLength: 30 }),
-          { minLength: 2, maxLength: 5 }
-        ),
-        async (priceHistories) => {
-          // Setup multiple assets with different volatilities
-          await setupAssetsWithPriceHistories(facet, priceHistories);
+  it("triggers rebalance when weight drift exceeds threshold", async () => {
+    // Current weights: [5000, 5000], Target: [6000, 4000]
+    // Drift: 1000 bps = 10%
+    await strategy.setMaxDriftBps(500); // 5% threshold
+    
+    expect(await strategy.shouldRebalance()).to.be.true;
+  });
 
-          const weights = await facet.calculateInverseVolatilityWeights();
-          const volatilities = priceHistories.map(calculateVolatility);
-
-          // Property: lower volatility → higher weight
-          for (let i = 0; i < weights.length - 1; i++) {
-            if (volatilities[i] < volatilities[i + 1]) {
-              return weights[i] >= weights[i + 1];
-            }
-          }
-          return true;
-        }
-      ),
-      { numRuns: FUZZ_ITERS }
-    );
+  it("does not trigger if within thresholds", async () => {
+    await strategy.setMaxPriceDeviation(1000); // 10%
+    
+    // Only 2% price move
+    await oracle.setPrice("WETH", initialPrice.mul(102).div(100));
+    
+    expect(await strategy.shouldRebalance()).to.be.false;
   });
 });
 ```
 
-#### 4.3.3 Rebalance Fuzzing
+#### 3.2.3 Stale Data Handling
+
+Strategies must reject stale oracle data to prevent exploitation:
+
+| Test Category          | Description                                           |
+|------------------------|-------------------------------------------------------|
+| **Oracle Staleness**   | Rebalance fails if oracle data is older than threshold|
+| **Chainlink Heartbeat**| Respects asset-specific heartbeat requirements        |
 
 ```typescript
-describe("RebalanceFacet Fuzzing", () => {
-  it("FUZZ: value conservation within slippage", async () => {
-    await fc.assert(
-      fc.asyncProperty(
-        fc.array(fc.integer({ min: 0, max: 10000 }), { minLength: 2, maxLength: 10 }),
-        fc.integer({ min: 10, max: 500 }), // slippage bps
-        async (targetWeights, slippageBps) => {
-          const normalizedWeights = normalizeToSum(targetWeights, 10000);
+describe("Stale Data Protection", () => {
+  it("reverts rebalance with stale oracle data", async () => {
+    // Set staleness threshold to 1 hour
+    await strategy.setMaxOracleAge(3600);
+    
+    // Advance time 2 hours without oracle update
+    await advanceTime(7200);
+    
+    await expect(rebalance())
+      .to.be.revertedWith("StaleOracleData");
+  });
 
-          const valueBefore = await vault.totalValue();
-          await rebalance(normalizedWeights, slippageBps);
-          const valueAfter = await vault.totalValue();
-
-          // Property: value preserved within slippage
-          const minValue = valueBefore.mul(10000 - slippageBps).div(10000);
-          return valueAfter.gte(minValue);
-        }
-      ),
-      { numRuns: FUZZ_ITERS }
-    );
+  it("respects Chainlink heartbeat for each asset", async () => {
+    // ETH heartbeat: 1 hour, BTC heartbeat: 30 minutes
+    await strategy.setAssetHeartbeat("WETH", 3600);
+    await strategy.setAssetHeartbeat("WBTC", 1800);
+    
+    // 45 minutes later: WETH ok, WBTC stale
+    await advanceTime(2700);
+    
+    await expect(rebalance())
+      .to.be.revertedWith("StalePrice: WBTC");
   });
 });
 ```
 
-### 4.4 Shrinking & Reproducibility
+### 3.3 Coverage Thresholds
 
-`fast-check` automatically shrinks failing inputs to minimal examples:
-
-```typescript
-// Configure shrinking and seed logging
-await fc.assert(
-  fc.asyncProperty(...),
-  {
-    numRuns: FUZZ_ITERS,
-    seed: parseInt(process.env.FUZZ_SEED || Date.now().toString()),
-    endOnFailure: true,
-    verbose: process.env.FUZZ_VERBOSE === 'true'
-  }
-);
-```
-
-**Failure Reproduction:**
-```bash
-# When a test fails, fast-check logs the seed
-# Reproduce with:
-FUZZ_SEED=12345 npm run test:fuzz
-```
-
-### 4.5 Coverage Thresholds
-
-| Level  | Iterations | Strategies Covered        | Shrinking |
-|--------|------------|---------------------------|-----------|
-| Bronze | ≥100       | All weight calculations   | Optional  |
-| Silver | ≥600       | All + rebalance           | Required  |
-| Gold   | ≥1000      | All + oracle + edge cases | Required  |
+| Level  | Required Tests                           | Additional Requirements |
+|--------|------------------------------------------|-------------------------|
+| Bronze | Cooldown enforcement, basic triggers     | —                       |
+| Silver | All triggers + staleness checks          | Parameter updates       |
+| Gold   | All + multi-block testing                | MEV protection          |
 
 ---
 
-## DSS-8: Gas Efficiency
+## DSS-4: Risk Management Tests
+
+**Priority:** P0 — Critical
+**Certification:** Required for all levels
+
+### 4.1 Overview
+
+Risk management tests validate that the strategy protects user funds under adverse conditions. These tests ensure that loss limits, emergency systems, and health factors work as designed.
+
+### 4.2 Requirements
+
+#### 4.2.1 Stop-Loss & Take-Profit
+
+| Test Category          | Description                                           |
+|------------------------|-------------------------------------------------------|
+| **Stop-Loss Activation**| Strategy exits positions if drawdown exceeds limit    |
+| **Take-Profit**        | Strategy secures gains at target levels               |
+| **Manual Override**    | Governance can force immediate exit                   |
+
+```typescript
+describe("Stop-Loss Tests", () => {
+  it("triggers stop-loss when drawdown exceeds limit", async () => {
+    // Set 20% max drawdown
+    await strategy.setMaxDrawdownBps(2000);
+    
+    // Initial value: 100 ETH
+    const initialValue = await vault.totalValue();
+    
+    // Simulate 25% loss
+    await simulateMarketCrash(0.25);
+    
+    // Should have exited to stablecoin
+    const weights = await strategy.getWeights();
+    expect(weights.stablecoin).to.equal(10000); // 100%
+  });
+
+  it("secures profits at take-profit level", async () => {
+    await strategy.setTakeProfitBps(5000); // 50% profit target
+    
+    // Simulate 60% gain
+    await simulateMarketPump(0.60);
+    
+    // Should have taken profits
+    const event = await getLastEvent("ProfitsTaken");
+    expect(event.amount).to.be.gt(0);
+  });
+
+  it("allows governance to force emergency exit", async () => {
+    await strategy.connect(governance).emergencyExit();
+    
+    // All positions closed
+    const weights = await strategy.getWeights();
+    expect(weights.every(w => w === 0)).to.be.true;
+  });
+});
+```
+
+#### 4.2.2 Health Factor (Lending Integration)
+
+For strategies using lending protocols like Aave:
+
+| Test Category          | Description                                           |
+|------------------------|-------------------------------------------------------|
+| **Minimum HF**         | Rebalance maintains health factor above safe limit    |
+| **Liquidation Alert**  | Emergency action triggered if HF drops too low        |
+
+```typescript
+describe("Health Factor Tests", () => {
+  it("maintains health factor above minimum", async () => {
+    const MIN_HEALTH_FACTOR = ethers.utils.parseEther("1.5");
+    
+    await rebalance();
+    
+    const hf = await aavePool.getUserAccountData(vault.address);
+    expect(hf.healthFactor).to.be.gte(MIN_HEALTH_FACTOR);
+  });
+
+  it("triggers emergency action if HF drops too low", async () => {
+    // Simulate price crash that drops HF to 1.2
+    await simulatePriceCrash("WETH", 0.30);
+    
+    // Strategy should reduce leverage
+    await strategy.checkAndAdjustLeverage();
+    
+    const hf = await aavePool.getUserAccountData(vault.address);
+    expect(hf.healthFactor).to.be.gte(ethers.utils.parseEther("1.5"));
+  });
+
+  it("prevents operations that would drop HF below minimum", async () => {
+    // Try to borrow more when near HF limit
+    await expect(
+      strategy.increaseLeverage(ethers.utils.parseEther("10"))
+    ).to.be.revertedWith("HealthFactorTooLow");
+  });
+});
+```
+
+#### 4.2.3 Emergency Systems
+
+| Test Category          | Description                                           |
+|------------------------|-------------------------------------------------------|
+| **Emergency Pause**    | Pausing stops all non-essential functions             |
+| **Rescue Mode**        | Users can withdraw even when strategy is paused       |
+
+```typescript
+describe("Emergency Systems", () => {
+  it("pauses all operations except withdrawals", async () => {
+    await strategy.connect(governance).pause();
+    
+    // Deposits should fail
+    await expect(vault.deposit(ethers.utils.parseEther("1")))
+      .to.be.revertedWith("Pausable: paused");
+    
+    // Rebalancing should fail
+    await expect(strategy.rebalance())
+      .to.be.revertedWith("Pausable: paused");
+  });
+
+  it("allows withdrawals even when paused", async () => {
+    await strategy.connect(governance).pause();
+    
+    // Withdrawals should still work
+    await expect(
+      vault.withdraw(ethers.utils.parseEther("1"))
+    ).to.not.be.reverted;
+  });
+
+  it("emergency rescue can recover stuck tokens", async () => {
+    // Accidentally sent tokens to contract
+    await token.transfer(strategy.address, ethers.utils.parseEther("10"));
+    
+    const balanceBefore = await token.balanceOf(governance.address);
+    
+    await strategy.connect(governance).rescueToken(
+      token.address,
+      ethers.utils.parseEther("10")
+    );
+    
+    const balanceAfter = await token.balanceOf(governance.address);
+    expect(balanceAfter.sub(balanceBefore)).to.equal(
+      ethers.utils.parseEther("10")
+    );
+  });
+});
+```
+
+### 4.3 Coverage Thresholds
+
+| Level  | Required Tests                           | Additional Requirements |
+|--------|------------------------------------------|-------------------------|
+| Bronze | Stop-loss, emergency pause               | —                       |
+| Silver | All + health factor monitoring           | Automated responses     |
+| Gold   | All + multi-scenario stress testing      | Circuit breakers        |
+
+---
+
+## DSS-5: Integration Tests
 
 **Priority:** P1 — High
 **Certification:** Required for all levels
 
 ### 5.1 Overview
 
-Gas optimization is critical for DeFi strategies. High gas costs can make strategies unprofitable, especially for frequent rebalancing. DSS requires gas benchmarking and regression prevention.
+Integration tests validate that components work correctly together. In DeFi strategies, this includes:
 
-### 5.2 Gas Benchmarking Requirements
+- Strategy ↔ Rebalance execution
+- Strategy ↔ Oracle price feeds
+- Strategy ↔ DEX swaps
+- Strategy ↔ Lending protocols
 
-#### 5.2.1 Benchmark Categories
+### 5.2 Requirements
 
-| Category                | Operations                             | Target (Arbitrum) |
-|------------------------|----------------------------------------|-------------------|
-| **Weight Calculation**  | `calculateInverseVolatilityWeights()` | <100k gas         |
-| **Rebalance (2 assets)**| Full rebalance cycle                  | <500k gas         |
-| **Rebalance (5 assets)**| Full rebalance cycle                  | <1M gas           |
-| **Rebalance (10 assets)**| Full rebalance cycle                 | <2M gas           |
-| **Deposit**            | User deposit                           | <200k gas         |
-| **Withdraw**           | User withdrawal                        | <300k gas         |
-| **Oracle Update**      | Price feed update                      | <50k gas          |
+#### 5.2.1 Diamond Proxy Integration
 
-#### 5.2.2 Benchmark Implementation
+For Diamond-pattern implementations:
+
+| Test Category         | Description                          | Required     |
+|-----------------------|---------------------------------------|--------------|
+| **Facet Routing**     | Correct function dispatch to facets   | ✅ All       |
+| **Storage Isolation** | No storage collisions between facets  | ✅ All       |
+| **Upgrade Safety**     | DiamondCut preserves state            | ✅ Silver+   |
+| **Selector Conflicts**| No duplicate selectors                | ✅ All       |
 
 ```typescript
-// test/gas/gas.benchmark.spec.ts
-import { expect } from "chai";
-import { ethers } from "hardhat";
-
-describe("Gas Benchmarks", () => {
-  const GAS_LIMITS = {
-    weightCalculation: 100_000,
-    rebalance2Assets: 500_000,
-    rebalance5Assets: 1_000_000,
-    rebalance10Assets: 2_000_000,
-    deposit: 200_000,
-    withdraw: 300_000
-  };
-
-  it("weight calculation gas benchmark", async () => {
-    const gas = await facet.estimateGas.calculateInverseVolatilityWeights();
-
-    console.log(`Weight calculation: ${gas.toString()} gas`);
-    expect(Number(gas)).to.be.lte(GAS_LIMITS.weightCalculation);
-  });
-
-  it("rebalance gas scales linearly with assets", async () => {
-    for (const assetCount of [2, 5, 10]) {
-      await setupNAssets(assetCount);
-
-      const tx = await rebalanceFacet.rebalance();
-      const receipt = await tx.wait();
-
-      console.log(`Rebalance (${assetCount} assets): ${receipt.gasUsed} gas`);
-
-      const limit = GAS_LIMITS[`rebalance${assetCount}Assets`];
-      expect(receipt.gasUsed).to.be.lte(limit);
-    }
-  });
+describe("Diamond Integration", () => {
+  it("routes calls to correct facet");
+  it("preserves storage across upgrades");
+  it("rejects duplicate selectors in DiamondCut");
+  it("maintains facet address mapping consistency");
 });
 ```
 
-### 5.3 Gas Regression Prevention
+#### 5.2.2 Rebalance Integration
 
-#### 5.3.1 Snapshot Comparison
+| Test Category           | Description                          | Required     |
+|------------------------|--------------------------------------|--------------|
+| **Weight Application** | Target weights applied correctly     | ✅ All       |
+| **Swap Execution**      | DEX swaps execute with correct parameters | ✅ All       |
+| **Slippage Protection**| Reverts on excessive slippage        | ✅ All       |
+| **Cooldown Enforcement**| Respects rebalance interval           | ✅ All       |
 
 ```typescript
-// test/gas/gas.snapshot.spec.ts
-import fs from 'fs';
+describe("Rebalance Integration", () => {
+  it("applies strategy weights during rebalance");
+  it("executes swaps through configured DEX");
+  it("reverts when slippage exceeds maxSlippageBps");
+  it("enforces cooldown between rebalances");
+  it("emits Rebalanced event with correct parameters");
+});
+```
 
-describe("Gas Snapshots", () => {
-  const SNAPSHOT_FILE = '.gas-snapshot';
-  const TOLERANCE = 0.05; // 5% tolerance
+#### 5.2.3 Oracle Integration
 
-  after(async () => {
-    // Save current gas measurements
-    fs.writeFileSync(SNAPSHOT_FILE, JSON.stringify(gasResults, null, 2));
-  });
+| Test Category          | Description                     | Required     |
+|------------------------|---------------------------------|--------------|
+| **Price Fetching**     | Correct prices from Chainlink   | ✅ All       |
+| **Staleness Handling** | Rejects stale prices            | ✅ All       |
+| **TWAP Fallback**      | Uses TWAP when Chainlink fails  | ✅ Silver+   |
+| **Decimal Normalization**| Consistent 18-decimal output    | ✅ All       |
 
-  it("compares against baseline", async () => {
-    if (!fs.existsSync(SNAPSHOT_FILE)) {
-      console.log("No baseline snapshot - creating new one");
-      return;
-    }
+```typescript
+describe("Oracle Integration", () => {
+  it("fetches prices from Chainlink feeds");
+  it("reverts on stale prices (>1 hour)");
+  it("falls back to TWAP when Chainlink unavailable");
+  it("normalizes all prices to 18 decimals");
+});
+```
 
-    const baseline = JSON.parse(fs.readFileSync(SNAPSHOT_FILE, 'utf8'));
+#### 5.2.4 Lending Protocol Integration
 
-    for (const [operation, currentGas] of Object.entries(gasResults)) {
-      const baselineGas = baseline[operation];
-      if (baselineGas) {
-        const increase = (currentGas - baselineGas) / baselineGas;
+| Test Category           | Description                     | Required     |
+|------------------------|---------------------------------|--------------|
+| **Supply/Withdraw**     | Correct Aave interactions       | ✅ All       |
+| **Health Factor**       | Maintains safe health factor  | ✅ All       |
+| **Interest Accrual**    | Tracks aToken balance correctly| ✅ Silver+   |
+| **Liquidation Protection**| Prevents unsafe positions      | ✅ All       |
 
-        if (increase > TOLERANCE) {
-          throw new Error(
-            `Gas regression: ${operation} increased by ${(increase * 100).toFixed(1)}%`
-          );
+### 5.3 Fork Testing Requirements
+
+For Silver and Gold certification, fork tests against mainnet are required:
+
+| Test Category   | Description                      | Required     |
+|-----------------|----------------------------------|--------------|
+| **Mainnet Fork**| Test against real protocol state | ✅ Silver+   |
+| **Real Liquidity**| Verify slippage on actual pools | ✅ Silver+   |
+| **Gas Estimation**| Accurate gas costs on mainnet   | ✅ Silver+   |
+| **Multi-Block** | Test across block boundaries    | ✅ Gold      |
+
+```typescript
+describe("Arbitrum Mainnet Fork", () => {
+  before(async () => {
+    await network.provider.request({
+      method: "hardhat_reset",
+      params: [{
+        forking: {
+          jsonRpcUrl: process.env.ARBITRUM_RPC_URL,
+          blockNumber: 150000000
         }
-      }
-    }
+      }]
+    });
   });
+
+  it("executes rebalance with real Aave V3 pool");
+  it("swaps through real Uniswap V3 router");
+  it("fetches prices from real Chainlink feeds");
 });
 ```
-
-#### 5.3.2 CI Integration
-
-```yaml
-# .github/workflows/gas-check.yml
-name: Gas Check
-on: [push, pull_request]
-
-jobs:
-  gas-benchmark:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - run: npm ci
-      - run: npm run test:gas
-      - name: Compare gas snapshots
-        run: |
-          if git diff --exit-code .gas-snapshot; then
-            echo "No gas changes"
-          else
-            echo "::warning::Gas usage changed - review .gas-snapshot"
-          fi
-```
-
-### 5.4 Performance Optimization Patterns
-
-| Pattern                | Description                 | Gas Savings |
-|------------------------|-----------------------------|-------------|
-| **Batch Operations**    | Combine multiple swaps      | 20-40%      |
-| **Storage Packing**     | Pack related variables      | 10-20%      |
-| **Calldata vs Memory**  | Use calldata for read-only  | 5-10%       |
-| **Unchecked Math**      | Skip overflow checks where safe| 5-15%      |
-| **Assembly Optimization**| Low-level for hot paths     | 10-30%      |
-
-### 5.5 Coverage Thresholds
-
-| Level  | Requirements                            |
-|--------|-----------------------------------------|
-| Bronze | Gas benchmarks documented               |
-| Silver | Gas regression tests in CI              |
-| Gold   | Gas optimization audit + L2 benchmarks  |
 
 ---
 
@@ -972,26 +918,276 @@ jobs:
       - run: myth analyze contracts/facets/*.sol --execution-timeout 1800
 ```
 
-### 6.5 Coverage Thresholds
+### 6.5 Formal Verification (Gold Only)
+
+**Priority:** P3 — Low (Gold only)
+**Certification:** Required for Gold
+
+#### 6.5.1 Overview
+
+Formal verification mathematically proves that code satisfies its specification. For DeFi strategies, this provides the highest assurance for critical invariants.
+
+#### 6.5.2 Verification Tools
+
+| Tool            | Approach          | Use Case            |
+|-----------------|-------------------|---------------------|
+| **Certora Prover**| SMT-based         | Complex invariants  |
+| **Halmos**       | Symbolic execution| Foundry integration |
+| **KEVM**         | K Framework       | EVM semantics      |
+
+#### 6.5.3 Specification Language (CVL)
+
+```cvl
+// specs/WeightInvariants.spec
+
+methods {
+    function calculateInverseVolatilityWeights() external returns (uint256[]) envfree;
+    function getActiveAssetCount() external returns (uint256) envfree;
+}
+
+// Invariant: Weight sum always equals 10000
+invariant weightSumIs10000()
+    sum(calculateInverseVolatilityWeights()) == 10000
+
+// Rule: Inactive assets have zero weight
+rule inactiveAssetsZeroWeight(uint256 assetIndex) {
+    require !isAssetActive(assetIndex);
+
+    uint256[] weights = calculateInverseVolatilityWeights();
+
+    assert weights[assetIndex] == 0;
+}
+
+// Rule: Weight calculation is deterministic
+rule weightCalculationDeterministic() {
+    uint256[] weights1 = calculateInverseVolatilityWeights();
+    uint256[] weights2 = calculateInverseVolatilityWeights();
+
+    assert weights1 == weights2;
+}
+```
+
+#### 6.5.4 Critical Properties to Verify
+
+| Property              | Description                              | Priority |
+|-----------------------|------------------------------------------|----------|
+| **Weight Sum**         | `sum(weights) == 10000`                  | P0       |
+| **Non-Negative**       | `∀i: weights[i] >= 0`                     | P0       |
+| **Share Conservation**| `totalShares == Σ userShares`            | P0       |
+| **No Reentrancy**      | State consistent after external calls    | P0       |
+| **Access Control**     | Only authorized callers                 | P1       |
+
+### 6.6 Coverage Thresholds
 
 | Level  | Requirements                                    |
 |--------|-------------------------------------------------|
 | Bronze | Slither: zero high-severity                     |
 | Silver | Slither: zero high/medium + Mythril analysis    |
-| Gold   | All tools + external audit                      |
+| Gold   | All tools + external audit + formal verification|
 
 ---
 
-## DSS-7: Mutation Testing (Part of Stress Tests)
+## DSS-7: Stress Tests & Fuzzing
+
+**Priority:** P1 — High
+**Certification:** Required for all levels
+
+### 7.1 Overview
+
+Fuzzing (property-based testing) generates random inputs to discover edge cases that example-based tests miss. DSS requires fuzzing for all strategy weight calculations.
+
+### 7.2 Fuzzing Framework
+
+**Recommended:** `fast-check` library for Hardhat/TypeScript
+
+```bash
+npm install --save-dev fast-check
+```
+
+**Configuration:**
+```typescript
+// Environment variables
+FUZZ_ITERS=600        // Local development
+FUZZ_ITERS_CI=1000    // CI pipeline
+FUZZ_SEED=42          // Reproducible runs (optional)
+FUZZ_VERBOSE=true     // Debug logging
+```
+
+### 7.3 Required Fuzzing Tests
+
+#### 7.3.1 Weight Calculation Fuzzing
+
+Every strategy must have fuzzing tests for weight calculations:
+
+```typescript
+import fc from 'fast-check';
+
+describe("HODLFacet Fuzzing", () => {
+  const FUZZ_ITERS = parseInt(process.env.FUZZ_ITERS || "600");
+
+  it("FUZZ: weight sum always equals 10000", async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.array(fc.boolean(), { minLength: 1, maxLength: 10 }),
+        async (activeFlags) => {
+          // Setup assets with random active/inactive states
+          await setupAssetsWithFlags(facet, activeFlags);
+
+          const weights = await facet.calculateInverseVolatilityWeights();
+
+          // Property: sum always equals 10000 (basis points)
+          const sum = weights.reduce(
+            (a: bigint, b: bigint) => a + b,
+            0n
+          );
+          return sum === 10000n;
+        }
+      ),
+      { numRuns: FUZZ_ITERS }
+    );
+  });
+
+  it("FUZZ: equal distribution for any number of active assets", async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.integer({ min: 1, max: 10 }),
+        async (activeCount) => {
+          await setupNActiveAssets(facet, activeCount);
+
+          const weights = await facet.calculateInverseVolatilityWeights();
+          const expectedBase = Math.floor(10000 / activeCount);
+
+          // Property: all weights within 1 of expected
+          return weights.every(w =>
+            Math.abs(w.toNumber() - expectedBase) <= 1
+          );
+        }
+      ),
+      { numRuns: FUZZ_ITERS }
+    );
+  });
+});
+```
+
+#### 7.3.2 Price History Fuzzing
+
+For volatility-based strategies:
+
+```typescript
+describe("OracleFacet Fuzzing", () => {
+  it("FUZZ: handles any valid price sequence", async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.array(
+          fc.integer({ min: 1, max: 1000000 }), // Price in cents
+          { minLength: 30, maxLength: 365 }
+        ),
+        async (prices) => {
+          await setPriceHistory(oracle, prices);
+
+          const weights = await facet.calculateInverseVolatilityWeights();
+
+          // Properties
+          const sum = weights.reduce((a, b) => a + b, 0);
+          const allNonNegative = weights.every(w => w >= 0);
+
+          return sum === 10000 && allNonNegative;
+        }
+      ),
+      { numRuns: FUZZ_ITERS }
+    );
+  });
+
+  it("FUZZ: inverse volatility ordering", async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.array(
+          fc.array(fc.integer({ min: 1, max: 1000000 }), { minLength: 30, maxLength: 30 }),
+          { minLength: 2, maxLength: 5 }
+        ),
+        async (priceHistories) => {
+          // Setup multiple assets with different volatilities
+          await setupAssetsWithPriceHistories(facet, priceHistories);
+
+          const weights = await facet.calculateInverseVolatilityWeights();
+          const volatilities = priceHistories.map(calculateVolatility);
+
+          // Property: lower volatility → higher weight
+          for (let i = 0; i < weights.length - 1; i++) {
+            if (volatilities[i] < volatilities[i + 1]) {
+              return weights[i] >= weights[i + 1];
+            }
+          }
+          return true;
+        }
+      ),
+      { numRuns: FUZZ_ITERS }
+    );
+  });
+});
+```
+
+#### 7.3.3 Rebalance Fuzzing
+
+```typescript
+describe("RebalanceFacet Fuzzing", () => {
+  it("FUZZ: value conservation within slippage", async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.array(fc.integer({ min: 0, max: 10000 }), { minLength: 2, maxLength: 10 }),
+        fc.integer({ min: 10, max: 500 }), // slippage bps
+        async (targetWeights, slippageBps) => {
+          const normalizedWeights = normalizeToSum(targetWeights, 10000);
+
+          const valueBefore = await vault.totalValue();
+          await rebalance(normalizedWeights, slippageBps);
+          const valueAfter = await vault.totalValue();
+
+          // Property: value preserved within slippage
+          const minValue = valueBefore.mul(10000 - slippageBps).div(10000);
+          return valueAfter.gte(minValue);
+        }
+      ),
+      { numRuns: FUZZ_ITERS }
+    );
+  });
+});
+```
+
+### 7.4 Shrinking & Reproducibility
+
+`fast-check` automatically shrinks failing inputs to minimal examples:
+
+```typescript
+// Configure shrinking and seed logging
+await fc.assert(
+  fc.asyncProperty(...),
+  {
+    numRuns: FUZZ_ITERS,
+    seed: parseInt(process.env.FUZZ_SEED || Date.now().toString()),
+    endOnFailure: true,
+    verbose: process.env.FUZZ_VERBOSE === 'true'
+  }
+);
+```
+
+**Failure Reproduction:**
+```bash
+# When a test fails, fast-check logs the seed
+# Reproduce with:
+FUZZ_SEED=12345 npm run test:fuzz
+```
+
+### 7.5 Mutation Testing (Silver+)
 
 **Priority:** P2 — Medium
 **Certification:** Required for Silver+
 
-### 7.1 Overview
+#### 7.5.1 Overview
 
 Mutation testing validates test quality by introducing bugs (mutations) and verifying tests catch them. A high mutation score indicates robust tests.
 
-### 7.2 Mutation Testing Tools
+#### 7.5.2 Mutation Testing Tools
 
 **Recommended:** Gambit (Certora) or Vertigo
 
@@ -1003,7 +1199,7 @@ pip install gambit-sol
 gambit mutate contracts/facets/HODLFacet.sol --output mutants/
 ```
 
-### 7.3 Mutation Operators
+#### 7.5.3 Mutation Operators
 
 | Operator | Description                      | Example           |
 |----------|----------------------------------|-------------------|
@@ -1014,7 +1210,7 @@ gambit mutate contracts/facets/HODLFacet.sol --output mutants/
 | **LCR**   | Literal constant replacement      | `10000` → `9999`  |
 | **SBR**   | Statement block removal           | Delete statement  |
 
-### 7.4 Implementation
+#### 7.5.4 Implementation
 
 ```typescript
 // scripts/mutation-test.ts
@@ -1055,83 +1251,160 @@ async function runMutationTests() {
 }
 ```
 
-### 7.5 Coverage Thresholds
+### 7.6 Coverage Thresholds
 
-| Level  | Mutation Score | Contracts Covered |
-|-------|----------------|-------------------|
-| Bronze| Not required    | —                 |
-| Silver| ≥75%            | Strategy facets   |
-| Gold  | ≥85%            | All facets        |
+| Level  | Iterations | Strategies Covered        | Shrinking | Mutation Score |
+|--------|------------|---------------------------|-----------|----------------|
+| Bronze | ≥100       | All weight calculations   | Optional  | Not required   |
+| Silver | ≥600       | All + rebalance           | Required  | ≥75%           |
+| Gold   | ≥1000      | All + oracle + edge cases | Required  | ≥85%           |
 
 ---
 
-## DSS-6: Formal Verification (Part of Security Tests)
+## DSS-8: Gas Efficiency
 
-**Priority:** P3 — Low (Gold only)
-**Certification:** Required for Gold
+**Priority:** P1 — High
+**Certification:** Required for all levels
 
 ### 8.1 Overview
 
-Formal verification mathematically proves that code satisfies its specification. For DeFi strategies, this provides the highest assurance for critical invariants.
+Gas optimization is critical for DeFi strategies. High gas costs can make strategies unprofitable, especially for frequent rebalancing. DSS requires gas benchmarking and regression prevention.
 
-### 8.2 Verification Tools
+### 8.2 Gas Benchmarking Requirements
 
-| Tool            | Approach          | Use Case            |
-|-----------------|-------------------|---------------------|
-| **Certora Prover**| SMT-based         | Complex invariants  |
-| **Halmos**       | Symbolic execution| Foundry integration |
-| **KEVM**         | K Framework       | EVM semantics      |
+#### 8.2.1 Benchmark Categories
 
-### 8.3 Specification Language (CVL)
+| Category                | Operations                             | Target (Arbitrum) |
+|------------------------|----------------------------------------|-------------------|
+| **Weight Calculation**  | `calculateInverseVolatilityWeights()` | <100k gas         |
+| **Rebalance (2 assets)**| Full rebalance cycle                  | <500k gas         |
+| **Rebalance (5 assets)**| Full rebalance cycle                  | <1M gas           |
+| **Rebalance (10 assets)**| Full rebalance cycle                 | <2M gas           |
+| **Deposit**            | User deposit                           | <200k gas         |
+| **Withdraw**           | User withdrawal                        | <300k gas         |
+| **Oracle Update**      | Price feed update                      | <50k gas          |
 
-```cvl
-// specs/WeightInvariants.spec
+#### 8.2.2 Benchmark Implementation
 
-methods {
-    function calculateInverseVolatilityWeights() external returns (uint256[]) envfree;
-    function getActiveAssetCount() external returns (uint256) envfree;
-}
+```typescript
+// test/gas/gas.benchmark.spec.ts
+import { expect } from "chai";
+import { ethers } from "hardhat";
 
-// Invariant: Weight sum always equals 10000
-invariant weightSumIs10000()
-    sum(calculateInverseVolatilityWeights()) == 10000
+describe("Gas Benchmarks", () => {
+  const GAS_LIMITS = {
+    weightCalculation: 100_000,
+    rebalance2Assets: 500_000,
+    rebalance5Assets: 1_000_000,
+    rebalance10Assets: 2_000_000,
+    deposit: 200_000,
+    withdraw: 300_000
+  };
 
-// Rule: Inactive assets have zero weight
-rule inactiveAssetsZeroWeight(uint256 assetIndex) {
-    require !isAssetActive(assetIndex);
+  it("weight calculation gas benchmark", async () => {
+    const gas = await facet.estimateGas.calculateInverseVolatilityWeights();
 
-    uint256[] weights = calculateInverseVolatilityWeights();
+    console.log(`Weight calculation: ${gas.toString()} gas`);
+    expect(Number(gas)).to.be.lte(GAS_LIMITS.weightCalculation);
+  });
 
-    assert weights[assetIndex] == 0;
-}
+  it("rebalance gas scales linearly with assets", async () => {
+    for (const assetCount of [2, 5, 10]) {
+      await setupNAssets(assetCount);
 
-// Rule: Weight calculation is deterministic
-rule weightCalculationDeterministic() {
-    uint256[] weights1 = calculateInverseVolatilityWeights();
-    uint256[] weights2 = calculateInverseVolatilityWeights();
+      const tx = await rebalanceFacet.rebalance();
+      const receipt = await tx.wait();
 
-    assert weights1 == weights2;
-}
+      console.log(`Rebalance (${assetCount} assets): ${receipt.gasUsed} gas`);
+
+      const limit = GAS_LIMITS[`rebalance${assetCount}Assets`];
+      expect(receipt.gasUsed).to.be.lte(limit);
+    }
+  });
+});
 ```
 
-### 8.4 Critical Properties to Verify
+### 8.3 Gas Regression Prevention
 
-| Property              | Description                              | Priority |
-|-----------------------|------------------------------------------|----------|
-| **Weight Sum**         | `sum(weights) == 10000`                  | P0       |
-| **Non-Negative**       | `∀i: weights[i] >= 0`                     | P0       |
-| **Share Conservation**| `totalShares == Σ userShares`            | P0       |
-| **No Reentrancy**      | State consistent after external calls    | P0       |
-| **Access Control**     | Only authorized callers                 | P1       |
+#### 8.3.1 Snapshot Comparison
+
+```typescript
+// test/gas/gas.snapshot.spec.ts
+import fs from 'fs';
+
+describe("Gas Snapshots", () => {
+  const SNAPSHOT_FILE = '.gas-snapshot';
+  const TOLERANCE = 0.05; // 5% tolerance
+
+  after(async () => {
+    // Save current gas measurements
+    fs.writeFileSync(SNAPSHOT_FILE, JSON.stringify(gasResults, null, 2));
+  });
+
+  it("compares against baseline", async () => {
+    if (!fs.existsSync(SNAPSHOT_FILE)) {
+      console.log("No baseline snapshot - creating new one");
+      return;
+    }
+
+    const baseline = JSON.parse(fs.readFileSync(SNAPSHOT_FILE, 'utf8'));
+
+    for (const [operation, currentGas] of Object.entries(gasResults)) {
+      const baselineGas = baseline[operation];
+      if (baselineGas) {
+        const increase = (currentGas - baselineGas) / baselineGas;
+
+        if (increase > TOLERANCE) {
+          throw new Error(
+            `Gas regression: ${operation} increased by ${(increase * 100).toFixed(1)}%`
+          );
+        }
+      }
+    }
+  });
+});
+```
+
+#### 8.3.2 CI Integration
+
+```yaml
+# .github/workflows/gas-check.yml
+name: Gas Check
+on: [push, pull_request]
+
+jobs:
+  gas-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run test:gas
+      - name: Compare gas snapshots
+        run: |
+          if git diff --exit-code .gas-snapshot; then
+            echo "No gas changes"
+          else
+            echo "::warning::Gas usage changed - review .gas-snapshot"
+          fi
+```
+
+### 8.4 Performance Optimization Patterns
+
+| Pattern                | Description                 | Gas Savings |
+|------------------------|-----------------------------|-------------|
+| **Batch Operations**    | Combine multiple swaps      | 20-40%      |
+| **Storage Packing**     | Pack related variables      | 10-20%      |
+| **Calldata vs Memory**  | Use calldata for read-only  | 5-10%       |
+| **Unchecked Math**      | Skip overflow checks where safe| 5-15%      |
+| **Assembly Optimization**| Low-level for hot paths     | 10-30%      |
 
 ### 8.5 Coverage Thresholds
 
 | Level  | Requirements                            |
 |--------|-----------------------------------------|
-| Bronze | Not required                            |
-| Silver | Not required                            |
-| Gold   | Critical invariants formally verified   |
+| Bronze | Gas benchmarks documented               |
+| Silver | Gas regression tests in CI              |
+| Gold   | Gas optimization audit + L2 benchmarks  |
 
 ---
-
-
