@@ -5,6 +5,57 @@ All notable changes to the DeFi Strategy Standard (DSS) will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added - BOLD-APEX Integration
+
+**NEW: Production-tested examples from BOLD-APEX**
+
+#### Examples Based on BOLD-APEX Production Code
+- `examples/sdk/basic-strategy/` - HODLStrategy (equal-weight allocation)
+  - Adapted from BOLD-APEX `HODLFacet.sol`
+  - Production-tested weight calculation logic
+  - Comprehensive test suite (core, invariants, fuzzing)
+  - Full DSS compliance (DSS-1, DSS-2, DSS-3, DSS-4, DSS-7, DSS-9)
+- `examples/sdk/rebalancing-strategy/` - Fixed6040Strategy (60/40 portfolio)
+  - Adapted from BOLD-APEX `Fixed6040Facet.sol`
+  - Classic balanced portfolio allocation
+  - Weekly rebalancing pattern
+  - DSS-compliant with full test coverage
+- `examples/foundry/` - Foundry/Forge versions (Issue #10)
+  - Unit tests (`HODL.t.sol`)
+  - Invariant tests (`Invariants.t.sol`)
+  - Fuzz tests (`Fuzz.t.sol`)
+  - Configuration from BOLD-APEX (1000 fuzz runs, 256 invariant runs)
+
+#### Core Library Enhancements
+- `packages/core/contracts/libraries/DSSWeightLib.sol`
+  - Ported from BOLD-APEX `WeightLib.sol`
+  - Battle-tested weight normalization
+  - Respects min/max bounds
+  - Best-effort normalization when exact impossible
+  - Gas-optimized from production use
+
+#### Testing Framework Improvements (@dss/test)
+- `src/InvariantHelpers.ts` - BOLD-APEX patterns
+  - Value conservation checks (with slippage tolerance)
+  - Share price monotonicity validation
+  - Weight sum invariant checks
+  - Timestamp monotonicity verification
+  - Share accounting invariants
+  - Seedable PRNG (Mulberry32) for reproducibility
+- `helpers/FuzzHelpers.ts` - Extended arbitraries
+  - Asset count generation
+  - Weight bounds (with min <= max filter)
+  - Price sequence simulation (with volatility)
+  - Amount/slippage/time interval generation
+  - Operation sequence generation for state machine tests
+  - Active/inactive asset array generation
+
+### Changed
+- `packages/test/package.json` - Updated keywords to reflect BOLD-APEX inspiration
+- Project now demonstrates "Specification → Production Examples" flow
+
 ## [1.2.0-alpha.0] - 2025-12-27
 
 ### Added - DSS SDK & Tooling
