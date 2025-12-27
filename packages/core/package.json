@@ -1,0 +1,26 @@
+{
+  "name": "@dss/core",
+  "version": "1.2.0-alpha.0",
+  "description": "Core Solidity contracts and interfaces for the DeFi Strategy Standard (DSS)",
+  "main": "index.js",
+  "keywords": [
+    "defi",
+    "dss",
+    "strategy",
+    "solidity",
+    "smart-contracts"
+  ],
+  "author": "VaultBricks Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VaultBricks/DSS.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "contracts/**/*.sol",
+    "interfaces/**/*.sol",
+    "README.md"
+  ]
+}
+

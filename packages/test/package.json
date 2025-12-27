@@ -1,0 +1,35 @@
+{
+  "name": "@dss/test",
+  "version": "1.2.0-alpha.0",
+  "description": "Testing framework and utilities for DSS-compliant strategies",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "keywords": [
+    "defi",
+    "dss",
+    "testing",
+    "hardhat",
+    "foundry"
+  ],
+  "author": "VaultBricks Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VaultBricks/DSS.git",
+    "directory": "packages/test"
+  },
+  "dependencies": {
+    "fast-check": "^3.15.0",
+    "ethers": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "files": [
+    "src/**/*",
+    "helpers/**/*",
+    "README.md"
+  ]
+}
+
