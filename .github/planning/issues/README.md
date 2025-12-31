@@ -1,52 +1,112 @@
-# DSS v1.1.0 Roadmap Issues
+# DSS Issues & Roadmap
 
-✅ **All issues have been created in GitHub!**
+This directory contains issue templates, planning documents, and automation scripts for DSS project management.
 
-This directory previously contained pre-formatted issue content for the DSS v1.1.0 roadmap. All issues have been successfully created and are now available in the GitHub repository.
+## Latest: DSS Coverage Gap Analysis (December 2025)
 
-## Created Issues
+Based on comprehensive DSS specification coverage analysis, we've identified gaps and created a roadmap for v1.2.0 through v2.0.0.
 
-All 5 issues for v1.1.0 roadmap have been created:
+### 📋 Documents
 
-| # | Title | Priority | Type | Component | Link |
-|---|-------|----------|------|-----------|------|
-| 1 | [FEATURE] Add Foundry Support & Examples | HIGH | Feature | examples | [#1](https://github.com/VaultBricks/DSS/issues/1) |
-| 2 | [FEATURE] Develop DSS CLI Tool for Automated Certification Report Generation | MEDIUM | Feature | examples | [#2](https://github.com/VaultBricks/DSS/issues/2) |
-| 3 | [FEATURE] Add Concrete Operational Security Examples for DSS-9 | MEDIUM | Documentation | part-c | [#3](https://github.com/VaultBricks/DSS/issues/3) |
-| 4 | [FEATURE] Create Public Registry of DSS-Certified Strategies | LOW | Feature | documentation | [#4](https://github.com/VaultBricks/DSS/issues/4) |
-| 5 | [FEATURE] Create Auditor-Focused Checklists and Templates | LOW | Documentation | part-d | [#5](https://github.com/VaultBricks/DSS/issues/5) |
+- **`DSS-COVERAGE-ISSUES.md`** - Complete list of 20 issues across 4 milestones
+- **`create-coverage-issues.sh`** - Automated script to create milestones, labels, and issues
+- **`ROADMAP_v1.1.0.md`** - Original v1.1.0 roadmap (completed)
+- **`LABELS.json`** - Label definitions
 
-**View all issues:** https://github.com/VaultBricks/DSS/issues?q=milestone%3Av1.1.0
+### 🎯 Milestones
 
-## Issue Summary
+| Milestone | Focus | Target | Issues |
+|-----------|-------|--------|--------|
+| **v1.2.0** | Production Ready | Q1 2026 | 7 issues |
+| **v1.3.0** | Developer Experience | Q2 2026 | 6 issues |
+| **v1.4.0** | Ecosystem & Governance | Q3 2026 | 4 issues |
+| **v2.0.0** | Multi-chain & Advanced | Q4 2026 | 3 issues |
 
-### High Priority (1 issue)
-1. **Foundry Support & Examples** - Port Hardhat examples to Foundry/Forge for modern DeFi development
+### 🚀 Quick Start
 
-### Medium Priority (2 issues)
-2. **CLI Tool** - Automated certification report generation tool
-3. **Operational Security Examples** - Practical DSS-9 implementation examples
+To create all milestones, labels, and issues:
 
-### Low Priority (2 issues)
-4. **Certified Strategy Registry** - Public registry for social proof and adoption
-5. **Auditor Checklists** - Consolidated auditor-focused documentation
+```bash
+# Navigate to repository root
+cd /path/to/DSS
 
-## Milestone
+# Make script executable (Unix/Linux/Mac)
+chmod +x .github/planning/create-coverage-issues.sh
 
-All issues are assigned to the **v1.1.0** milestone.
+# Run the script (requires GitHub CLI)
+bash .github/planning/create-coverage-issues.sh
+```
 
-**Milestone Details:**
-- **Title:** v1.1.0
-- **Description:** Foundry support, CLI tooling, operational examples, and community features
-- **Status:** Open
+**Prerequisites:**
+- GitHub CLI installed (`gh`)
+- Authenticated with GitHub (`gh auth login`)
+- Write access to VaultBricks/DSS repository
 
-## Status
+### 📊 Issue Overview
 
-✅ **All issues created successfully!**
+#### v1.2.0 - Production Ready (Priority: 🔴 Critical)
 
-All 5 issues have been created and are available in the GitHub repository. They are all assigned to the v1.1.0 milestone and ready for work.
+1. **[DSS-5] Integration Test Suite** - Multi-strategy, cross-protocol tests
+2. **[DSS-9] Operational Security** - Deployment scripts, monitoring
+3. **[DSS-11] ERC-4626 Compliance** - Interoperability examples
+4. **[DSS-13] CI/CD Automation** - ⭐ NEW - Workflows, security scanning
+5. **[DSS-14] Production Monitoring** - ⭐ NEW - Defender, Tenderly, alerts
+6. **[DSS-1] Additional Strategies** - Momentum, Mean Reversion, Inverse Volatility
+7. **Labels for Part F** - New labels for DSS-12, DSS-13, DSS-14
 
-**Note:** Labels may need to be added manually if they don't exist in the repository yet.
+#### v1.3.0 - Developer Experience (Priority: 🟡 High)
+
+8. **[DSS-12] Developer Experience** - ⭐ NEW - Docs, tutorials, templates
+9. **[DSS-3] Trigger & Timing Tests** - Comprehensive examples
+10. **[DSS-4] Risk Management Tests** - Stop-loss, health factors
+11. **[DSS-6] Security Test Expansion** - OWASP SC Top 10 coverage
+12. **[DSS-7] Market Conditions** - Backtesting, stress tests
+13. **[DSS-8] Gas Benchmarking** - Optimization examples
+
+#### v1.4.0 - Ecosystem & Governance (Priority: 🟢 Medium)
+
+14. **[DSS-10] Governance Tests** - Timelock, upgrade procedures
+15. **Version Migration Guides** - Upgrade documentation
+16. **Legal & Compliance** - Disclaimers, terms
+17. **Community Resources** - Showcase, ecosystem
+
+#### v2.0.0 - Multi-chain & Advanced (Priority: 🟢 Low)
+
+18. **Multi-chain Support** - Cross-chain deployment
+19. **L2 Optimization Guide** - Arbitrum, Optimism, Base
+20. **Advanced Patterns** - Composability, complex strategies
+
+### 📈 Coverage Improvement
+
+| Category | Before | Target | Improvement |
+|----------|--------|--------|-------------|
+| DSS-1 to DSS-11 | 35% | 90% | +55% |
+| DSS-12 (DX) | 40% | 90% | +50% |
+| DSS-13 (CI/CD) | 20% | 95% | +75% |
+| DSS-14 (Monitoring) | 5% | 90% | +85% |
+| **Overall** | **30%** | **88%** | **+58%** |
+
+### 🔗 Related Files
+
+- `../../docs/DSS-COVERAGE-ANALYSIS.md` - Full coverage analysis
+- `../../specification/part-f-tooling.md` - DSS-12, DSS-13, DSS-14 specs
+- `../workflows/` - GitHub Actions templates
+
+---
+
+## v1.1.0 Status (Completed ✅)
+
+All 5 issues for v1.1.0 have been created and completed:
+
+| # | Title | Status |
+|---|-------|--------|
+| 1 | Foundry Support & Examples | ✅ Completed |
+| 2 | CLI Tool Development | ✅ Completed |
+| 3 | Operational Security Examples | ⚠️ Expanded in v1.2.0 |
+| 4 | Certified Strategy Registry | 📋 Planned v1.4.0 |
+| 5 | Auditor Checklists | 📋 Planned v1.4.0 |
+
+**View all issues:** https://github.com/VaultBricks/DSS/issues
 
 ## Related Documentation
 

@@ -9,7 +9,10 @@
     "dss",
     "testing",
     "hardhat",
-    "foundry"
+    "foundry",
+    "invariants",
+    "fuzzing",
+    "property-based-testing",
   ],
   "author": "VaultBricks Team",
   "license": "MIT",

@@ -1,101 +1,211 @@
-# DSS Code Examples
+# DSS Examples
 
-This directory contains complete code examples for implementing DSS requirements.
+**Production-grade strategy examples**
 
-## Examples
+This directory contains complete, battle-tested DSS-compliant strategy implementations with production-ready code.
 
-### Test Examples
+## 📋 Overview
 
-- **[fuzzing-test-example.ts](fuzzing-test-example.ts)** - Complete fuzzing test implementation using fast-check
-  - Demonstrates property-based testing for weight calculations
-  - Shows how to test invariants with random inputs
-  - Includes reproducible seed configuration
+All examples demonstrate:
+- ✅ **Production-tested code** - Adapted from real deployments
+- ✅ **Full DSS compliance** - Passes all certification requirements
+- ✅ **Comprehensive testing** - Unit, invariant, and fuzz tests
+- ✅ **Educational value** - Learn from working code
 
-- **[invariant-test-example.ts](invariant-test-example.ts)** - Complete invariant test implementation
-  - Demonstrates invariant testing with random operation sequences
-  - Shows how to use seedable PRNG for reproducibility
-  - Includes examples of share price and balance invariants
+## 🏗️ Structure
 
-### Configuration Examples
+```
+examples/
+├── sdk/                       # Hardhat-based examples
+│   ├── basic-strategy/       # HODLStrategy (equal-weight)
+│   └── rebalancing-strategy/ # Fixed6040Strategy (60/40)
+└── foundry/                   # Foundry-based examples
+    ├── src/                  # Strategy contracts
+    └── test/                 # Foundry tests
+```
 
-- **[package.json.example](package.json.example)** - Complete package.json configuration
-  - All required npm scripts for DSS compliance
-  - Dependencies for Hardhat, testing, fuzzing, and coverage
-  - Ready to use as a starting point
+## 📦 Available Examples
 
-- **[github-actions-dss-compliance.yml](github-actions-dss-compliance.yml)** - Complete CI/CD workflow
-  - Unit tests, coverage, fuzzing, invariants
-  - Static analysis with Slither
-  - Gas benchmarks and mutation testing
-  - Ready to copy to `.github/workflows/`
+### 1. HODLStrategy - Equal-Weight Allocation
 
-- **[slither.config.json](slither.config.json)** - Slither static analysis configuration
-  - Excludes informational findings
-  - Configures severity thresholds
-  - Filters out node_modules and lib directories
+**Path:** `sdk/basic-strategy/`  
+**Complexity:** ⭐ Basic
 
-## Usage
+Equal-weight distribution across all active assets with automatic rebalancing.
 
-### Setting Up Tests
+```solidity
+// 3 assets → 33.33% each
+// 2 assets → 50% each
+// Simple, transparent allocation
+```
 
-1. Copy the example test files to your `test/` directory:
-   ```bash
-   cp examples/fuzzing-test-example.ts test/fuzz/strategy.fuzz.spec.ts
-   cp examples/invariant-test-example.ts test/invariants/portfolio.invariant.spec.ts
-   ```
+**Use Case:** Diversified exposure without complex calculations
 
-2. Install required dependencies:
-   ```bash
-   npm install --save-dev fast-check
-   ```
+**DSS Coverage:** DSS-1, DSS-2, DSS-3, DSS-4, DSS-7, DSS-9
 
-3. Configure environment variables:
-   ```bash
-   export FUZZ_ITERS=600
-   export INVARIANT_ITERS=200
-   ```
+[→ View full documentation](./sdk/basic-strategy/README.md)
 
-### Setting Up CI/CD
+### 2. Fixed6040Strategy - Balanced Portfolio
 
-1. Copy the GitHub Actions workflow:
-   ```bash
-   mkdir -p .github/workflows
-   cp examples/github-actions-dss-compliance.yml .github/workflows/dss-compliance.yml
-   ```
+**Path:** `sdk/rebalancing-strategy/`  
+**Complexity:** ⭐ Basic
 
-2. Adjust coverage thresholds in the workflow to match your certification level:
-   - Bronze: >80% statement coverage, >60% branch coverage
-   - Silver: >95% statement coverage, >80% branch coverage
-   - Gold: >98% statement coverage, >90% branch coverage
+Classic 60/40 portfolio allocation with weekly rebalancing.
 
-### Setting Up Static Analysis
+```solidity
+// First asset:  60% (growth)
+// Second asset: 40% (stability)
+// Traditional finance inspired
+```
 
-1. Copy the Slither configuration:
-   ```bash
-   cp examples/slither.config.json slither.config.json
-   ```
+**Use Case:** Balanced exposure (e.g., 60% ETH / 40% stablecoins)
 
-2. Run Slither:
-   ```bash
-   slither . --config-file slither.config.json
-   ```
+**DSS Coverage:** DSS-1, DSS-2, DSS-3, DSS-4, DSS-7, DSS-9
 
-## Framework Support
+[→ View full documentation](./sdk/rebalancing-strategy/README.md)
 
-Currently, examples are provided for **Hardhat**. Foundry examples are planned for version 1.1.0.
+### 3. Foundry Examples
 
-The DSS requirements are framework-agnostic, so you can adapt these examples to your preferred testing framework.
+**Path:** `foundry/`  
+**Complexity:** ⭐ Basic
 
-## Related Documentation
+Same strategies as above, but using Foundry test framework.
 
-- [Implementation Guidelines](../IMPLEMENTATION-GUIDELINES.md) - Complete implementation guide
-- [Specification Part A](../specification/part-a-code-quality.md) - Code Quality requirements
-- [Certification Process](../CERTIFICATION-PROCESS.md) - How to get certified
+```bash
+forge test              # Run all tests
+forge test --gas-report # With gas profiling
+```
 
-## Contributing
+**Advantages:**
+- ⚡ Faster execution (Rust-based)
+- 📊 Built-in gas profiling
+- 🔄 Native fuzz/invariant testing
 
-If you have examples for other frameworks (Foundry, Truffle, etc.), please contribute them! See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
+[→ View full documentation](./foundry/README.md)
 
+## 🧪 Testing Coverage
 
+All examples include:
 
+| Test Type | Description | DSS Category | Files |
+|-----------|-------------|--------------|-------|
+| **Unit Tests** | Core functionality | DSS-1, DSS-3, DSS-4 | `core.test.ts` / `.t.sol` |
+| **Invariant Tests** | Economic properties | DSS-2 | `invariants.test.ts` / `Invariants.t.sol` |
+| **Fuzz Tests** | Random input testing | DSS-7 | `fuzzing.test.ts` / `Fuzz.t.sol` |
 
+## 🚀 Quick Start
+
+### Hardhat Example
+
+```bash
+cd examples/sdk/basic-strategy
+npm install
+npm test
+```
+
+### Foundry Example
+
+```bash
+cd examples/foundry
+forge install
+forge test
+```
+
+## 📚 What You'll Learn
+
+### From HODLStrategy
+- Equal-weight calculation
+- Weight normalization with bounds
+- Rebalance timing (cooldown/intervals)
+- Access control patterns
+- Emergency pause mechanisms
+
+### From Fixed6040Strategy
+- Fixed allocation strategies
+- Multiple asset handling
+- Constraint enforcement (min/max)
+- Production-grade error handling
+
+### From Foundry Tests
+- Property-based testing with Forge
+- Invariant testing patterns
+- Fuzz testing best practices
+- Gas optimization techniques
+
+## 🔬 Advanced Patterns
+
+### 1. Weight Normalization
+
+```solidity
+// From DSSWeightLib
+weights = DSSWeightLib.clampAndNormalizeToBps(
+    weights,
+    minWeights,
+    maxWeights,
+    isActive,
+    10_000  // 100% in bps
+);
+```
+
+**Features:**
+- Respects per-asset min/max bounds
+- Best-effort normalization when exact impossible
+- Gas-optimized (production-tested)
+
+### 2. Seedable PRNG for Testing
+
+```typescript
+// From InvariantHelpers
+const rng = makeRng(12345); // Reproducible tests
+for (let i = 0; i < 1000; i++) {
+  const randomValue = rng(); // [0, 1)
+  // Test with deterministic randomness
+}
+```
+
+**Benefits:**
+- Reproducible failures
+- CI/CD friendly
+- Debug specific seeds
+
+### 3. Invariant Testing
+
+```typescript
+// Invariant test patterns
+for (let iter = 0; iter < 200; iter++) {
+  // Random operations
+  
+  // INVARIANTS that must ALWAYS hold:
+  expect(weightSum).to.equal(10_000);
+  expect(portfolioValue).to.be.gte(previousValue * 0.995); // 0.5% slippage
+  expect(lastRebalance).to.be.lte(block.timestamp);
+}
+```
+
+## 🎯 Choosing an Example
+
+| Your Goal | Use This Example |
+|-----------|------------------|
+| Learn DSS basics | `basic-strategy` (HODLStrategy) |
+| Build balanced portfolio | `rebalancing-strategy` (Fixed6040) |
+| Use Foundry/Forge | `foundry/` |
+| See production patterns | All examples |
+| Prepare for audit | All (comprehensive tests) |
+
+## 🙏 Credits
+
+All examples use production-tested patterns and are designed to demonstrate best practices for DSS-compliant strategies.
+
+## 📖 Next Steps
+
+1. **Start with basics:** `cd sdk/basic-strategy && npm install && npm test`
+2. **Read the code:** Study `HODLStrategy.sol` and understand weight calculation
+3. **Run fuzz tests:** See how property-based testing finds edge cases
+4. **Explore Foundry:** Try `cd foundry && forge test -vvv`
+5. **Build your own:** Use these as templates for custom strategies
+
+## 🔗 Related Documentation
+
+- **DSS Specification:** `../specification/`
+- **SDK Packages:** `../packages/`---**Built with ❤️ by VaultBricks**  
+Part of the DeFi Strategy Standard (DSS) project

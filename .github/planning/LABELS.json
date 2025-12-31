@@ -90,9 +90,44 @@
     "description": "Governance & Compliance"
   },
   {
+    "name": "component: part-e",
+    "color": "c5def5",
+    "description": "Interoperability"
+  },
+  {
+    "name": "component: part-f",
+    "color": "c5def5",
+    "description": "Tooling, CI/CD & Monitoring (DSS-12, DSS-13, DSS-14)"
+  },
+  {
     "name": "component: examples",
     "color": "c5def5",
     "description": "Code examples and reference implementation"
+  },
+  {
+    "name": "component: sdk",
+    "color": "c5def5",
+    "description": "@dss/core, @dss/test, @dss/cli packages"
+  },
+  {
+    "name": "component: automation",
+    "color": "bfd4f2",
+    "description": "CI/CD, workflows, testing automation"
+  },
+  {
+    "name": "component: monitoring",
+    "color": "bfd4f2",
+    "description": "Monitoring, alerting, observability"
+  },
+  {
+    "name": "component: deployment",
+    "color": "bfd4f2",
+    "description": "Deployment scripts, multi-chain, verification"
+  },
+  {
+    "name": "component: documentation",
+    "color": "c5def5",
+    "description": "Documentation improvements"
   }
 ]
 

@@ -1,0 +1,37 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.19"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+
+# Testing configuration
+fuzz_runs = 1000              # Number of fuzz test runs
+invariant_runs = 256          # Number of invariant test runs
+invariant_depth = 15          # Depth of invariant call sequences
+verbosity = 2                 # Verbose output
+
+# Gas reporting
+gas_reports = ["*"]
+
+[profile.ci]
+fuzz_runs = 5000
+invariant_runs = 512
+invariant_depth = 20
+
+[profile.lite]
+fuzz_runs = 100
+invariant_runs = 50
+invariant_depth = 10
+
+# RPC endpoints (optional)
+[rpc_endpoints]
+mainnet = "${MAINNET_RPC_URL}"
+sepolia = "${SEPOLIA_RPC_URL}"
+
+# Etherscan API key for contract verification
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
+

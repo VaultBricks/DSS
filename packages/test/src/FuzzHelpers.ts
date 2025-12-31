@@ -131,3 +131,5 @@ export function calculateVolatility(prices: number[]): number {
   return Math.sqrt(variance);
 }
 
+
+
