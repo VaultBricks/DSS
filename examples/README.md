@@ -207,9 +207,5 @@ All examples use production-tested patterns and are designed to demonstrate best
 ## 🔗 Related Documentation
 
 - **DSS Specification:** `../specification/`
-- **SDK Packages:** `../packages/`
-
----
-
-**Built with ❤️ by VaultBricks**  
+- **SDK Packages:** `../packages/`---**Built with ❤️ by VaultBricks**  
 Part of the DeFi Strategy Standard (DSS) project

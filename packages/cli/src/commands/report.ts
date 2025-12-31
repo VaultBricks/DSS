@@ -215,3 +215,5 @@ async function checkPatternInFiles(dir: string, pattern: RegExp): Promise<boolea
   return false;
 }
 
+
+

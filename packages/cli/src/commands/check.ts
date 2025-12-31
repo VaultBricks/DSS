@@ -247,3 +247,5 @@ function displayResults(results: CheckResult[], options: CheckOptions) {
   }
 }
 
+
+
