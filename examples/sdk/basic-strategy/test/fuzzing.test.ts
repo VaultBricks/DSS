@@ -51,9 +51,11 @@ describe("HODLStrategy - Fuzzing Tests (DSS-7)", function () {
                 [config.minWeight, config.maxWeight] = [config.maxWeight, config.minWeight];
               }
             }
-            // Ensure sum of maxWeights is at least 10000
+            // Ensure sum of maxWeights is at least 10000 AND sum of minWeights is at most 10000
+            // This ensures a feasible solution exists
             const maxSum = configs.reduce((sum, c) => sum + c.maxWeight, 0);
-            return maxSum >= 10000;
+            const minSum = configs.reduce((sum, c) => sum + c.minWeight, 0);
+            return maxSum >= 10000 && minSum <= 10000;
           }),
           async (assetConfigs) => {
             // Ensure min <= max for each asset (already done in filter, but keep for safety)
