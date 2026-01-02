@@ -131,6 +131,47 @@ library DSSWeightLib {
             }
         }
 
+        // Final verification and correction for rounding errors
+        uint256 finalTotal = 0;
+        for (uint256 i; i < len; ) {
+            finalTotal += out[i];
+            unchecked { ++i; }
+        }
+
+        // If there's a small discrepancy due to rounding, adjust the largest weight
+        if (finalTotal != bps) {
+            int256 diff = int256(bps) - int256(finalTotal);
+            if (diff > 0) {
+                // Need to add weight - find asset with most headroom
+                uint256 maxIdx = 0;
+                for (uint256 i = 1; i < len; ) {
+                    if (isActive[i] && maxW[i] > out[i]) {
+                        if (maxW[maxIdx] - out[maxIdx] < maxW[i] - out[i]) {
+                            maxIdx = i;
+                        }
+                    }
+                    unchecked { ++i; }
+                }
+                if (isActive[maxIdx] && maxW[maxIdx] > out[maxIdx]) {
+                    out[maxIdx] += uint256(diff);
+                }
+            } else if (diff < 0) {
+                // Need to remove weight - find asset with most removable weight
+                uint256 maxIdx = 0;
+                for (uint256 i = 1; i < len; ) {
+                    if (isActive[i] && out[i] > minW[i]) {
+                        if (out[maxIdx] - minW[maxIdx] < out[i] - minW[i]) {
+                            maxIdx = i;
+                        }
+                    }
+                    unchecked { ++i; }
+                }
+                if (isActive[maxIdx] && out[maxIdx] > minW[maxIdx]) {
+                    out[maxIdx] -= uint256(-diff);
+                }
+            }
+        }
+
         return out;
     }
 }
