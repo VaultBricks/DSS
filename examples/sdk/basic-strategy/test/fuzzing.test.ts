@@ -44,9 +44,19 @@ describe("HODLStrategy - Fuzzing Tests (DSS-7)", function () {
           fc.array(fc.record({
             minWeight: fc.integer({ min: 0, max: 3000 }),
             maxWeight: fc.integer({ min: 1000, max: 10000 }) // Ensure sufficient capacity
-          }), { minLength: assetCount, maxLength: assetCount }),
-          async (assetConfigs) => {
+          }), { minLength: assetCount, maxLength: assetCount }).filter(configs => {
             // Ensure min <= max for each asset
+            for (const config of configs) {
+              if (config.minWeight > config.maxWeight) {
+                [config.minWeight, config.maxWeight] = [config.maxWeight, config.minWeight];
+              }
+            }
+            // Ensure sum of maxWeights is at least 10000
+            const maxSum = configs.reduce((sum, c) => sum + c.maxWeight, 0);
+            return maxSum >= 10000;
+          }),
+          async (assetConfigs) => {
+            // Ensure min <= max for each asset (already done in filter, but keep for safety)
             for (const config of assetConfigs) {
               if (config.minWeight > config.maxWeight) {
                 [config.minWeight, config.maxWeight] = [config.maxWeight, config.minWeight];
