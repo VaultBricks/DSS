@@ -233,8 +233,8 @@ async function createPackageJson(projectPath: string, config: any) {
       'dss:report': 'dss report'
     },
     devDependencies: {
-      '@dss/core': '^1.2.0-alpha.0',
-      '@dss/test': '^1.2.0-alpha.0',
+      '@vaultbricks/dss-core': '^1.2.0-alpha.0',
+      '@vaultbricks/test': '^1.2.0-alpha.0',
       hardhat: '^2.19.0',
       '@nomicfoundation/hardhat-toolbox': '^4.0.0'
     }

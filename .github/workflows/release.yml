@@ -65,7 +65,7 @@ jobs:
 
   # Build and publish packages
   publish-packages:
-    name: Publish @dss/* Packages
+    name: Publish @vaultbricks/* Packages
     runs-on: ubuntu-latest
     needs: prepare-release
     strategy:
@@ -88,15 +88,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
-          scope: '@dss'
-
-      - name: Generate npm token via OIDC
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const token = await core.getIDToken('https://registry.npmjs.org');
-            core.setSecret(token);
-            core.exportVariable('NODE_AUTH_TOKEN', token);
+          scope: '@vaultbricks'
+          token: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: npm install --ignore-scripts
@@ -109,9 +102,8 @@ jobs:
       - name: Build package
         run: |
           if [ -f "tsconfig.json" ]; then
-            npm run build || true
+            npm run build
           fi
-        continue-on-error: true
       
       - name: Publish to npm
         run: |
@@ -180,6 +172,6 @@ jobs:
           echo "✅ GitHub release created" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Published packages:**" >> $GITHUB_STEP_SUMMARY
-          echo "- @dss/core" >> $GITHUB_STEP_SUMMARY
-          echo "- @dss/test" >> $GITHUB_STEP_SUMMARY
-          echo "- @dss/cli" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-core" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/test" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/cli" >> $GITHUB_STEP_SUMMARY

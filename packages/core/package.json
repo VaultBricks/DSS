@@ -1,5 +1,5 @@
 {
-  "name": "@dss/core",
+  "name": "@vaultbricks/core",
   "version": "1.2.0-alpha.0",
   "description": "Core Solidity contracts and interfaces for the DeFi Strategy Standard (DSS)",
   "main": "index.js",

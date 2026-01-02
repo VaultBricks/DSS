@@ -1,5 +1,5 @@
 {
-  "name": "@dss/test",
+  "name": "@vaultbricks/test",
   "version": "1.2.0-alpha.0",
   "description": "Testing framework and utilities for DSS-compliant strategies",
   "main": "src/index.ts",
