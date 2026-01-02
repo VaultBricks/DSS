@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - CI/CD Automation (DSS-13)
+
+**NEW: Complete CI/CD automation workflows**
+
+- GitHub Actions workflows for automated testing, security scanning, and releases
+- Pre-commit hooks with Husky and lint-staged for code quality enforcement
+- Dependabot configuration for automatic dependency updates
+- Comprehensive CI/CD setup documentation
+
+**Workflows:**
+- `.github/workflows/test.yml` - Matrix testing (Hardhat + Foundry, Node 18+20)
+- `.github/workflows/security.yml` - Security scanning (Slither, npm audit, CodeQL)
+- `.github/workflows/release.yml` - Automated releases and NPM publishing
+
+**Tools:**
+- ESLint, Prettier, and Solhint for code quality
+- Husky for Git hooks
+- lint-staged for staged file linting
+
+See [CI/CD Setup Guide](docs/CI-CD-SETUP.md) for details.
+
 ### Added - Production Examples
 
 **NEW: Production-tested strategy examples**
