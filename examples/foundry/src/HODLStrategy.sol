@@ -72,14 +72,30 @@ contract HODLStrategy {
     function calculateWeights() external view returns (uint256[] memory weights) {
         uint256 len = _assets.length;
         weights = new uint256[](len);
-        
-        uint256 equalWeight = BPS_DENOMINATOR / len;
-        uint256 remainder = BPS_DENOMINATOR % len;
+
+        // Count active assets
+        uint256 activeCount = 0;
+        for (uint256 i = 0; i < len; i++) {
+            if (_assets[i].isActive) {
+                activeCount++;
+            }
+        }
+
+        if (activeCount == 0) {
+            return weights; // All zeros if no active assets
+        }
+
+        uint256 equalWeight = BPS_DENOMINATOR / activeCount;
+        uint256 remainder = BPS_DENOMINATOR % activeCount;
+        uint256 activeIndex = 0;
 
         for (uint256 i = 0; i < len; i++) {
-            weights[i] = equalWeight;
-            if (i < remainder) {
-                weights[i] += 1;
+            if (_assets[i].isActive) {
+                weights[i] = equalWeight;
+                if (activeIndex < remainder) {
+                    weights[i] += 1;
+                }
+                activeIndex++;
             }
         }
     }
@@ -124,6 +140,11 @@ contract HODLStrategy {
             isActive[i] = _assets[i].isActive;
         }
         return isActive;
+    }
+
+    function setAssetActive(uint256 index, bool active) external {
+        require(index < _assets.length, "Invalid asset index");
+        _assets[index].isActive = active;
     }
 }
 
