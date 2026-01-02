@@ -1,0 +1,53 @@
+# Development files
+.git
+.gitignore
+.github
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Source files (only dist is needed)
+src/
+*.ts
+!*.d.ts
+
+# Testing
+test/
+tests/
+*.test.js
+*.spec.js
+coverage/
+.nyc_output/
+
+# Build artifacts
+build/
+*.tsbuildinfo
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Configuration files
+.eslintrc*
+.prettierrc*
+tsconfig.json
+jest.config.js
+
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+*.cache
+

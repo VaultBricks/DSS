@@ -12,14 +12,19 @@
     "foundry",
     "invariants",
     "fuzzing",
-    "property-based-testing"
+    "property-based-testing",
+    "ethereum"
   ],
   "author": "VaultBricks Team",
   "license": "MIT",
+  "homepage": "https://github.com/VaultBricks/DSS#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/VaultBricks/DSS.git",
     "directory": "packages/test"
+  },
+  "bugs": {
+    "url": "https://github.com/VaultBricks/DSS/issues"
   },
   "dependencies": {
     "fast-check": "^3.15.0",
@@ -33,6 +38,9 @@
     "src/**/*",
     "helpers/**/*",
     "README.md"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
 
