@@ -98,6 +98,10 @@ contract HODLStrategy {
         emit Rebalanced(block.timestamp, oldWeights, newWeights);
     }
 
+    function setRebalanceInterval(uint256 newInterval) external {
+        rebalanceInterval = newInterval;
+    }
+
     function getMinWeights() external view returns (uint256[] memory) {
         uint256[] memory minWeights = new uint256[](_assets.length);
         for (uint256 i = 0; i < _assets.length; i++) {
