@@ -26,10 +26,14 @@ contract HODLStrategy {
     uint256 public lastRebalance;
 
     mapping(address => bool) public keeperRoles;
+    mapping(address => bool) public guardianRoles;
     address public owner;
+    bool public paused;
 
     event AssetAdded(address indexed token, uint256 minWeight, uint256 maxWeight);
     event Rebalanced(uint256 timestamp, uint256[] oldWeights, uint256[] newWeights);
+    event Paused(address indexed guardian);
+    event Unpaused(address indexed guardian);
 
     constructor(
         address[] memory assets_,
@@ -109,6 +113,7 @@ contract HODLStrategy {
     }
 
     function rebalance() external {
+        require(!paused, "Strategy is paused");
         require(keeperRoles[msg.sender] || msg.sender == owner, "Not authorized");
         require(this.shouldRebalance(), "Cooldown not elapsed");
 
@@ -164,6 +169,36 @@ contract HODLStrategy {
 
     function hasKeeperRole(address keeper) external view returns (bool) {
         return keeperRoles[keeper];
+    }
+
+    function grantGuardianRole(address guardian) external {
+        require(msg.sender == owner, "Only owner");
+        guardianRoles[guardian] = true;
+    }
+
+    function revokeGuardianRole(address guardian) external {
+        require(msg.sender == owner, "Only owner");
+        guardianRoles[guardian] = false;
+    }
+
+    function hasGuardianRole(address guardian) external view returns (bool) {
+        return guardianRoles[guardian];
+    }
+
+    function pause() external {
+        require(guardianRoles[msg.sender] || msg.sender == owner, "Not authorized");
+        paused = true;
+        emit Paused(msg.sender);
+    }
+
+    function unpause() external {
+        require(guardianRoles[msg.sender] || msg.sender == owner, "Not authorized");
+        paused = false;
+        emit Unpaused(msg.sender);
+    }
+
+    function isPaused() external view returns (bool) {
+        return paused;
     }
 }
 

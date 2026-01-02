@@ -56,9 +56,8 @@ contract Fixed6040Strategy is IDSSStrategy, DSSAccessControl, DSSPausable {
     uint256 public override rebalanceInterval;
     
     // ============ Events ============
-    
+
     event AssetAdded(address indexed token, uint256 minWeight, uint256 maxWeight);
-    event AssetUpdated(address indexed token, bool isActive);
     event RebalanceIntervalUpdated(uint256 newInterval);
     
     // ============ Constructor ============
