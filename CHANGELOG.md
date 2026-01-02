@@ -49,8 +49,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Operation sequence generation for state machine tests
   - Active/inactive asset array generation
 
+### Added - Specification Updates
+- **Part F: Tooling & Automation** (`specification/part-f-tooling.md`)
+  - DSS-12: Developer Experience & Documentation
+  - DSS-13: CI/CD & Automation
+  - DSS-14: Production Monitoring & Observability
+  - Complete specification with requirements, examples, and certification thresholds
+
 ### Changed
 - Project now demonstrates "Specification → Production Examples" flow
+- Updated architecture from 11-point to 14-point (DSS-1 through DSS-14)
 
 ## [1.2.0-alpha.0] - 2025-12-27
 
