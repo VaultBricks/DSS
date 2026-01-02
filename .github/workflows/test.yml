@@ -36,38 +36,41 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: ${{ matrix.project }}/package-lock.json
-        continue-on-error: true
       
       - name: Install dependencies
-        working-directory: ${{ matrix.project }}
         run: |
+          cd ${{ matrix.project }}
           if [ -f "package-lock.json" ]; then
             npm ci
           else
-            npm install
+            npm install --no-audit --no-fund
           fi
+        continue-on-error: false
       
       - name: Compile contracts
-        working-directory: ${{ matrix.project }}
-        run: npm run compile
+        run: |
+          cd ${{ matrix.project }}
+          npm run compile
+        continue-on-error: false
       
       - name: Run unit tests
-        working-directory: ${{ matrix.project }}
-        run: npm run test:core
+        run: |
+          cd ${{ matrix.project }}
+          npm run test:core
         continue-on-error: false
       
       - name: Run invariant tests
-        working-directory: ${{ matrix.project }}
-        run: npm run test:invariants
+        run: |
+          cd ${{ matrix.project }}
+          npm run test:invariants
         env:
           INVARIANT_ITERS: ${{ env.INVARIANT_ITERS }}
         continue-on-error: false
       
       - name: Run fuzzing tests
-        working-directory: ${{ matrix.project }}
-        run: npm run test:fuzzing
+        run: |
+          cd ${{ matrix.project }}
+          npm run test:fuzzing
         env:
           FUZZ_ITERS: ${{ env.FUZZ_ITERS }}
         continue-on-error: false
