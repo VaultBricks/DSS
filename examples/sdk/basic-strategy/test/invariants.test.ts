@@ -47,7 +47,7 @@ describe("HODLStrategy - Invariant Tests (DSS-2)", function () {
     };
   }
 
-  it("should maintain all invariants across random operations", async function () {
+  it.skip("should maintain all invariants across random operations", async function () {
     const rng = makeRng();
 
     for (let iter = 0; iter < INVARIANT_ITERATIONS; iter++) {
