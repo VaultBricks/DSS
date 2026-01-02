@@ -16,10 +16,20 @@ describe("HODLStrategy - Invariant Tests (DSS-2)", function () {
   const BPS_DENOMINATOR = 10_000;
 
   let HODLStrategy: any;
+  let weightLibAddr: string;
 
   before(async function () {
-    // DSSWeightLib is a library, no need to deploy separately
-    HODLStrategy = await ethers.getContractFactory("HODLStrategy");
+    // Deploy DSSWeightLib
+    const WeightLib = await ethers.getContractFactory("DSSWeightLib");
+    const weightLib = await WeightLib.deploy();
+    await weightLib.waitForDeployment();
+    weightLibAddr = await weightLib.getAddress();
+
+    HODLStrategy = await ethers.getContractFactory("HODLStrategy", {
+      libraries: {
+        DSSWeightLib: weightLibAddr,
+      },
+    });
   });
 
   /**

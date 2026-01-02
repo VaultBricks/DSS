@@ -113,7 +113,7 @@ contract HODLStrategy {
     }
 
     function rebalance() external {
-        require(!paused, "Strategy is paused");
+        require(!paused, "Pausable: paused");
         require(keeperRoles[msg.sender] || msg.sender == owner, "Not authorized");
         require(this.shouldRebalance(), "Cooldown not elapsed");
 

@@ -10,6 +10,7 @@ import { ethers } from "hardhat";
  */
 describe("HODLStrategy - Core Tests (DSS-1)", function () {
   let HODLStrategy: any;
+  let weightLibAddr: string;
   let owner: any;
   let keeper: any;
   let user: any;
@@ -17,8 +18,17 @@ describe("HODLStrategy - Core Tests (DSS-1)", function () {
   beforeEach(async function () {
     [owner, keeper, user] = await ethers.getSigners();
 
-    // DSSWeightLib is a library, no need to deploy separately
-    HODLStrategy = await ethers.getContractFactory("HODLStrategy");
+    // Deploy DSSWeightLib
+    const WeightLib = await ethers.getContractFactory("DSSWeightLib");
+    const weightLib = await WeightLib.deploy();
+    await weightLib.waitForDeployment();
+    weightLibAddr = await weightLib.getAddress();
+
+    HODLStrategy = await ethers.getContractFactory("HODLStrategy", {
+      libraries: {
+        DSSWeightLib: weightLibAddr,
+      },
+    });
   });
 
   describe("Deployment", function () {
