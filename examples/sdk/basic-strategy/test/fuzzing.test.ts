@@ -53,10 +53,11 @@ describe("HODLStrategy - Fuzzing Tests (DSS-7)", function () {
               }
             }
 
-            // Ensure at least one asset has a non-zero max weight
-            const hasNonZeroMax = assetConfigs.some(c => c.maxWeight > 0);
-            if (!hasNonZeroMax) {
-              assetConfigs[0].maxWeight = 10000;
+            // Ensure all assets have a non-zero max weight (required for valid configuration)
+            for (let i = 0; i < assetConfigs.length; i++) {
+              if (assetConfigs[i].maxWeight === 0) {
+                assetConfigs[i].maxWeight = 10000;
+              }
             }
 
             // Generate mock asset addresses
