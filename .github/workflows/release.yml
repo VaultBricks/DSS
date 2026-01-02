@@ -91,11 +91,6 @@ jobs:
           scope: '@dss'
           token: ${{ secrets.NPM_TOKEN }}
       
-      - name: Configure npm
-        run: |
-          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }} --location=global
-          npm config set @dss:registry ${{ env.NPM_REGISTRY }} --location=global
-      
       - name: Install dependencies
         run: npm install --ignore-scripts
       
