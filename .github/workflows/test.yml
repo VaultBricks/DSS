@@ -38,8 +38,20 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       
+      - name: Debug - List directories
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Listing examples/sdk:"
+          ls -la examples/sdk/ || echo "examples/sdk/ does not exist"
+          echo "Checking for ${{ matrix.project }}:"
+          ls -la ${{ matrix.project }} || echo "${{ matrix.project }} does not exist"
+      
       - name: Install dependencies
         run: |
+          if [ ! -d "${{ matrix.project }}" ]; then
+            echo "::error::Directory ${{ matrix.project }} does not exist"
+            exit 1
+          fi
           cd ${{ matrix.project }} || exit 1
           if [ -f "package-lock.json" ]; then
             npm ci
