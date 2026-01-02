@@ -262,7 +262,7 @@ describe("HODLStrategy - Core Tests (DSS-1)", function () {
       // Should revert even though cooldown elapsed
       await expect(
         strategy.connect(keeper).rebalance()
-      ).to.be.revertedWith("Pausable: paused");
+      ).to.be.revertedWith("DSSPausable: paused");
     });
   });
 });
