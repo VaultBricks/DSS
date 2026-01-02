@@ -12,7 +12,7 @@
     "foundry",
     "invariants",
     "fuzzing",
-    "property-based-testing",
+    "property-based-testing"
   ],
   "author": "VaultBricks Team",
   "license": "MIT",
