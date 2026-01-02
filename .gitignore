@@ -16,11 +16,14 @@ Thumbs.db
 *.cache
 
 # Temporary documentation (status reports, completion summaries)
+# Only ignore temporary analysis and summary files, not issue-specific documentation
 *_COMPLETION_SUMMARY.md
 *_MILESTONE_STATUS.md
 *_ISSUE_READY.md
-*_REPORT.md
 NEXT_ISSUE_*.md
+ANALYSIS_*.md
+DETAILED_*.md
+ISSUE_COMPARISON.md
 
 # Build artifacts (if any)
 dist/
