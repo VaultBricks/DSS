@@ -15,6 +15,13 @@ Thumbs.db
 *.log
 *.cache
 
+# Temporary documentation (status reports, completion summaries)
+*_COMPLETION_SUMMARY.md
+*_MILESTONE_STATUS.md
+*_ISSUE_READY.md
+*_REPORT.md
+NEXT_ISSUE_*.md
+
 # Build artifacts (if any)
 dist/
 build/
