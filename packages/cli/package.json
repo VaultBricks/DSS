@@ -1,6 +1,6 @@
 {
   "name": "@vaultbricks/cli",
-  "version": "1.2.0-alpha.0",
+  "version": "1.2.0-alpha.1",
   "description": "Command-line tool for DSS project initialization and certification",
   "main": "dist/index.js",
   "bin": {
