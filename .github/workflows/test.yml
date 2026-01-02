@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: |
           if [ ! -d "${{ matrix.project }}" ]; then
-            echo "::error::Directory ${{ matrix.project }} does not exist"
+            echo "::error file=${{ matrix.project }}/package.json,title=Project directory not found::Directory ${{ matrix.project }} does not exist in the repository. Please ensure the project directory is committed."
             exit 1
           fi
           cd ${{ matrix.project }} || exit 1
@@ -116,8 +116,8 @@ jobs:
       - name: Install Foundry dependencies
         working-directory: examples/foundry
         run: |
-          forge install foundry-rs/forge-std --no-commit || true
-          forge install VaultBricks/DSS --no-commit || true
+          forge install foundry-rs/forge-std || true
+          # Note: VaultBricks/DSS is not a valid forge dependency, skipping
         continue-on-error: true
       
       - name: Run Foundry tests
@@ -195,7 +195,7 @@ jobs:
             
             # Check coverage thresholds
             if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-              echo "::error::Coverage ${COVERAGE}% is below 80% threshold (Bronze level)"
+              echo "::error file=${{ matrix.project }}/coverage/coverage-summary.json,title=Coverage below threshold::Coverage ${COVERAGE}% is below 80% threshold (Bronze level). Please improve test coverage."
               exit 1
             fi
           fi

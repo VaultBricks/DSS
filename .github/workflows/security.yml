@@ -54,7 +54,7 @@ jobs:
           if [ -f "packages/core/slither-report.json" ]; then
             HIGH_ISSUES=$(cat packages/core/slither-report.json | jq '[.results.detectors[] | select(.impact == "High")] | length')
             if [ "$HIGH_ISSUES" -gt 0 ]; then
-              echo "::error::Found $HIGH_ISSUES high severity issues"
+              echo "::error file=packages/core/slither-report.json,title=High severity security issues::Found $HIGH_ISSUES high severity security issues. Please review and fix."
               exit 1
             fi
           fi
@@ -117,7 +117,7 @@ jobs:
             HIGH=$(cat audit-report.json | jq -r '.metadata.vulnerabilities.high // 0')
             
             if [ "$CRITICAL" -gt 0 ] || [ "$HIGH" -gt 0 ]; then
-              echo "::error::Found $CRITICAL critical and $HIGH high vulnerabilities"
+              echo "::error file=${{ matrix.project }}/audit-report.json,title=Critical/High vulnerabilities::Found $CRITICAL critical and $HIGH high vulnerabilities. Please update dependencies."
               echo "Critical: $CRITICAL" >> $GITHUB_STEP_SUMMARY
               echo "High: $HIGH" >> $GITHUB_STEP_SUMMARY
               exit 1

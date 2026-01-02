@@ -59,7 +59,7 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.?[0-9]*)?$ ]]; then
-            echo "::error::Invalid version format: $VERSION"
+            echo "::error title=Invalid version format::Version format must be semver (e.g., 1.2.0 or 1.2.0-alpha.1). Got: $VERSION"
             exit 1
           fi
 
