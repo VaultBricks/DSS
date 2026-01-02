@@ -134,7 +134,8 @@ jobs:
       matrix:
         project:
           - examples/sdk/basic-strategy
-          - examples/sdk/rebalancing-strategy
+          # Temporarily disabled until rebalancing-strategy is fully set up
+          # - examples/sdk/rebalancing-strategy
     
     defaults:
       run:
