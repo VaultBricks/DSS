@@ -17,25 +17,13 @@ describe("HODLStrategy - Fuzzing Tests (DSS-7)", function () {
   const BPS_DENOMINATOR = 10_000;
 
   let HODLStrategy: any;
-  let weightLibAddr: string;
 
   before(async function () {
     this.timeout(120_000); // 2 minutes for deployment
 
-    // Deploy DSSWeightLib
-    const WeightLib = await ethers.getContractFactory(
-      "contracts/libraries/DSSWeightLib.sol:DSSWeightLib"
-    );
-    const weightLib = await WeightLib.deploy();
-    await weightLib.waitForDeployment();
-    weightLibAddr = await weightLib.getAddress();
-
     // Get HODLStrategy factory
-    HODLStrategy = await ethers.getContractFactory("HODLStrategy", {
-      libraries: {
-        DSSWeightLib: weightLibAddr,
-      },
-    });
+    // DSSWeightLib is a library, no need to deploy separately
+    HODLStrategy = await ethers.getContractFactory("HODLStrategy");
   });
 
   // Test 1-10 assets for comprehensive coverage
