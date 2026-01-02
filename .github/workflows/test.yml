@@ -39,7 +39,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd ${{ matrix.project }}
+          cd ${{ matrix.project }} || exit 1
           if [ -f "package-lock.json" ]; then
             npm ci
           else
@@ -49,19 +49,19 @@ jobs:
       
       - name: Compile contracts
         run: |
-          cd ${{ matrix.project }}
+          cd ${{ matrix.project }} || exit 1
           npm run compile
         continue-on-error: false
       
       - name: Run unit tests
         run: |
-          cd ${{ matrix.project }}
+          cd ${{ matrix.project }} || exit 1
           npm run test:core
         continue-on-error: false
       
       - name: Run invariant tests
         run: |
-          cd ${{ matrix.project }}
+          cd ${{ matrix.project }} || exit 1
           npm run test:invariants
         env:
           INVARIANT_ITERS: ${{ env.INVARIANT_ITERS }}
@@ -69,7 +69,7 @@ jobs:
       
       - name: Run fuzzing tests
         run: |
-          cd ${{ matrix.project }}
+          cd ${{ matrix.project }} || exit 1
           npm run test:fuzzing
         env:
           FUZZ_ITERS: ${{ env.FUZZ_ITERS }}
