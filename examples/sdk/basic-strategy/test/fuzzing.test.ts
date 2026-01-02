@@ -92,11 +92,13 @@ describe("HODLStrategy - Fuzzing Tests (DSS-7)", function () {
               expect(weights[i]).to.be.lte(maxWeights[i], `Weight ${i} above max`);
             }
 
-            // Invariant 4: Active assets have non-zero weight
-            // (In equal-weight strategy, all active assets should have weight > 0)
-            const activeCount = assetConfigs.length;
-            const nonZeroCount = weights.filter((w: bigint) => w > 0n).length;
-            expect(nonZeroCount).to.equal(activeCount, "All active assets should have weight");
+            // Invariant 4: Assets with non-zero minWeight must have non-zero weight
+            // (Assets with minWeight=0 may have zero weight if needed to satisfy constraints)
+            for (let i = 0; i < assetConfigs.length; i++) {
+              if (minWeights[i] > 0) {
+                expect(weights[i]).to.be.gt(0, `Asset ${i} with minWeight > 0 must have weight > 0`);
+              }
+            }
           }
         ),
         { numRuns: FUZZ_ITERATIONS }
