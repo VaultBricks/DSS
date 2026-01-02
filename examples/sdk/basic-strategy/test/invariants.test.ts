@@ -74,23 +74,12 @@ describe("HODLStrategy - Invariant Tests (DSS-2)", function () {
       // Calculate weights
       const weights = await strategy.calculateWeights();
 
-      // Check if there are any active assets
-      const activeAssets = await strategy.getAssets();
-      const hasActiveAssets = activeAssets.length > 0;
-
-      // INVARIANT 1: Weight sum equals 10000 (100%) if there are active assets
+      // INVARIANT 1: Weight sum equals 10000 (100%)
       const sum = weights.reduce((acc: bigint, w: bigint) => acc + w, 0n);
-      if (hasActiveAssets) {
-        expect(sum).to.equal(
-          BPS_DENOMINATOR,
-          `Iteration ${iter}: Weight sum must equal 10000, got ${sum}`
-        );
-      } else {
-        expect(sum).to.equal(
-          0n,
-          `Iteration ${iter}: Weight sum must be 0 when no active assets, got ${sum}`
-        );
-      }
+      expect(sum).to.equal(
+        BPS_DENOMINATOR,
+        `Iteration ${iter}: Weight sum must equal 10000, got ${sum}`
+      );
 
       // INVARIANT 2: All weights are non-negative
       for (let i = 0; i < weights.length; i++) {
