@@ -45,9 +45,9 @@ jobs:
         run: |
           cd ${{ matrix.project }} || exit 1
           if [ -f "package-lock.json" ]; then
-            npm ci --legacy-peer-deps
+            npm ci --legacy-peer-deps --ignore-scripts
           else
-            npm install --no-audit --no-fund --legacy-peer-deps
+            npm install --no-audit --no-fund --legacy-peer-deps --ignore-scripts
           fi
         continue-on-error: false
 
@@ -166,9 +166,9 @@ jobs:
         run: |
           cd ${{ matrix.project }} || exit 1
           if [ -f "package-lock.json" ]; then
-            npm ci --legacy-peer-deps
+            npm ci --legacy-peer-deps --ignore-scripts
           else
-            npm install --no-audit --no-fund --legacy-peer-deps
+            npm install --no-audit --no-fund --legacy-peer-deps --ignore-scripts
           fi
         continue-on-error: false
       
