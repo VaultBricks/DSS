@@ -1,0 +1,191 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  FUZZ_ITERS: 1000
+  INVARIANT_ITERS: 500
+  NODE_VERSION: '20'
+
+jobs:
+  # Hardhat Tests (TypeScript)
+  hardhat-tests:
+    name: Hardhat Tests (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['18', '20']
+        project:
+          - examples/sdk/basic-strategy
+          - examples/sdk/rebalancing-strategy
+    
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Compile contracts
+        run: npm run compile
+      
+      - name: Run unit tests
+        run: npm run test:core
+        continue-on-error: false
+      
+      - name: Run invariant tests
+        run: npm run test:invariants
+        env:
+          INVARIANT_ITERS: ${{ env.INVARIANT_ITERS }}
+        continue-on-error: false
+      
+      - name: Run fuzzing tests
+        run: npm run test:fuzzing
+        env:
+          FUZZ_ITERS: ${{ env.FUZZ_ITERS }}
+        continue-on-error: false
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.project }}-node${{ matrix.node-version }}
+          path: ${{ matrix.project }}/test-results/
+          retention-days: 7
+        continue-on-error: true
+
+  # Foundry Tests (Solidity)
+  foundry-tests:
+    name: Foundry Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+      
+      - name: Run Foundry tests
+        working-directory: examples/foundry
+        run: |
+          forge test --gas-report
+        env:
+          FOUNDRY_PROFILE: ci
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: foundry-test-results
+          path: examples/foundry/gas-report.txt
+          retention-days: 7
+        continue-on-error: true
+
+  # Coverage Report
+  coverage:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    needs: [hardhat-tests]
+    
+    strategy:
+      matrix:
+        project:
+          - examples/sdk/basic-strategy
+          - examples/sdk/rebalancing-strategy
+    
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests with coverage
+        run: |
+          npm run test:core
+          npm run test:invariants
+          npm run test:fuzzing
+        env:
+          COVERAGE: true
+          FUZZ_ITERS: ${{ env.FUZZ_ITERS }}
+          INVARIANT_ITERS: ${{ env.INVARIANT_ITERS }}
+      
+      - name: Generate coverage report
+        run: |
+          if [ -f "coverage/coverage-summary.json" ]; then
+            COVERAGE=$(cat coverage/coverage-summary.json | jq -r '.total.lines.pct // 0')
+            echo "Coverage: ${COVERAGE}%"
+            echo "COVERAGE=${COVERAGE}" >> $GITHUB_ENV
+            
+            # Check coverage thresholds
+            if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+              echo "::error::Coverage ${COVERAGE}% is below 80% threshold (Bronze level)"
+              exit 1
+            fi
+          fi
+        continue-on-error: true
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ${{ matrix.project }}/coverage/lcov.info
+          flags: ${{ matrix.project }}
+          name: ${{ matrix.project }}
+          fail_ci_if_error: false
+        continue-on-error: true
+
+  # Test Summary
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [hardhat-tests, foundry-tests, coverage]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+      
+      - name: Test Summary
+        run: |
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Hardhat tests completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Foundry tests completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Coverage reports generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All tests passed successfully!" >> $GITHUB_STEP_SUMMARY

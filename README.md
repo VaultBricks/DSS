@@ -10,6 +10,10 @@
   <img src="https://img.shields.io/badge/SDK-Available-success?style=flat-square" alt="SDK"/>
   <img src="https://img.shields.io/badge/MAS-Compatible-brightgreen?style=flat-square" alt="MAS Compatible"/>
   <img src="https://img.shields.io/badge/ERC4626-Compliant-blueviolet?style=flat-square" alt="ERC4626"/>
+  <br/>
+  <img src="https://github.com/VaultBricks/DSS/workflows/Test%20Suite/badge.svg" alt="Tests"/>
+  <img src="https://github.com/VaultBricks/DSS/workflows/Security%20Scan/badge.svg" alt="Security"/>
+  <img src="https://github.com/VaultBricks/DSS/workflows/Documentation%20Checks/badge.svg" alt="Docs"/>
 </p>
 
 ---
