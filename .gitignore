@@ -36,3 +36,7 @@ node_modules/
 package-lock.json
 yarn.lock
 
+# Secrets and sensitive files
+.secrets
+.env.local
+.env.*.local
