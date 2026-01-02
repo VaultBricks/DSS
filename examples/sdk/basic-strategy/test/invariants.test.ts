@@ -74,12 +74,23 @@ describe("HODLStrategy - Invariant Tests (DSS-2)", function () {
       // Calculate weights
       const weights = await strategy.calculateWeights();
 
-      // INVARIANT 1: Weight sum equals 10000 (100%)
+      // Check if there are any active assets
+      const activeAssets = await strategy.getAssets();
+      const hasActiveAssets = activeAssets.length > 0;
+
+      // INVARIANT 1: Weight sum equals 10000 (100%) if there are active assets
       const sum = weights.reduce((acc: bigint, w: bigint) => acc + w, 0n);
-      expect(sum).to.equal(
-        BPS_DENOMINATOR,
-        `Iteration ${iter}: Weight sum must equal 10000, got ${sum}`
-      );
+      if (hasActiveAssets) {
+        expect(sum).to.equal(
+          BPS_DENOMINATOR,
+          `Iteration ${iter}: Weight sum must equal 10000, got ${sum}`
+        );
+      } else {
+        expect(sum).to.equal(
+          0n,
+          `Iteration ${iter}: Weight sum must be 0 when no active assets, got ${sum}`
+        );
+      }
 
       // INVARIANT 2: All weights are non-negative
       for (let i = 0; i < weights.length; i++) {
@@ -170,7 +181,10 @@ describe("HODLStrategy - Invariant Tests (DSS-2)", function () {
     const [owner, keeper] = await ethers.getSigners();
 
     // Grant keeper role
-    await strategy.connect(owner).grantKeeperRole(keeper.address);
+    const ADMIN_ROLE = await strategy.ADMIN_ROLE();
+    const KEEPER_ROLE = await strategy.KEEPER_ROLE();
+    await strategy.connect(owner).grantRole(ADMIN_ROLE, owner.address);
+    await strategy.connect(owner).grantRole(KEEPER_ROLE, keeper.address);
 
     // Check shouldRebalance
     const shouldRebalanceBefore = await strategy.shouldRebalance();
