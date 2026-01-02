@@ -197,7 +197,9 @@ describe("HODLStrategy - Core Tests (DSS-1)", function () {
       const strategy = await HODLStrategy.deploy(assets, minWeights, maxWeights);
       await strategy.waitForDeployment();
 
+      const ADMIN_ROLE = await strategy.ADMIN_ROLE();
       const KEEPER_ROLE = await strategy.KEEPER_ROLE();
+      await strategy.connect(owner).grantRole(ADMIN_ROLE, owner.address);
       await strategy.connect(owner).grantRole(KEEPER_ROLE, keeper.address);
 
       // Should not allow rebalance immediately
@@ -217,7 +219,9 @@ describe("HODLStrategy - Core Tests (DSS-1)", function () {
       const strategy = await HODLStrategy.deploy(assets, minWeights, maxWeights);
       await strategy.waitForDeployment();
 
+      const ADMIN_ROLE = await strategy.ADMIN_ROLE();
       const KEEPER_ROLE = await strategy.KEEPER_ROLE();
+      await strategy.connect(owner).grantRole(ADMIN_ROLE, owner.address);
       await strategy.connect(owner).grantRole(KEEPER_ROLE, keeper.address);
 
       // Fast forward 24 hours + 1 second
@@ -241,8 +245,10 @@ describe("HODLStrategy - Core Tests (DSS-1)", function () {
       const strategy = await HODLStrategy.deploy(assets, minWeights, maxWeights);
       await strategy.waitForDeployment();
 
+      const ADMIN_ROLE = await strategy.ADMIN_ROLE();
       const KEEPER_ROLE = await strategy.KEEPER_ROLE();
       const GUARDIAN_ROLE = await strategy.GUARDIAN_ROLE();
+      await strategy.connect(owner).grantRole(ADMIN_ROLE, owner.address);
       await strategy.connect(owner).grantRole(KEEPER_ROLE, keeper.address);
       await strategy.connect(owner).grantRole(GUARDIAN_ROLE, owner.address);
 
