@@ -25,6 +25,9 @@ contract HODLStrategy {
     uint256 public rebalanceInterval;
     uint256 public lastRebalance;
 
+    mapping(address => bool) public keeperRoles;
+    address public owner;
+
     event AssetAdded(address indexed token, uint256 minWeight, uint256 maxWeight);
     event Rebalanced(uint256 timestamp, uint256[] oldWeights, uint256[] newWeights);
 
@@ -35,7 +38,7 @@ contract HODLStrategy {
     ) {
         require(assets_.length > 0, "No assets");
         require(
-            assets_.length == minWeights_.length && 
+            assets_.length == minWeights_.length &&
             assets_.length == maxWeights_.length,
             "Array length mismatch"
         );
@@ -56,6 +59,7 @@ contract HODLStrategy {
 
         rebalanceInterval = DEFAULT_REBALANCE_INTERVAL;
         lastRebalance = block.timestamp;
+        owner = msg.sender;
     }
 
     function getAssets() external view returns (address[] memory assets) {
@@ -105,6 +109,7 @@ contract HODLStrategy {
     }
 
     function rebalance() external {
+        require(keeperRoles[msg.sender] || msg.sender == owner, "Not authorized");
         require(this.shouldRebalance(), "Cooldown not elapsed");
 
         uint256[] memory oldWeights = new uint256[](_assets.length);
@@ -145,6 +150,20 @@ contract HODLStrategy {
     function setAssetActive(uint256 index, bool active) external {
         require(index < _assets.length, "Invalid asset index");
         _assets[index].isActive = active;
+    }
+
+    function grantKeeperRole(address keeper) external {
+        require(msg.sender == owner, "Only owner");
+        keeperRoles[keeper] = true;
+    }
+
+    function revokeKeeperRole(address keeper) external {
+        require(msg.sender == owner, "Only owner");
+        keeperRoles[keeper] = false;
+    }
+
+    function hasKeeperRole(address keeper) external view returns (bool) {
+        return keeperRoles[keeper];
     }
 }
 
