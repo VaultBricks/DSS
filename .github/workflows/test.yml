@@ -148,21 +148,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ${{ matrix.project }}/package-lock.json
       
       - name: Install dependencies
-        working-directory: ${{ matrix.project }}
         run: |
+          cd ${{ matrix.project }}
           if [ -f "package-lock.json" ]; then
             npm ci
           else
-            npm install
+            npm install --no-audit --no-fund
           fi
+        continue-on-error: false
       
       - name: Run tests with coverage
-        working-directory: ${{ matrix.project }}
         run: |
+          cd ${{ matrix.project }}
           npm run test:core
           npm run test:invariants
           npm run test:fuzzing
@@ -170,10 +169,11 @@ jobs:
           COVERAGE: true
           FUZZ_ITERS: ${{ env.FUZZ_ITERS }}
           INVARIANT_ITERS: ${{ env.INVARIANT_ITERS }}
+        continue-on-error: false
       
       - name: Generate coverage report
-        working-directory: ${{ matrix.project }}
         run: |
+          cd ${{ matrix.project }}
           if [ -f "coverage/coverage-summary.json" ]; then
             COVERAGE=$(cat coverage/coverage-summary.json | jq -r '.total.lines.pct // 0')
             echo "Coverage: ${COVERAGE}%"
