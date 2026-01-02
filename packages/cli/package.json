@@ -1,5 +1,5 @@
 {
-  "name": "@dss/cli",
+  "name": "@vaultbricks/cli",
   "version": "1.2.0-alpha.0",
   "description": "Command-line tool for DSS project initialization and certification",
   "main": "dist/index.js",
@@ -10,14 +10,20 @@
     "defi",
     "dss",
     "cli",
-    "certification"
+    "certification",
+    "ethereum",
+    "smart-contracts"
   ],
   "author": "VaultBricks Team",
   "license": "MIT",
+  "homepage": "https://github.com/VaultBricks/DSS#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/VaultBricks/DSS.git",
     "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/VaultBricks/DSS/issues"
   },
   "dependencies": {
     "commander": "^11.1.0",
@@ -40,7 +46,10 @@
     "dist/**/*",
     "templates/**/*",
     "README.md"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
 
 

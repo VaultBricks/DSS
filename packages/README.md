@@ -6,12 +6,12 @@ This monorepo contains everything you need to build, test, and certify DSS-compl
 
 ## 📦 Packages
 
-### [@dss/core](./packages/core)
+### [@vaultbricks/dss-core](./packages/core)
 
 Core Solidity contracts and interfaces for DSS-compliant strategies.
 
 ```bash
-npm install @dss/core
+npm install @vaultbricks/dss-core
 # or
 forge install VaultBricks/DSS
 ```
@@ -23,12 +23,12 @@ forge install VaultBricks/DSS
 - `DSSPausable` - Emergency pause mechanism
 - `DSSTimelock` - Governance timelock
 
-### [@dss/test](./packages/test)
+### [@vaultbricks/test](./packages/test)
 
 Testing framework and utilities for DSS compliance.
 
 ```bash
-npm install --save-dev @dss/test
+npm install --save-dev @vaultbricks/test
 ```
 
 **Includes:**
@@ -36,12 +36,12 @@ npm install --save-dev @dss/test
 - `FuzzHelpers` - Utilities for fuzzing with fast-check (DSS-7)
 - `StandardTests` - Pre-built test suites for common requirements
 
-### [@dss/cli](./packages/cli)
+### [@vaultbricks/cli](./packages/cli)
 
 Command-line tool for project initialization and certification.
 
 ```bash
-npm install -g @dss/cli
+npm install -g @vaultbricks/cli
 ```
 
 **Commands:**
@@ -54,7 +54,7 @@ npm install -g @dss/cli
 ### 1. Install the CLI
 
 ```bash
-npm install -g @dss/cli
+npm install -g @vaultbricks/cli
 ```
 
 ### 2. Create a New Project

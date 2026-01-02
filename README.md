@@ -145,12 +145,12 @@ See [Examples README](examples/README.md) for details.
 
 DSS now provides a complete SDK for building compliant strategies:
 
-### [@dss/core](./packages/core) - Solidity Contracts
+### [@vaultbricks/dss-core](./packages/core) - Solidity Contracts
 
 Base contracts and interfaces for DSS strategies:
 
 ```bash
-npm install @dss/core
+npm install @vaultbricks/dss-core
 # or
 forge install VaultBricks/DSS
 ```
@@ -200,9 +200,9 @@ npm install -g @dss/cli
 - **[Interoperability Guide](specification/part-e-interoperability.md)** - MAS + ERC4626
 
 ### SDK Documentation
-- **[@dss/core](./packages/core/README.md)** - Solidity contracts and interfaces
-- **[@dss/test](./packages/test/README.md)** - Testing framework and utilities
-- **[@dss/cli](./packages/cli/README.md)** - Command-line tool
+- **[@vaultbricks/dss-core](./packages/core/README.md)** - Solidity contracts and interfaces
+- **[@vaultbricks/test](./packages/test/README.md)** - Testing framework and utilities
+- **[@vaultbricks/cli](./packages/cli/README.md)** - Command-line tool
 - **[Packages Overview](./packages/README.md)** - Complete SDK documentation
 
 ### Specification Parts
