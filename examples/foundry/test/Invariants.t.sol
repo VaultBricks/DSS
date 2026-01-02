@@ -13,34 +13,33 @@ import "../src/DSSWeightLib.sol";
  * DSS-2: Economic Invariants
  */
 contract InvariantsTest is Test {
+    using DSSWeightLib for uint256[];
+
     HODLStrategy public strategy;
-    DSSWeightLib public weightLib;
-    
+
     address[] public assets;
     uint256[] public minWeights;
     uint256[] public maxWeights;
-    
+
     uint256 constant BPS_DENOMINATOR = 10_000;
-    
+
     function setUp() public {
-        weightLib = new DSSWeightLib();
-        
         // Setup 3-asset strategy for more complex testing
         assets = new address[](3);
         assets[0] = makeAddr("DAI");
         assets[1] = makeAddr("USDC");
         assets[2] = makeAddr("USDT");
-        
+
         minWeights = new uint256[](3);
         minWeights[0] = 1000; // 10%
         minWeights[1] = 1000; // 10%
         minWeights[2] = 1000; // 10%
-        
+
         maxWeights = new uint256[](3);
         maxWeights[0] = 5000; // 50%
         maxWeights[1] = 5000; // 50%
         maxWeights[2] = 5000; // 50%
-        
+
         strategy = new HODLStrategy(assets, minWeights, maxWeights);
     }
     

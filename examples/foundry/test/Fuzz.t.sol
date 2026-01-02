@@ -13,13 +13,13 @@ import "../src/DSSWeightLib.sol";
  * DSS-7: Stress Tests & Fuzzing
  */
 contract FuzzTest is Test {
-    DSSWeightLib public weightLib;
-    
+    using DSSWeightLib for uint256[];
+
     uint256 constant BPS_DENOMINATOR = 10_000;
     uint256 constant MAX_ASSETS = 10;
-    
+
     function setUp() public {
-        weightLib = new DSSWeightLib();
+        // No setup needed for library usage
     }
     
     /// @notice Fuzz test: Weight sum invariant holds for any valid asset count

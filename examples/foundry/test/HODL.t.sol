@@ -13,40 +13,38 @@ import "../src/DSSWeightLib.sol";
  * DSS-1: Core Strategy Tests
  */
 contract HODLTest is Test {
+    using DSSWeightLib for uint256[];
+
     HODLStrategy public strategy;
-    DSSWeightLib public weightLib;
-    
+
     address public owner;
     address public keeper;
     address public user;
-    
+
     address[] public assets;
     uint256[] public minWeights;
     uint256[] public maxWeights;
-    
+
     uint256 constant BPS_DENOMINATOR = 10_000;
-    
+
     function setUp() public {
         owner = address(this);
         keeper = makeAddr("keeper");
         user = makeAddr("user");
-        
-        // Deploy library
-        weightLib = new DSSWeightLib();
-        
+
         // Setup 2-asset strategy
         assets = new address[](2);
         assets[0] = makeAddr("DAI");
         assets[1] = makeAddr("USDC");
-        
+
         minWeights = new uint256[](2);
         minWeights[0] = 2000; // 20%
         minWeights[1] = 3000; // 30%
-        
+
         maxWeights = new uint256[](2);
         maxWeights[0] = 6000; // 60%
         maxWeights[1] = 7000; // 70%
-        
+
         strategy = new HODLStrategy(assets, minWeights, maxWeights);
     }
     
