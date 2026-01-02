@@ -1,0 +1,119 @@
+version: 2
+updates:
+  # npm dependencies for root and examples
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for critical dependencies
+      - dependency-name: "@nomicfoundation/hardhat-toolbox"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "hardhat"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "ethers"
+        update-types: ["version-update:semver-major"]
+
+  # npm dependencies for packages/core
+  - package-ecosystem: "npm"
+    directory: "/packages/core"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "component: sdk"
+      - "automated"
+
+  # npm dependencies for packages/test
+  - package-ecosystem: "npm"
+    directory: "/packages/test"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "component: sdk"
+      - "automated"
+
+  # npm dependencies for packages/cli
+  - package-ecosystem: "npm"
+    directory: "/packages/cli"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "component: sdk"
+      - "automated"
+
+  # npm dependencies for examples/sdk/basic-strategy
+  - package-ecosystem: "npm"
+    directory: "/examples/sdk/basic-strategy"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "component: examples"
+      - "automated"
+
+  # npm dependencies for examples/sdk/rebalancing-strategy
+  - package-ecosystem: "npm"
+    directory: "/examples/sdk/rebalancing-strategy"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "component: examples"
+      - "automated"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "Sun-of-Siberia"
+    labels:
+      - "dependencies"
+      - "component: automation"
+      - "automated"
+    commit-message:
+      prefix: "ci"
+      include: "scope"

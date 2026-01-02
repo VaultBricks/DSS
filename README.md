@@ -10,13 +10,17 @@
   <img src="https://img.shields.io/badge/SDK-Available-success?style=flat-square" alt="SDK"/>
   <img src="https://img.shields.io/badge/MAS-Compatible-brightgreen?style=flat-square" alt="MAS Compatible"/>
   <img src="https://img.shields.io/badge/ERC4626-Compliant-blueviolet?style=flat-square" alt="ERC4626"/>
+  <br/>
+  <img src="https://github.com/VaultBricks/DSS/workflows/Test%20Suite/badge.svg" alt="Tests"/>
+  <img src="https://github.com/VaultBricks/DSS/workflows/Security%20Scan/badge.svg" alt="Security"/>
+  <img src="https://github.com/VaultBricks/DSS/workflows/Documentation%20Checks/badge.svg" alt="Docs"/>
 </p>
 
 ---
 
 ## Overview
 
-The **DeFi Strategy Standard (DSS)** is the industry standard for validating DeFi trading strategies. DSS introduces a streamlined 11-point architecture focused on code quality, economic soundness, and interoperability.
+The **DeFi Strategy Standard (DSS)** is the industry standard for validating DeFi trading strategies. DSS introduces a streamlined 14-point architecture focused on code quality, economic soundness, interoperability, and developer experience.
 
 **NEW in v1.2.0:** DSS SDK & Tooling - Build DSS-compliant strategies with ready-to-use contracts, testing utilities, and CLI tools!
 
@@ -39,15 +43,15 @@ DSS combines:
 | No operational procedures | Incident response undefined |
 
 **The Solution:** DSS provides a complete framework that standardizes:
-1. **What to test** — Specific categories (DSS-1 through DSS-11)
+1. **What to test** — Specific categories (DSS-1 through DSS-14)
 2. **How much to test** — Quantitative coverage metrics per certification level
 3. **How to validate** — Economic and market condition testing
 4. **How to operate** — Deployment and monitoring standards
 5. **How to govern** — Upgrade and documentation requirements
 
-## Framework Structure (DSS 1-11)
+## Framework Structure (DSS 1-14)
 
-DSS organizes requirements into **11 Functional Categories**:
+DSS organizes requirements into **14 Functional Categories**:
 
 ### Core Engineering
 - **DSS-1: Core Strategy Tests** - Weight logic, bounds, and basic correctness.
@@ -67,6 +71,11 @@ DSS organizes requirements into **11 Functional Categories**:
 
 ### Interoperability
 - **DSS-11: Interoperability** - ERC-4626 and MAS Protocol compliance.
+
+### Tooling & Automation
+- **DSS-12: Developer Experience & Documentation** - API docs, code templates, and tutorials.
+- **DSS-13: CI/CD & Automation** - Automated testing, security scanning, and deployment workflows.
+- **DSS-14: Production Monitoring & Observability** - Event monitoring, health checks, and incident response.
 
 ## Certification Levels
 
@@ -120,6 +129,18 @@ npm test
 npm run coverage
 ```
 
+## 📚 Production Examples
+
+DSS includes production-tested strategy examples:
+
+- **[HODLStrategy](examples/sdk/basic-strategy/)** - Equal-weight allocation strategy
+- **[Fixed6040Strategy](examples/sdk/rebalancing-strategy/)** - Classic 60/40 portfolio
+- **[Foundry Examples](examples/foundry/)** - Foundry/Forge test implementations
+
+All examples include comprehensive test coverage and demonstrate DSS compliance.
+
+See [Examples README](examples/README.md) for details.
+
 ## 📦 DSS SDK Packages
 
 DSS now provides a complete SDK for building compliant strategies:
@@ -139,6 +160,7 @@ forge install VaultBricks/DSS
 - `DSSAccessControl` - Role-based access control (DSS-9)
 - `DSSPausable` - Emergency pause (DSS-4)
 - `DSSTimelock` - Governance timelock (DSS-10)
+- `DSSWeightLib` - Battle-tested weight normalization library
 
 ### [@dss/test](./packages/test) - Testing Framework
 
@@ -150,7 +172,8 @@ npm install --save-dev @dss/test
 
 **Includes:**
 - `InvariantRunner` - Property-based testing (DSS-2)
-- `FuzzHelpers` - Fuzzing utilities (DSS-7)
+- `InvariantHelpers` - Extended invariant testing utilities (value conservation, share price monotonicity, weight sum checks)
+- `FuzzHelpers` - Extended fuzzing utilities with arbitraries (DSS-7)
 - `StandardTests` - Pre-built test suites
 
 ### [@dss/cli](./packages/cli) - Command Line Tool

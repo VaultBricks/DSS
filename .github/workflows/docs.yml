@@ -16,19 +16,19 @@ jobs:
         run: |
           echo "Checking repository structure..."
           if [ ! -f "README.md" ]; then
-            echo "::error::README.md is missing"
+            echo "::error file=README.md,title=Required file missing::README.md is missing. This file is required for the repository."
             exit 1
           fi
           if [ ! -f "LICENSE" ]; then
-            echo "::error::LICENSE is missing"
+            echo "::error file=LICENSE,title=Required file missing::LICENSE is missing. This file is required for the repository."
             exit 1
           fi
           if [ ! -d "specification" ]; then
-            echo "::error::specification/ directory is missing"
+            echo "::error file=specification/,title=Required directory missing::specification/ directory is missing. This directory is required for the repository."
             exit 1
           fi
           if [ ! -d "certification" ]; then
-            echo "::error::certification/ directory is missing"
+            echo "::error file=certification/,title=Required directory missing::certification/ directory is missing. This directory is required for the repository."
             exit 1
           fi
           echo "✅ All required files and directories exist"
@@ -45,7 +45,7 @@ jobs:
           )
           for file in "${required_files[@]}"; do
             if [ ! -f "$file" ]; then
-              echo "::error::$file is missing"
+              echo "::error file=$file,title=Specification file missing::$file is missing. This file is required for DSS specification."
               exit 1
             fi
           done
@@ -61,7 +61,7 @@ jobs:
           )
           for file in "${required_files[@]}"; do
             if [ ! -f "$file" ]; then
-              echo "::error::$file is missing"
+              echo "::error file=$file,title=Specification file missing::$file is missing. This file is required for DSS specification."
               exit 1
             fi
           done

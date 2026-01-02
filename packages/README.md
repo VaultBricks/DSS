@@ -92,6 +92,7 @@ Full documentation is available in the [specification](./specification) director
 - [Part C: Operational Security](./specification/part-c-operational.md) - DSS-9
 - [Part D: Governance](./specification/part-d-governance.md) - DSS-10
 - [Part E: Interoperability](./specification/part-e-interoperability.md) - DSS-11
+- [Part F: Tooling & Automation](./specification/part-f-tooling.md) - DSS-12, DSS-13, DSS-14
 
 ## 🎯 Features
 

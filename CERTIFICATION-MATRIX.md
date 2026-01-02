@@ -71,6 +71,18 @@ The following matrix summarizes all DSS requirements by certification level:
 | | MAS Protocol Compliance | ✅ | ✅ | ✅ |
 | | ERC-4626 Interface Tests | Basic | Full | Full + Edge Cases |
 | | MAS Integration Tests | Basic | Full | Full + Stress |
+| **DSS-12** | Developer Experience & Documentation | Basic | Full | Full + Auto-gen |
+| | API Documentation (NatSpec) | Basic | Full | Full + Auto-generated |
+| | Code Examples & Templates | ≥1 basic | ≥2 (basic + advanced) | ≥3 (+ integration) |
+| | Developer Tutorials | Quick Start | + Troubleshooting | + Video walkthrough |
+| **DSS-13** | CI/CD & Automation | Basic | Full | Full + Advanced |
+| | Automated Testing (Unit, Integration) | Basic tests | Full suite + coverage | All + nightly + fuzz |
+| | Security Scanning | npm audit | + Slither | + Mythril + Aderyn |
+| | Pre-commit Hooks | Optional | Required | Required |
+| **DSS-14** | Production Monitoring & Observability | Basic | Automated | 24/7 |
+| | Event Monitoring | Basic logs | Event monitoring | Full observability |
+| | Health Checks | None required | Balance checks | All checks + automated |
+| | Incident Response | N/A | Runbook required | Full automation |
 
 ## Legend
 
@@ -82,19 +94,19 @@ The following matrix summarizes all DSS requirements by certification level:
 
 ### Bronze Certification
 - Focus: Early-stage protocols, testnet deployments, MVPs
-- Key Requirements: DSS-1 through DSS-6, basic DSS-9, DSS-11
+- Key Requirements: DSS-1 through DSS-6, basic DSS-9, DSS-11, basic DSS-12, basic DSS-13
 - Coverage: >80% statement, >60% branch
 - Testing: Basic unit tests, access control, pause/emergency tests
 
 ### Silver Certification
 - Focus: Mainnet deployments, protocols with <$10M TVL
-- Key Requirements: All Bronze + DSS-7 (500+ fuzzing), DSS-8, full DSS-9, DSS-10 (24h timelock), external audit
+- Key Requirements: All Bronze + DSS-7 (500+ fuzzing), DSS-8, full DSS-9, DSS-10 (24h timelock), full DSS-12, full DSS-13, DSS-14 (recommended), external audit
 - Coverage: >95% statement, >80% branch
 - Testing: Fuzzing (500+ iterations), invariant tests, integration tests, gas benchmarks
 
 ### Gold Certification
 - Focus: Critical infrastructure, protocols with >$10M TVL
-- Key Requirements: All Silver + DSS-7 (1000+ fuzzing, mutation testing), DSS-8 (L2 optimized), DSS-10 (48h timelock, bug bounty), formal verification, multiple audits
+- Key Requirements: All Silver + DSS-7 (1000+ fuzzing, mutation testing), DSS-8 (L2 optimized), DSS-10 (48h timelock, bug bounty), full DSS-12 (auto-generated docs), full DSS-13 (advanced scanning), full DSS-14 (24/7 monitoring), formal verification, multiple audits
 - Coverage: >98% statement, >90% branch
 - Testing: Mainnet fork tests, mutation testing (>80% score), formal verification, independent audit
 

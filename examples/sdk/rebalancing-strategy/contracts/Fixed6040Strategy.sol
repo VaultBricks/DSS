@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "../../../packages/core/contracts/DSSAccessControl.sol";
-import "../../../packages/core/contracts/DSSPausable.sol";
-import "../../../packages/core/interfaces/IDSSStrategy.sol";
-import "../../../packages/core/contracts/libraries/DSSWeightLib.sol";
+import "./dss-core/DSSAccessControl.sol";
+import "./dss-core/DSSPausable.sol";
+import "./dss-core/IDSSStrategy.sol";
+import "./dss-core/libraries/DSSWeightLib.sol";
 
 /**
  * @title Fixed6040Strategy
@@ -56,9 +56,8 @@ contract Fixed6040Strategy is IDSSStrategy, DSSAccessControl, DSSPausable {
     uint256 public override rebalanceInterval;
     
     // ============ Events ============
-    
+
     event AssetAdded(address indexed token, uint256 minWeight, uint256 maxWeight);
-    event AssetUpdated(address indexed token, bool isActive);
     event RebalanceIntervalUpdated(uint256 newInterval);
     
     // ============ Constructor ============
