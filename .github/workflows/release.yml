@@ -89,6 +89,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
           scope: '@dss'
+          token: ${{ secrets.NPM_TOKEN }}
       
       - name: Configure npm
         run: |
