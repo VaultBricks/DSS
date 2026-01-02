@@ -89,7 +89,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
           scope: '@vaultbricks'
-          token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Configure NPM authentication
+        run: |
+          echo "@vaultbricks:registry=${{ env.NPM_REGISTRY }}" > ~/.npmrc
+          echo "${{ env.NPM_REGISTRY }}/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+          chmod 600 ~/.npmrc
 
       - name: Install dependencies
         run: npm install --ignore-scripts
