@@ -91,7 +91,7 @@ DSS organizes requirements into **14 Functional Categories**:
 
 ```bash
 # Install the DSS CLI globally
-npm install -g @dss/cli
+npm install -g @vaultbricks/dss-cli
 
 # Create a new DSS-compliant strategy
 dss init my-strategy
@@ -145,6 +145,8 @@ See [Examples README](examples/README.md) for details.
 
 DSS now provides a complete SDK for building compliant strategies:
 
+> **📚 New!** Check out the [SDK Usage Guide](./docs/SDK-USAGE-GUIDE.md) for comprehensive examples and tutorials.
+
 ### [@vaultbricks/dss-core](./packages/core) - Solidity Contracts
 
 Base contracts and interfaces for DSS strategies:
@@ -162,12 +164,12 @@ forge install VaultBricks/DSS
 - `DSSTimelock` - Governance timelock (DSS-10)
 - `DSSWeightLib` - Battle-tested weight normalization library
 
-### [@dss/test](./packages/test) - Testing Framework
+### [@vaultbricks/dss-test](./packages/test) - Testing Framework
 
 Ready-to-use testing utilities:
 
 ```bash
-npm install --save-dev @dss/test
+npm install --save-dev @vaultbricks/dss-test
 ```
 
 **Includes:**
@@ -176,12 +178,12 @@ npm install --save-dev @dss/test
 - `FuzzHelpers` - Extended fuzzing utilities with arbitraries (DSS-7)
 - `StandardTests` - Pre-built test suites
 
-### [@dss/cli](./packages/cli) - Command Line Tool
+### [@vaultbricks/dss-cli](./packages/cli) - Command Line Tool
 
 Project initialization and certification:
 
 ```bash
-npm install -g @dss/cli
+npm install -g @vaultbricks/dss-cli
 ```
 
 **Commands:**
@@ -193,16 +195,21 @@ npm install -g @dss/cli
 
 ### Getting Started
 - **[Getting Started Guide](GETTING-STARTED.md)** - Step-by-step tutorial for building your first DSS strategy
+- **[SDK Tutorial](docs/SDK-TUTORIAL.md)** - Complete tutorial with code examples ⭐ NEW
+- **[SDK Usage Guide](docs/SDK-USAGE-GUIDE.md)** - Comprehensive guide to all SDK packages ⭐ NEW
+- **[SDK Quick Reference](docs/SDK-QUICK-REFERENCE.md)** - Quick reference for common patterns ⭐ NEW
 
 ### Core Documentation
-- **[Certification Matrix](CERTIFICATION-MATRIX.md)** - Full requirements table
-- **[Certification Process](CERTIFICATION-PROCESS.md)** - How to get certified
+- **[Certification Matrix](certification/CERTIFICATION-MATRIX.md)** - Full requirements table
+- **[Certification Process](certification/CERTIFICATION-PROCESS.md)** - How to get certified
 - **[Interoperability Guide](specification/part-e-interoperability.md)** - MAS + ERC4626
 
 ### SDK Documentation
+- **[SDK Usage Guide](./docs/SDK-USAGE-GUIDE.md)** - Complete guide with examples
+- **[SDK Quick Reference](./docs/SDK-QUICK-REFERENCE.md)** - Quick reference guide
 - **[@vaultbricks/dss-core](./packages/core/README.md)** - Solidity contracts and interfaces
-- **[@vaultbricks/test](./packages/test/README.md)** - Testing framework and utilities
-- **[@vaultbricks/cli](./packages/cli/README.md)** - Command-line tool
+- **[@vaultbricks/dss-test](./packages/test/README.md)** - Testing framework and utilities
+- **[@vaultbricks/dss-cli](./packages/cli/README.md)** - Command-line tool
 - **[Packages Overview](./packages/README.md)** - Complete SDK documentation
 
 ### Specification Parts
@@ -222,12 +229,12 @@ DSS complements the VaultBricks Multi-Asset Standard (MAS):
 | [MAS](https://github.com/vaultbricks/mas) | Architecture | Multi-asset vault structure  |
 | DSS      | Validation   | Strategy testing & security  |
 
-See [Integration Guide](INTEGRATION-WITH-MAS.md) for details.
+See [Integration Guide](docs/integration/INTEGRATION-WITH-MAS.md) for details.
 
 ## Contributing
 
 DSS is an open-source standard that welcomes contributions from the community.
-See [Contributing Guide](CONTRIBUTING.md) for details.
+See [Contributing Guide](docs/development/CONTRIBUTING.md) for details.
 
 ## License
 

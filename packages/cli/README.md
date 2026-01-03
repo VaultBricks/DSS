@@ -1,10 +1,10 @@
-# @dss/cli
+# @vaultbricks/dss-cli
 
 Command-line interface for DSS project initialization and certification.
 
 ## Overview
 
-`@dss/cli` provides tools to:
+`@vaultbricks/dss-cli` provides tools to:
 
 - **Initialize** new DSS-compliant strategy projects
 - **Check** project compliance against DSS requirements
@@ -15,13 +15,13 @@ Command-line interface for DSS project initialization and certification.
 ### Global Installation
 
 ```bash
-npm install -g @dss/cli
+npm install -g @vaultbricks/dss-cli
 ```
 
 ### Usage Without Installation
 
 ```bash
-npx @dss/cli init my-strategy
+npx @vaultbricks/dss-cli init my-strategy
 ```
 
 ## Commands

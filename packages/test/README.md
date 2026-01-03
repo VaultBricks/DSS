@@ -1,10 +1,10 @@
-# @dss/test
+# @vaultbricks/dss-test
 
 Testing framework and utilities for DSS-compliant strategies.
 
 ## Overview
 
-`@dss/test` provides ready-to-use testing utilities for validating DSS compliance:
+`@vaultbricks/dss-test` provides ready-to-use testing utilities for validating DSS compliance:
 
 - **InvariantRunner**: Property-based testing for economic invariants (DSS-2)
 - **FuzzHelpers**: Utilities for fuzzing with fast-check (DSS-7)
@@ -13,7 +13,7 @@ Testing framework and utilities for DSS-compliant strategies.
 ## Installation
 
 ```bash
-npm install --save-dev @dss/test
+npm install --save-dev @vaultbricks/dss-test
 ```
 
 ## Usage
@@ -21,10 +21,10 @@ npm install --save-dev @dss/test
 ### Invariant Testing (DSS-2)
 
 ```typescript
-import { createInvariantRunner } from '@dss/test';
+import { InvariantRunner } from '@vaultbricks/dss-test';
 
 describe("Economic Invariants", () => {
-  const runner = createInvariantRunner({ iterations: 200, seed: 42 });
+  const runner = new InvariantRunner({ iterations: 200, seed: 42 });
 
   it("maintains weight sum = 10000", async () => {
     await runner.run({
@@ -52,14 +52,14 @@ describe("Economic Invariants", () => {
 ### Fuzzing (DSS-7)
 
 ```typescript
-import { arbitraryWeights, runFuzzTest, getDefaultFuzzConfig } from '@dss/test';
+import { FuzzHelpers, runFuzzTest, getDefaultFuzzConfig } from '@vaultbricks/dss-test';
 import fc from 'fast-check';
 
 describe("Fuzzing Tests", () => {
   it("weight sum always equals 10000", async () => {
     await runFuzzTest(
       fc.asyncProperty(
-        arbitraryWeights(2, 10),
+        FuzzHelpers.arbitraryWeights(2, 10),
         async (weights) => {
           await strategy.setWeights(weights);
           const sum = weights.reduce((a, b) => a + b, 0);
@@ -75,7 +75,7 @@ describe("Fuzzing Tests", () => {
 ### Standard Test Suites
 
 ```typescript
-import { runStandardDSSTests } from '@dss/test';
+import { StandardTests } from '@vaultbricks/dss-test';
 
 describe("MyStrategy", () => {
   let strategy, owner, admin, keeper, guardian, user;
@@ -85,7 +85,7 @@ describe("MyStrategy", () => {
   });
 
   // Run all standard DSS tests
-  await runStandardDSSTests(strategy, {
+  await StandardTests.runStandardDSSTests(strategy, {
     owner,
     admin,
     keeper,

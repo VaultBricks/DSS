@@ -115,9 +115,9 @@ async function createBasicStructure(projectPath: string, config: any) {
   const contractContent = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@dss/core/interfaces/IDSSStrategy.sol";
-import "@dss/core/contracts/DSSAccessControl.sol";
-import "@dss/core/contracts/DSSPausable.sol";
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/contracts/DSSPausable.sol";
 
 /**
  * @title ${config.name}
@@ -171,7 +171,7 @@ DSS-compliant ${config.template} strategy.
 
 ## Overview
 
-This project was initialized with \`@dss/cli\` and follows the DeFi Strategy Standard (DSS).
+This project was initialized with \`@vaultbricks/dss-cli\` and follows the DeFi Strategy Standard (DSS).
 
 ## Getting Started
 
@@ -234,7 +234,7 @@ async function createPackageJson(projectPath: string, config: any) {
     },
     devDependencies: {
       '@vaultbricks/dss-core': '^1.2.0-alpha.0',
-      '@vaultbricks/test': '^1.2.0-alpha.0',
+      '@vaultbricks/dss-test': '^1.2.0-alpha.0',
       hardhat: '^2.19.0',
       '@nomicfoundation/hardhat-toolbox': '^4.0.0'
     }

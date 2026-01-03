@@ -96,7 +96,7 @@ templates/
 
 ## Step 1: Initialize Project
 \```bash
-npm install -g @dss/cli
+npm install -g @vaultbricks/dss-cli
 dss init my-first-strategy
 cd my-first-strategy
 npm install
@@ -597,7 +597,7 @@ event EmergencyAction(
 |----------|------|---------|
 | **DSS-12** | Solidity Docgen | Auto-generate API docs |
 | | Docusaurus | Interactive documentation site |
-| | @dss/cli | Project scaffolding |
+| | @vaultbricks/dss-cli | Project scaffolding |
 | **DSS-13** | GitHub Actions | CI/CD platform |
 | | Slither | Static analysis |
 | | Codecov | Coverage reporting |

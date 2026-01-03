@@ -112,8 +112,13 @@ jobs:
       
       - name: Update version
         run: |
-          npm version ${{ needs.prepare-release.outputs.version }} --no-git-tag-version --allow-same-version
-          node -e "console.log(require('./package.json').version)"
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.version = '${{ needs.prepare-release.outputs.version }}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('Updated version to:', pkg.version);
+          "
       
       - name: Build package
         run: |
@@ -224,6 +229,6 @@ jobs:
           echo "✅ GitHub release created" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Published packages:**" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/core" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/test" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/cli" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-core" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-test" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-cli" >> $GITHUB_STEP_SUMMARY

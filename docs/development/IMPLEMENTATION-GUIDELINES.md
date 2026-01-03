@@ -64,24 +64,24 @@ The commands used throughout this document (for example `npm run test:fuzz` and 
 
 ## Code Examples
 
-Complete code examples are available in the [examples/](examples/) directory:
+Complete code examples are available in the [examples/](../../examples/) directory:
 
-- [Fuzzing Test Example](examples/fuzzing-test-example.ts) - Complete fuzzing test implementation
-- [Invariant Test Example](examples/invariant-test-example.ts) - Complete invariant test implementation
-- [Package.json Example](examples/package.json.example) - Full package.json configuration
+- [Fuzzing Test Example](../../examples/fuzzing-test-example.ts) - Complete fuzzing test implementation
+- [Invariant Test Example](../../examples/invariant-test-example.ts) - Complete invariant test implementation
+- [Package.json Example](../../examples/package.json.example) - Full package.json configuration
 
 ## CI/CD Pipeline Configuration
 
-Example CI/CD configurations are available in the [examples/](examples/) directory:
+Example CI/CD configurations are available in the [examples/](../../examples/) directory:
 
-- [GitHub Actions DSS Compliance](examples/github-actions-dss-compliance.yml) - Complete CI/CD workflow
-- [Slither Configuration](examples/slither.config.json) - Static analysis configuration
+- [GitHub Actions DSS Compliance](../../examples/github-actions-dss-compliance.yml) - Complete CI/CD workflow
+- [Slither Configuration](../../examples/slither.config.json) - Static analysis configuration
 
 ## Framework-Specific Guides
 
 ### Hardhat
 
-The reference implementation uses Hardhat. See the [examples/](examples/) directory for complete Hardhat configurations.
+The reference implementation uses Hardhat. See the [examples/](../../examples/) directory for complete Hardhat configurations.
 
 ### Foundry
 
@@ -130,7 +130,7 @@ export default config;
 
 ### Slither Configuration
 
-See [examples/slither.config.json](examples/slither.config.json) for a complete Slither configuration.
+See [examples/slither.config.json](../../examples/slither.config.json) for a complete Slither configuration.
 
 ### Running Slither
 
@@ -155,7 +155,7 @@ pip install gambit-sol
 gambit mutate contracts/facets/HODLFacet.sol --output mutants/
 ```
 
-See the [examples/](examples/) directory for a complete mutation testing script.
+See the [examples/](../../examples/) directory for a complete mutation testing script.
 
 ## Formal Verification
 
@@ -165,12 +165,8 @@ For Gold certification, formal verification is required for critical paths. See 
 
 ## Related Documentation
 
-- [Certification Matrix](CERTIFICATION-MATRIX.md) - Complete requirements table
-- [Specification Part A](specification/part-a-code-quality.md) - Code Quality requirements (DSS-1 to DSS-8)
-- [Specification Part E](specification/part-e-interoperability.md) - Interoperability (DSS-11)
-- [Certification Process](CERTIFICATION-PROCESS.md) - How to get certified
-- [Examples](examples/) - Complete code examples
-
-
-
-
+- [Certification Matrix](../../certification/CERTIFICATION-MATRIX.md) - Complete requirements table
+- [Specification Part A](../../specification/part-a-code-quality.md) - Code Quality requirements (DSS-1 to DSS-8)
+- [Specification Part E](../../specification/part-e-interoperability.md) - Interoperability (DSS-11)
+- [Certification Process](../../certification/CERTIFICATION-PROCESS.md) - How to get certified
+- [Examples](../../examples/) - Complete code examples

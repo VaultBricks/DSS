@@ -341,7 +341,7 @@ describe("Interoperability Stress Tests", () => {
 
 - [ERC-4626 Specification](https://eips.ethereum.org/EIPS/eip-4626)
 - [MAS Protocol Documentation](https://github.com/vaultbricks/mas)
-- [INTEGRATION-WITH-MAS.md](../INTEGRATION-WITH-MAS.md)
+- [INTEGRATION-WITH-MAS.md](../docs/integration/INTEGRATION-WITH-MAS.md)
 
 ---
 

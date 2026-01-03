@@ -24,6 +24,9 @@ NEXT_ISSUE_*.md
 ANALYSIS_*.md
 DETAILED_*.md
 ISSUE_COMPARISON.md
+*INSTRUCTIONS*.md
+*STEPS*.md
+*EXECUTE*.md
 
 # Build artifacts (if any)
 dist/

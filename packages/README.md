@@ -6,7 +6,7 @@ This monorepo contains everything you need to build, test, and certify DSS-compl
 
 ## 📦 Packages
 
-### [@vaultbricks/dss-core](./packages/core)
+### [@vaultbricks/dss-core](./core)
 
 Core Solidity contracts and interfaces for DSS-compliant strategies.
 
@@ -23,12 +23,12 @@ forge install VaultBricks/DSS
 - `DSSPausable` - Emergency pause mechanism
 - `DSSTimelock` - Governance timelock
 
-### [@vaultbricks/test](./packages/test)
+### [@vaultbricks/dss-test](./test)
 
 Testing framework and utilities for DSS compliance.
 
 ```bash
-npm install --save-dev @vaultbricks/test
+npm install --save-dev @vaultbricks/dss-test
 ```
 
 **Includes:**
@@ -36,12 +36,12 @@ npm install --save-dev @vaultbricks/test
 - `FuzzHelpers` - Utilities for fuzzing with fast-check (DSS-7)
 - `StandardTests` - Pre-built test suites for common requirements
 
-### [@vaultbricks/cli](./packages/cli)
+### [@vaultbricks/dss-cli](./cli)
 
 Command-line tool for project initialization and certification.
 
 ```bash
-npm install -g @vaultbricks/cli
+npm install -g @vaultbricks/dss-cli
 ```
 
 **Commands:**
@@ -54,7 +54,7 @@ npm install -g @vaultbricks/cli
 ### 1. Install the CLI
 
 ```bash
-npm install -g @vaultbricks/cli
+npm install -g @vaultbricks/dss-cli
 ```
 
 ### 2. Create a New Project
@@ -147,9 +147,9 @@ Full documentation is available in the [specification](./specification) director
 
 ```typescript
 // contracts/MyStrategy.sol
-import "@dss/core/interfaces/IDSSStrategy.sol";
-import "@dss/core/contracts/DSSAccessControl.sol";
-import "@dss/core/contracts/DSSPausable.sol";
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/contracts/DSSPausable.sol";
 
 contract MyStrategy is IDSSStrategy, DSSAccessControl, DSSPausable {
     // Your strategy implementation
@@ -160,7 +160,7 @@ contract MyStrategy is IDSSStrategy, DSSAccessControl, DSSPausable {
 
 ```typescript
 // test/invariants.test.ts
-import { createInvariantRunner } from '@dss/test';
+import { InvariantRunner } from '@vaultbricks/dss-test';
 
 describe("Invariants", () => {
   const runner = createInvariantRunner();
@@ -225,7 +225,7 @@ npm install && npm run build
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please see [CONTRIBUTING.md](../docs/development/CONTRIBUTING.md) for guidelines.
 
 ## 📜 License
 
