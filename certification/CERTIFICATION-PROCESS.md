@@ -40,9 +40,13 @@ Create a certification report using the following template:
 # DSS Certification Report
 
 ## Protocol: [Your Protocol Name]
+
 ## Version: [Version Number]
+
 ## Date: [Certification Date]
+
 ## Standards Compliance:
+
 - VaultBricks MAS: [Version/Level]
 - VaultBricks DSS: [Version/Level]
 
@@ -50,12 +54,12 @@ Create a certification report using the following template:
 
 ### Evidence Summary
 
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| DSS-1 Line Coverage | ✅ 96% | coverage/lcov-report/index.html |
+| Requirement           | Status | Evidence                        |
+| --------------------- | ------ | ------------------------------- |
+| DSS-1 Line Coverage   | ✅ 96% | coverage/lcov-report/index.html |
 | DSS-1 Branch Coverage | ✅ 87% | coverage/lcov-report/index.html |
-| DSS-7 Fuzz Iterations | ✅ 600 | test-report.json |
-| ... | ... | ... |
+| DSS-7 Fuzz Iterations | ✅ 600 | test-report.json                |
+| ...                   | ...    | ...                             |
 
 ### Test Results
 
@@ -82,23 +86,46 @@ Once you've completed the certification document:
 
 ## Third-Party Certification
 
-For protocols seeking independent verification, DSS recommends engaging:
+For protocols seeking independent verification, DSS recommends engaging professional auditors.
 
-### Security Auditors
+### Resources for Auditors
+
+DSS provides comprehensive resources to streamline the audit process:
+
+- **[Auditor Checklist](../auditor/AUDITOR-CHECKLIST.md)** - Complete checklist of all DSS requirements organized by certification level. Use this as your audit template.
+- **[Auditor Guide](../auditor/AUDITOR-GUIDE.md)** - Comprehensive guide explaining DSS for auditors unfamiliar with the standard, including:
+  - DSS overview and certification levels
+  - Audit workflow and timeline
+  - Key areas of focus
+  - Common pitfalls
+  - Tools and reporting guidelines
+
+These resources help auditors:
+
+- ✅ Reduce audit preparation time
+- ✅ Ensure complete coverage of all requirements
+- ✅ Standardize audit reports
+- ✅ Provide clear certification recommendations
+
+### Recommended Security Auditors
 
 - **Trail of Bits** — Comprehensive security audits
 - **OpenZeppelin** — Smart contract security expertise
 - **Consensys Diligence** — DeFi-focused audits
+- **Halborn** — Blockchain security specialists
+- **Quantstamp** — Smart contract auditing
 
-### Formal Verification
+### Formal Verification Providers
 
-- **Certora** — SMT-based formal verification
+- **Certora** — SMT-based formal verification (required for Gold)
 - **Runtime Verification** — K Framework verification
+- **Veridise** — Formal verification and security audits
 
 ### Economic Auditors
 
 - **Gauntlet** — Economic modeling and simulation
 - **Chaos Labs** — Risk analysis and stress testing
+- **Block Analitica** — DeFi risk assessment
 
 ## Certification Levels
 
@@ -109,6 +136,7 @@ For protocols seeking independent verification, DSS recommends engaging:
 **Timeline:** 2-4 weeks
 
 **Key Requirements:**
+
 - DSS-1 through DSS-6 at Bronze thresholds
 - DSS-11 Basic Interoperability
 - Statement Coverage: ≥80%
@@ -121,6 +149,7 @@ For protocols seeking independent verification, DSS recommends engaging:
 **Timeline:** 4-8 weeks (includes audit)
 
 **Key Requirements:**
+
 - All Bronze requirements
 - DSS-7 (Stress Tests & Fuzzing)
 - DSS-8 (Gas Efficiency)
@@ -136,6 +165,7 @@ For protocols seeking independent verification, DSS recommends engaging:
 **Timeline:** 3-6 months (includes formal verification)
 
 **Key Requirements:**
+
 - All Silver requirements
 - DSS-10 (Governance & Upgrades)
 - Formal Verification of critical paths
