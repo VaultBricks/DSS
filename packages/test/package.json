@@ -1,6 +1,6 @@
 {
   "name": "@vaultbricks/dss-test",
-  "version": "1.2.0-alpha.2",
+  "version": "1.2.0-alpha.3",
   "description": "Testing framework and utilities for DSS-compliant strategies",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -43,4 +43,3 @@
     "access": "public"
   }
 }
-

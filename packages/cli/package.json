@@ -1,6 +1,6 @@
 {
   "name": "@vaultbricks/dss-cli",
-  "version": "1.2.0-alpha.2",
+  "version": "1.2.0-alpha.3",
   "description": "Command-line tool for DSS project initialization and certification",
   "main": "dist/index.js",
   "bin": {
@@ -51,6 +51,3 @@
     "access": "public"
   }
 }
-
-
-
