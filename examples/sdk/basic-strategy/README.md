@@ -34,7 +34,6 @@ This example demonstrates a complete DSS-compliant strategy implementation with 
 - **`HODLStrategy.sol`** - Main strategy contract
   - Inherits: `IDSSStrategy`, `DSSAccessControl`, `DSSPausable`
   - Uses: `DSSWeightLib` for weight normalization
-  
 - **`DSSWeightLib.sol`** - Weight calculation library
   - Battle-tested in production
   - Handles min/max bounds and normalization
@@ -55,11 +54,11 @@ This example includes **comprehensive test coverage** following DSS requirements
 
 ### Test Suites
 
-| File | Coverage | DSS Category |
-|------|----------|--------------|
-| `core.test.ts` | Deployment, weight calculation, access control | DSS-1, DSS-3, DSS-4 |
-| `invariants.test.ts` | Weight sum, bounds, monotonicity | DSS-2 |
-| `fuzzing.test.ts` | Property-based testing (200+ iterations) | DSS-7 |
+| File                 | Coverage                                       | DSS Category        |
+| -------------------- | ---------------------------------------------- | ------------------- |
+| `core.test.ts`       | Deployment, weight calculation, access control | DSS-1, DSS-3, DSS-4 |
+| `invariants.test.ts` | Weight sum, bounds, monotonicity               | DSS-2               |
+| `fuzzing.test.ts`    | Property-based testing (200+ iterations)       | DSS-7               |
 
 ### Running Tests
 
@@ -85,28 +84,23 @@ This example demonstrates compliance with:
   - Deployment validation
   - Weight calculation
   - Asset management
-  
 - ✅ **DSS-2**: Economic Invariants
   - Weight sum = 10000 (100%)
   - Non-negative weights
   - Respect min/max bounds
   - Value conservation
-  
 - ✅ **DSS-3**: Trigger & Timing Tests
   - Rebalance interval enforcement
   - Cooldown mechanism
   - Timestamp monotonicity
-  
 - ✅ **DSS-4**: Risk Management Tests
   - Emergency pause functionality
   - Role-based access control
   - Safe state transitions
-  
 - ✅ **DSS-7**: Stress Tests & Fuzzing
   - Property-based testing
   - Random input generation
   - Edge case coverage
-  
 - ✅ **DSS-9**: Operational Security
   - Access control (Admin, Keeper, Guardian)
   - Parameter validation
@@ -153,6 +147,7 @@ strategy.setAssetActive(2, false);
 This example uses proven testing patterns from production:
 
 ### 1. Seedable PRNG
+
 ```typescript
 // Reproducible random tests
 function makeRng(seed?: number): () => number {
@@ -164,20 +159,19 @@ function makeRng(seed?: number): () => number {
 ```
 
 ### 2. Property-Based Testing
+
 ```typescript
 // Test invariants across random inputs
 fc.assert(
-  fc.asyncProperty(
-    fc.array(/* ... */),
-    async (inputs) => {
-      // Verify invariants hold
-    }
-  ),
+  fc.asyncProperty(fc.array(/* ... */), async (inputs) => {
+    // Verify invariants hold
+  }),
   { numRuns: 200 }
 );
 ```
 
 ### 3. Invariant Testing
+
 ```typescript
 // Critical properties that must ALWAYS hold
 expect(weightSum).to.equal(10000);
@@ -187,7 +181,7 @@ expect(weight).to.be.lte(maxWeight);
 
 ## 📚 Learn More
 
-- **[SDK Usage Guide](../../docs/SDK-USAGE-GUIDE.md)** - Complete guide to using @vaultbricks/dss-core, @vaultbricks/dss-test, and @vaultbricks/cli
+- **[SDK Usage Guide](../../docs/SDK-USAGE-GUIDE.md)** - Complete guide to using @vaultbricks/dss-core, @vaultbricks/dss-test, and @vaultbricks/dss-cli
 - **[SDK Tutorial](../../docs/SDK-TUTORIAL.md)** - Step-by-step tutorial with code examples
 - **[SDK Quick Reference](../../docs/SDK-QUICK-REFERENCE.md)** - Quick reference for common patterns
 - **DSS Specification**: See `../../specification/`
@@ -223,9 +217,11 @@ import { InvariantRunner } from "@vaultbricks/dss-test";
 const runner = new InvariantRunner({ iterations: 200, seed: 42 });
 await runner.run({
   name: "Weight sum invariant",
-  setup: async () => { /* setup */ },
+  setup: async () => {
+    /* setup */
+  },
   actions: [action1, action2],
-  invariants: [checkInvariant]
+  invariants: [checkInvariant],
 });
 
 // Using FuzzHelpers from @vaultbricks/dss-test
@@ -233,17 +229,19 @@ import { FuzzHelpers, runFuzzTest } from "@vaultbricks/dss-test";
 import fc from "fast-check";
 
 await runFuzzTest(
-  fc.asyncProperty(
-    FuzzHelpers.arbitraryWeights(2, 5),
-    async (weights) => { /* test logic */ }
-  )
+  fc.asyncProperty(FuzzHelpers.arbitraryWeights(2, 5), async (weights) => {
+    /* test logic */
+  })
 );
 
 // Using StandardTests from @vaultbricks/dss-test
 import { StandardTests } from "@vaultbricks/dss-test";
 
 await StandardTests.runStandardDSSTests(strategy, {
-  owner, keeper, guardian, user
+  owner,
+  keeper,
+  guardian,
+  user,
 });
 ```
 
@@ -257,4 +255,3 @@ MIT License
 
 **Built with ❤️ by VaultBricks**  
 Part of the DeFi Strategy Standard (DSS) project
-
