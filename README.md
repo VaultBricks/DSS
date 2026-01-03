@@ -133,9 +133,16 @@ npm run coverage
 
 DSS includes production-tested strategy examples:
 
+### Strategy Examples
 - **[HODLStrategy](examples/sdk/basic-strategy/)** - Equal-weight allocation strategy
 - **[Fixed6040Strategy](examples/sdk/rebalancing-strategy/)** - Classic 60/40 portfolio
 - **[Foundry Examples](examples/foundry/)** - Foundry/Forge test implementations
+
+### Operational Examples (NEW!)
+- **[Monitoring Bots](examples/operational/monitoring/)** - Real-time health monitoring and alerting
+- **[Keeper Bots](examples/operational/keeper/)** - Automated rebalancing and maintenance
+- **[Deployment Scripts](examples/operational/deployment/)** - Multi-sig deployment and verification
+- **[Incident Response](examples/operational/incident-response/)** - Emergency procedures and playbooks
 
 All examples include comprehensive test coverage and demonstrate DSS compliance.
 
