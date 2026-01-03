@@ -224,6 +224,6 @@ jobs:
           echo "✅ GitHub release created" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Published packages:**" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/core" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/test" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/cli" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-core" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-test" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/dss-cli" >> $GITHUB_STEP_SUMMARY

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how to publish the DSS SDK packages (@vaultbricks/dss-core, @vaultbricks/test, @vaultbricks/cli) to npm.
+This guide explains how to publish the DSS SDK packages (@vaultbricks/dss-core, @vaultbricks/dss-test, @vaultbricks/dss-cli) to npm.
 
 ## Prerequisites
 
@@ -76,10 +76,10 @@ After publication, verify:
 - ✅ npm pack verified (28.4 kB)
 - ✅ Published to npm
 
-### @vaultbricks/test
+### @vaultbricks/dss-test
 - ✅ Published to npm
 
-### @vaultbricks/cli
+### @vaultbricks/dss-cli
 - ✅ Published to npm
 
 ## Next Steps
@@ -106,4 +106,3 @@ After publication, verify:
 - [npm Publishing Guide](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry)
 - [GitHub Actions: Publishing to npm](https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages)
 - [Semantic Versioning](https://semver.org/)
-

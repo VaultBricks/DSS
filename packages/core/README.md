@@ -1,10 +1,10 @@
-# @dss/core
+# @vaultbricks/dss-core
 
 Core Solidity contracts and interfaces for the DeFi Strategy Standard (DSS).
 
 ## Overview
 
-`@dss/core` provides base implementations of common DeFi strategy components:
+`@vaultbricks/dss-core` provides base implementations of common DeFi strategy components:
 
 - **Interfaces**: Standardized interfaces for DSS-compliant strategies
 - **Access Control**: Ready-to-use role-based access control (Owner, Keeper, Guardian)
@@ -16,9 +16,9 @@ Core Solidity contracts and interfaces for the DeFi Strategy Standard (DSS).
 ### Using npm/yarn
 
 ```bash
-npm install @dss/core
+npm install @vaultbricks/dss-core
 # or
-yarn add @dss/core
+yarn add @vaultbricks/dss-core
 ```
 
 ### Using Foundry
@@ -30,8 +30,8 @@ forge install VaultBricks/DSS --no-commit
 Then in your Solidity file:
 
 ```solidity
-import "@dss/core/interfaces/IDSSStrategy.sol";
-import "@dss/core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
 ```
 
 ## Usage
@@ -42,9 +42,9 @@ import "@dss/core/contracts/DSSAccessControl.sol";
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@dss/core/interfaces/IDSSStrategy.sol";
-import "@dss/core/contracts/DSSAccessControl.sol";
-import "@dss/core/contracts/DSSPausable.sol";
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/contracts/DSSPausable.sol";
 
 contract MyStrategy is IDSSStrategy, DSSAccessControl, DSSPausable {
     

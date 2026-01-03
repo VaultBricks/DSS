@@ -10,9 +10,9 @@ DSS supports self-certification for teams that want to demonstrate compliance wi
 
 Use the appropriate certification checklist to track your progress:
 
-- [Bronze Certification Checklist](certification/checklist-bronze.md)
-- [Silver Certification Checklist](certification/checklist-silver.md)
-- [Gold Certification Checklist](certification/checklist-gold.md)
+- [Bronze Certification Checklist](checklist-bronze.md)
+- [Silver Certification Checklist](checklist-silver.md)
+- [Gold Certification Checklist](checklist-gold.md)
 
 ### Step 2: Generate Evidence
 
@@ -167,6 +167,5 @@ Certified protocols can display DSS badges:
 ## Related Documentation
 
 - [Certification Matrix](CERTIFICATION-MATRIX.md) - Complete requirements table
-- [FAQ](FAQ.md) - Frequently asked questions about certification
-- [Implementation Guidelines](IMPLEMENTATION-GUIDELINES.md) - How to implement DSS requirements
-
+- [FAQ](../docs/FAQ.md) - Frequently asked questions about certification
+- [Implementation Guidelines](../docs/development/IMPLEMENTATION-GUIDELINES.md) - How to implement DSS requirements

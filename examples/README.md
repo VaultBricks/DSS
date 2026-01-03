@@ -206,6 +206,41 @@ All examples use production-tested patterns and are designed to demonstrate best
 
 ## 🔗 Related Documentation
 
+- **[SDK Usage Guide](../docs/SDK-USAGE-GUIDE.md)** - Complete guide to using @vaultbricks/dss-core, @vaultbricks/dss-test, and @vaultbricks/dss-cli
+- **[SDK Quick Reference](../docs/SDK-QUICK-REFERENCE.md)** - Quick reference for common patterns
+- **[Getting Started Guide](../GETTING-STARTED.md)** - Step-by-step tutorial
 - **DSS Specification:** `../specification/`
-- **SDK Packages:** `../packages/`---**Built with ❤️ by VaultBricks**  
+- **SDK Packages:** `../packages/`
+
+## 📦 Using Published Packages
+
+These examples demonstrate how to use the published SDK packages:
+
+### Install Packages
+
+```bash
+# In your own project
+npm install @vaultbricks/dss-core
+npm install --save-dev @vaultbricks/dss-test
+```
+
+### Import in Solidity
+
+```solidity
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/contracts/DSSPausable.sol";
+```
+
+### Use in TypeScript Tests
+
+```typescript
+import { InvariantRunner, FuzzHelpers, StandardTests } from "@vaultbricks/dss-test";
+```
+
+See [SDK Usage Guide](../docs/SDK-USAGE-GUIDE.md) for comprehensive examples.
+
+---
+
+**Built with ❤️ by VaultBricks**  
 Part of the DeFi Strategy Standard (DSS) project

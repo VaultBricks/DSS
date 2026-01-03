@@ -113,7 +113,6 @@ The following matrix summarizes all DSS requirements by certification level:
 ## Related Documentation
 
 - [Certification Process](CERTIFICATION-PROCESS.md) - How to get certified
-- [Bronze Checklist](certification/checklist-bronze.md)
-- [Silver Checklist](certification/checklist-silver.md)
-- [Gold Checklist](certification/checklist-gold.md)
-
+- [Bronze Checklist](checklist-bronze.md)
+- [Silver Checklist](checklist-silver.md)
+- [Gold Checklist](checklist-gold.md)

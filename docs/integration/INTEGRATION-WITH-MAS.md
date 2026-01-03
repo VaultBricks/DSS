@@ -56,7 +56,7 @@ VaultBricks demonstrates both standards:
 - ✅ DSS-compliant testing (example implementation)
 - ✅ DSS-11: Full ERC-4626 + MAS interoperability compliance
 
-See [REFERENCE-IMPLEMENTATION.md](REFERENCE-IMPLEMENTATION.md) for detailed implementation metrics.
+See [REFERENCE-IMPLEMENTATION.md](../REFERENCE-IMPLEMENTATION.md) for detailed implementation metrics.
 
 ## Certification matrix
 

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0-alpha.2] - 2025-01-XX
+
+### Changed - Package Renaming
+- **BREAKING**: Renamed npm packages for better clarity:
+  - `@vaultbricks/core` → `@vaultbricks/dss-core`
+  - `@vaultbricks/test` → `@vaultbricks/dss-test`
+  - `@vaultbricks/cli` → `@vaultbricks/dss-cli`
+- Old packages are deprecated and will show migration notices
+- Updated all documentation and examples to use new package names
+- Added migration guide in `docs/guides/NPM_PACKAGE_RENAME_GUIDE.md`
+
+### Added
+- Scripts for publishing renamed packages (`scripts/publish-renamed-packages.*`)
+- Scripts for deprecating old packages (`scripts/deprecate-old-packages.*`)
+- Comprehensive package rename guide with migration instructions
+
+## [Unreleased]
+
 ### Added - CI/CD Automation (DSS-13)
 
 **NEW: Complete CI/CD automation workflows**

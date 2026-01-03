@@ -2,7 +2,7 @@
 
 **VaultBricks** serves as a reference implementation example. It demonstrates how to implement a DSS-compliant strategy testing suite.
 
-> **Note:** This document provides example metrics and structure as a reference for implementing your own DSS-compliant testing framework. Actual certification requires verification through the [Certification Process](CERTIFICATION-PROCESS.md).
+> **Note:** This document provides example metrics and structure as a reference for implementing your own DSS-compliant testing framework. Actual certification requires verification through the [Certification Process](../certification/CERTIFICATION-PROCESS.md).
 
 ## Test Suite Overview
 
@@ -93,4 +93,3 @@ npm run test:invariants
 # Run gas benchmarks
 npm run test:gas
 ```
-

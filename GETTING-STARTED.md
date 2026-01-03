@@ -11,15 +11,17 @@ This guide walks you through creating your first DSS-compliant strategy using th
 ## Step 1: Install DSS CLI
 
 ```bash
-npm install -g @dss/cli
+npm install -g @vaultbricks/dss-cli
 ```
 
 Verify installation:
 
 ```bash
 dss --version
-# Output: 1.2.0-alpha.0
+# Output: 1.2.0-alpha.2
 ```
+
+> **Note**: Package names use the `@vaultbricks/dss-*` format: `@vaultbricks/dss-core`, `@vaultbricks/dss-test`, `@vaultbricks/dss-cli`.
 
 ## Step 2: Create a New Project
 
@@ -78,9 +80,11 @@ npm install
 ```
 
 This installs:
-- `@dss/core` - Base contracts
-- `@dss/test` - Testing utilities
+- `@vaultbricks/dss-core` - Base contracts
+- `@vaultbricks/dss-test` - Testing utilities
 - `hardhat` and related tools
+
+> **Note**: All packages use the `@vaultbricks` scope. See [SDK Usage Guide](./docs/SDK-USAGE-GUIDE.md) for comprehensive examples.
 
 ## Step 5: Implement Your Strategy
 
@@ -90,9 +94,9 @@ Open `contracts/MyRebalancingStrategy.sol`:
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@dss/core/interfaces/IDSSStrategy.sol";
-import "@dss/core/contracts/DSSAccessControl.sol";
-import "@dss/core/contracts/DSSPausable.sol";
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/contracts/DSSPausable.sol";
 
 contract MyRebalancingStrategy is IDSSStrategy, DSSAccessControl, DSSPausable {
     address[] private _assets;
@@ -145,7 +149,7 @@ The CLI generates starter tests. Open `test/invariants.test.ts`:
 ```typescript
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { createInvariantRunner } from "@dss/test";
+import { InvariantRunner } from "@vaultbricks/dss-test";
 
 describe("Invariant Tests", () => {
   let strategy: any;
@@ -156,7 +160,7 @@ describe("Invariant Tests", () => {
     const [weth, usdc] = await deployMockTokens();
     strategy = await Strategy.deploy([weth.address, usdc.address]);
     
-    runner = createInvariantRunner({ iterations: 200, seed: 42 });
+    runner = new InvariantRunner({ iterations: 200, seed: 42 });
   });
 
   it("maintains weight sum = 10000", async () => {
@@ -280,7 +284,7 @@ Based on the report, address missing requirements:
 1. **Add Fuzzing Tests** (DSS-7):
 
 ```typescript
-import { arbitraryWeights, runFuzzTest } from "@dss/test";
+import { FuzzHelpers, runFuzzTest } from "@vaultbricks/dss-test";
 import fc from "fast-check";
 
 it("handles arbitrary weight distributions", async () => {
@@ -318,10 +322,12 @@ Once you reach your target certification level:
 
 ## Resources
 
-- [DSS Specification](https://github.com/VaultBricks/DSS/tree/main/specification)
-- [@dss/core Documentation](https://github.com/VaultBricks/DSS/tree/main/packages/core)
-- [@dss/test Documentation](https://github.com/VaultBricks/DSS/tree/main/packages/test)
-- [Example Strategies](https://github.com/VaultBricks/DSS/tree/main/examples)
+- **[SDK Usage Guide](./docs/SDK-USAGE-GUIDE.md)** - Comprehensive guide with examples
+- [DSS Specification](./specification/) - Complete specification
+- [@vaultbricks/dss-core Documentation](./packages/core/) - Core contracts
+- [@vaultbricks/dss-test Documentation](./packages/test/) - Testing utilities
+- [@vaultbricks/dss-cli Documentation](./packages/cli/) - CLI tool
+- [Example Strategies](./examples/) - Working examples
 
 ## Getting Help
 

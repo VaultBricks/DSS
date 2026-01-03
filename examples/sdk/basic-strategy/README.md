@@ -187,8 +187,67 @@ expect(weight).to.be.lte(maxWeight);
 
 ## 📚 Learn More
 
+- **[SDK Usage Guide](../../docs/SDK-USAGE-GUIDE.md)** - Complete guide to using @vaultbricks/dss-core, @vaultbricks/dss-test, and @vaultbricks/cli
+- **[SDK Tutorial](../../docs/SDK-TUTORIAL.md)** - Step-by-step tutorial with code examples
+- **[SDK Quick Reference](../../docs/SDK-QUICK-REFERENCE.md)** - Quick reference for common patterns
 - **DSS Specification**: See `../../specification/`
 - **Advanced Examples**: See `../` for more complex strategies
+
+## 📦 Using Published Packages
+
+This example demonstrates manual testing patterns. In your own project, you can use the published SDK packages:
+
+### Install Packages
+
+```bash
+npm install @vaultbricks/dss-core
+npm install --save-dev @vaultbricks/dss-test
+```
+
+### Import in Solidity Contracts
+
+```solidity
+import "@vaultbricks/dss-core/interfaces/IDSSStrategy.sol";
+import "@vaultbricks/dss-core/contracts/DSSAccessControl.sol";
+import "@vaultbricks/dss-core/contracts/DSSPausable.sol";
+```
+
+### Use in TypeScript Tests
+
+Instead of manual implementation, you can use the SDK utilities:
+
+```typescript
+// Using InvariantRunner from @vaultbricks/dss-test
+import { InvariantRunner } from "@vaultbricks/dss-test";
+
+const runner = new InvariantRunner({ iterations: 200, seed: 42 });
+await runner.run({
+  name: "Weight sum invariant",
+  setup: async () => { /* setup */ },
+  actions: [action1, action2],
+  invariants: [checkInvariant]
+});
+
+// Using FuzzHelpers from @vaultbricks/dss-test
+import { FuzzHelpers, runFuzzTest } from "@vaultbricks/dss-test";
+import fc from "fast-check";
+
+await runFuzzTest(
+  fc.asyncProperty(
+    FuzzHelpers.arbitraryWeights(2, 5),
+    async (weights) => { /* test logic */ }
+  )
+);
+
+// Using StandardTests from @vaultbricks/dss-test
+import { StandardTests } from "@vaultbricks/dss-test";
+
+await StandardTests.runStandardDSSTests(strategy, {
+  owner, keeper, guardian, user
+});
+```
+
+See [SDK Usage Guide](../../docs/SDK-USAGE-GUIDE.md) for comprehensive examples.
 
 ## 📄 License
 

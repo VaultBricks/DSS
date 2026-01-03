@@ -1,7 +1,7 @@
 // packages/test/src/index.ts
 
 /**
- * @dss/test - Testing framework for DSS-compliant strategies
+ * @vaultbricks/dss-test - Testing framework for DSS-compliant strategies
  * 
  * Main exports:
  * - InvariantRunner: Property-based testing for invariants (DSS-2)
