@@ -27,7 +27,7 @@
     "url": "https://github.com/VaultBricks/DSS/issues"
   },
   "dependencies": {
-    "fast-check": "^3.15.0",
+    "fast-check": "^4.5.3",
     "ethers": "^6.10.0"
   },
   "devDependencies": {
