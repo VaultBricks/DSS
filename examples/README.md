@@ -19,9 +19,14 @@ examples/
 ├── sdk/                       # Hardhat-based examples
 │   ├── basic-strategy/       # HODLStrategy (equal-weight)
 │   └── rebalancing-strategy/ # Fixed6040Strategy (60/40)
-└── foundry/                   # Foundry-based examples
-    ├── src/                  # Strategy contracts
-    └── test/                 # Foundry tests
+├── foundry/                   # Foundry-based examples
+│   ├── src/                  # Strategy contracts
+│   └── test/                 # Foundry tests
+└── operational/               # Production operational tools (NEW!)
+    ├── monitoring/           # Real-time monitoring bots
+    ├── keeper/               # Automated keeper bots
+    ├── deployment/           # Secure deployment scripts
+    └── incident-response/    # Emergency procedures
 ```
 
 ## 📦 Available Examples
@@ -83,6 +88,29 @@ forge test --gas-report # With gas profiling
 
 [→ View full documentation](./foundry/README.md)
 
+### 4. Operational Examples (NEW!)
+
+**Path:** `operational/`
+**Complexity:** ⭐⭐ Intermediate
+
+Production-ready operational tools for DSS-9 compliance.
+
+**Includes:**
+- 🔍 **Monitoring Bots** - Real-time health monitoring and alerting
+- 🤖 **Keeper Bots** - Automated rebalancing and maintenance
+- 🚀 **Deployment Scripts** - Multi-sig deployment and verification
+- 🚨 **Incident Response** - Emergency procedures and playbooks
+
+**Use Cases:**
+- 24/7 strategy monitoring
+- Automated rebalancing
+- Secure deployment workflows
+- Emergency incident response
+
+**DSS Coverage:** DSS-9 (Operational Security)
+
+[→ View full documentation](./operational/README.md)
+
 ## 🧪 Testing Coverage
 
 All examples include:
@@ -109,6 +137,22 @@ npm test
 cd examples/foundry
 forge install
 forge test
+```
+
+### Operational Tools
+
+```bash
+cd examples/operational
+npm install
+
+# Run health monitor
+npm run monitor:health
+
+# Run keeper bot
+npm run keeper:rebalance
+
+# Deploy with multi-sig
+npm run deploy:multisig
 ```
 
 ## 📚 What You'll Learn
@@ -189,6 +233,10 @@ for (let iter = 0; iter < 200; iter++) {
 | Learn DSS basics | `basic-strategy` (HODLStrategy) |
 | Build balanced portfolio | `rebalancing-strategy` (Fixed6040) |
 | Use Foundry/Forge | `foundry/` |
+| Set up monitoring | `operational/monitoring/` |
+| Automate operations | `operational/keeper/` |
+| Deploy securely | `operational/deployment/` |
+| Handle incidents | `operational/incident-response/` |
 | See production patterns | All examples |
 | Prepare for audit | All (comprehensive tests) |
 
