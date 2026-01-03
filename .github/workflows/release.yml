@@ -92,9 +92,11 @@ jobs:
 
       - name: Configure NPM authentication
         run: |
-          echo "@vaultbricks:registry=${{ env.NPM_REGISTRY }}" > ~/.npmrc
-          echo "${{ env.NPM_REGISTRY }}/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
-          chmod 600 ~/.npmrc
+          mkdir -p $HOME/.npm
+          echo "@vaultbricks:registry=${{ env.NPM_REGISTRY }}" > $HOME/.npmrc
+          echo "${{ env.NPM_REGISTRY }}/:_authToken=${{ secrets.NPM_TOKEN }}" >> $HOME/.npmrc
+          cat $HOME/.npmrc
+          chmod 600 $HOME/.npmrc
 
       - name: Install dependencies
         run: npm install --ignore-scripts
