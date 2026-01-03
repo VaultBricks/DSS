@@ -1,0 +1,139 @@
+name: DSS Deployment Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: 'Target network'
+        required: true
+        default: 'sepolia'
+        type: choice
+        options:
+          - sepolia
+          - mainnet
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  validate:
+    name: Validate Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Validate configuration
+        working-directory: examples/operational
+        env:
+          RPC_URL: ${{ secrets[format('RPC_URL_{0}', github.event.inputs.network)] }}
+          PRIVATE_KEY: ${{ secrets[format('DEPLOYER_KEY_{0}', github.event.inputs.network)] }}
+          MULTISIG_ADDRESS: ${{ secrets[format('MULTISIG_ADDRESS_{0}', github.event.inputs.network)] }}
+          KEEPER_ADDRESS: ${{ secrets[format('KEEPER_ADDRESS_{0}', github.event.inputs.network)] }}
+          GUARDIAN_ADDRESS: ${{ secrets[format('GUARDIAN_ADDRESS_{0}', github.event.inputs.network)] }}
+          ASSET_ADDRESSES: ${{ secrets[format('ASSET_ADDRESSES_{0}', github.event.inputs.network)] }}
+          ASSET_WEIGHTS: ${{ secrets[format('ASSET_WEIGHTS_{0}', github.event.inputs.network)] }}
+        run: npx ts-node deployment/validate-config.ts
+
+  deploy:
+    name: Deploy Strategy
+    needs: validate
+    runs-on: ubuntu-latest
+    outputs:
+      strategy_address: ${{ steps.deploy_step.outputs.strategy_address }}
+      deployment_report: ${{ steps.deploy_step.outputs.deployment_report }}
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy strategy
+        id: deploy_step
+        working-directory: examples/operational
+        env:
+          PRIVATE_KEY: ${{ secrets[format('DEPLOYER_KEY_{0}', github.event.inputs.network)] }}
+          RPC_URL: ${{ secrets[format('RPC_URL_{0}', github.event.inputs.network)] }}
+          MULTISIG_ADDRESS: ${{ secrets[format('MULTISIG_ADDRESS_{0}', github.event.inputs.network)] }}
+          KEEPER_ADDRESS: ${{ secrets[format('KEEPER_ADDRESS_{0}', github.event.inputs.network)] }}
+          GUARDIAN_ADDRESS: ${{ secrets[format('GUARDIAN_ADDRESS_{0}', github.event.inputs.network)] }}
+          ASSET_ADDRESSES: ${{ secrets[format('ASSET_ADDRESSES_{0}', github.event.inputs.network)] }}
+          ASSET_WEIGHTS: ${{ secrets[format('ASSET_WEIGHTS_{0}', github.event.inputs.network)] }}
+        run: |
+          npx ts-node deployment/deploy-with-multisig.ts
+          # Extract strategy address from latest deployment report
+          LATEST_REPORT=$(ls -t deployments/deployment-*.json | head -1)
+          STRATEGY_ADDR=$(jq -r '.strategyAddress' "$LATEST_REPORT")
+          echo "strategy_address=$STRATEGY_ADDR" >> $GITHUB_OUTPUT
+          echo "deployment_report=$LATEST_REPORT" >> $GITHUB_OUTPUT
+
+  verify:
+    name: Verify Deployment
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify deployment
+        working-directory: examples/operational
+        env:
+          RPC_URL: ${{ secrets[format('RPC_URL_{0}', github.event.inputs.network)] }}
+          DEPLOYMENT_REPORT: ${{ needs.deploy.outputs.deployment_report }}
+        run: npx ts-node deployment/verify-deployment.ts
+
+  monitor:
+    name: Start Monitoring
+    needs: verify
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'production'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Start health monitoring
+        working-directory: examples/operational
+        env:
+          RPC_URL: ${{ secrets[format('RPC_URL_{0}', github.event.inputs.network)] }}
+          STRATEGY_ADDRESS: ${{ needs.deploy.outputs.strategy_address }}
+          DEFENDER_API_KEY: ${{ secrets.DEFENDER_API_KEY }}
+          TENDERLY_ACCESS_KEY: ${{ secrets.TENDERLY_ACCESS_KEY }}
+        run: npx ts-node monitoring/health-monitor.ts
+

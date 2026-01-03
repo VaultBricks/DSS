@@ -14,7 +14,44 @@ Secure deployment requires:
 
 ## 🏗️ Available Scripts
 
-### 1. Multi-Sig Deployment (`deploy-with-multisig.ts`)
+### 1. Configuration Validation (`validate-config.ts`)
+
+Pre-deployment configuration validation to prevent common errors.
+
+**Validates:**
+- ✅ Environment variables set
+- ✅ Asset addresses valid and deployed
+- ✅ Weight distribution sums to 100%
+- ✅ Role addresses valid
+- ✅ No critical configuration errors
+
+**Usage:**
+```bash
+# Configure assets in .env
+ASSET_ADDRESSES=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2,0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599
+ASSET_WEIGHTS=5000,5000
+
+# Run validation
+npm run deploy:validate
+# or
+ts-node deployment/validate-config.ts
+```
+
+**Output:**
+- Configuration validation report
+- Pass/Fail status for each check
+- Warnings for potential issues
+
+**Required Environment Variables:**
+- `PRIVATE_KEY` - Deployer private key
+- `RPC_URL` - Ethereum RPC endpoint
+- `MULTISIG_ADDRESS` - Multi-sig wallet address
+- `KEEPER_ADDRESS` - Keeper bot address
+- `GUARDIAN_ADDRESS` - Guardian address
+- `ASSET_ADDRESSES` - Comma-separated asset addresses
+- `ASSET_WEIGHTS` - Comma-separated weights (must sum to 10000)
+
+### 2. Multi-Sig Deployment (`deploy-with-multisig.ts`)
 
 Complete deployment workflow with multi-sig governance from day one.
 
@@ -27,21 +64,25 @@ Complete deployment workflow with multi-sig governance from day one.
 
 **Usage:**
 ```bash
-# Configure in .env
+# Configure in .env (see .env.example)
 MULTISIG_ADDRESS=0x...
 KEEPER_ADDRESS=0x...
 GUARDIAN_ADDRESS=0x...
+ASSET_ADDRESSES=0x...,0x...
+ASSET_WEIGHTS=5000,5000
 
 # Run deployment
+npm run deploy:multisig
+# or
 ts-node deployment/deploy-with-multisig.ts
 ```
 
 **Output:**
 - Deployed strategy address
-- Deployment report (JSON)
+- Deployment report saved to `./deployments/deployment-{timestamp}.json`
 - Verification instructions
 
-### 2. Deployment Verification (`verify-deployment.ts`)
+### 3. Deployment Verification (`verify-deployment.ts`)
 
 Comprehensive post-deployment verification.
 
@@ -55,12 +96,17 @@ Comprehensive post-deployment verification.
 
 **Usage:**
 ```bash
-# Specify deployment report
-DEPLOYMENT_REPORT=./deployments/deployment-123456.json
+# Option 1: Auto-detect latest deployment report
+npm run deploy:verify
 
-# Run verification
+# Option 2: Specify deployment report explicitly
+DEPLOYMENT_REPORT=./deployments/deployment-1234567890.json npm run deploy:verify
+
+# Option 3: Direct execution
 ts-node deployment/verify-deployment.ts
 ```
+
+**Note:** If `DEPLOYMENT_REPORT` is not set, the script automatically uses the most recent deployment report from `./deployments/` directory.
 
 ### 3. Timelock Upgrade (`upgrade-with-timelock.ts`)
 
@@ -98,18 +144,28 @@ cp .env.example .env
 ### Deploy Strategy
 
 ```bash
-# 1. Configure deployment
-export MULTISIG_ADDRESS=0x...
-export KEEPER_ADDRESS=0x...
-export GUARDIAN_ADDRESS=0x...
+# 1. Configure .env file (copy from .env.example)
+cp .env.example .env
 
-# 2. Deploy
-ts-node deployment/deploy-with-multisig.ts
+# Edit .env with your values:
+# - PRIVATE_KEY
+# - RPC_URL
+# - MULTISIG_ADDRESS
+# - KEEPER_ADDRESS
+# - GUARDIAN_ADDRESS
+# - ASSET_ADDRESSES (comma-separated)
+# - ASSET_WEIGHTS (comma-separated, must sum to 10000)
 
-# 3. Verify
-ts-node deployment/verify-deployment.ts
+# 2. Validate configuration
+npm run deploy:validate
 
-# 4. (Optional) Verify on Etherscan
+# 3. Deploy with multi-sig
+npm run deploy:multisig
+
+# 4. Verify deployment
+npm run deploy:verify
+
+# 5. (Optional) Verify on Etherscan
 npx hardhat verify --network mainnet <STRATEGY_ADDRESS> <CONSTRUCTOR_ARGS>
 ```
 
@@ -193,9 +249,17 @@ TIMELOCK_ADDRESS=0x...      # Timelock contract
 KEEPER_ADDRESS=0x...        # Keeper bot address
 GUARDIAN_ADDRESS=0x...      # Guardian address
 
+# Strategy Assets (REQUIRED)
+# Comma-separated addresses (no spaces)
+ASSET_ADDRESSES=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2,0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599
+
+# Asset weights in basis points (must sum to 10000 = 100%)
+ASSET_WEIGHTS=5000,5000
+
 # Deployment
 DEPLOYMENT_CONFIRMATIONS=5
 DEPLOYMENT_GAS_LIMIT=5000000
+DEPLOYMENT_REPORT=          # Leave empty to auto-detect latest
 ```
 
 ### Multi-Sig Setup
@@ -265,8 +329,9 @@ These scripts help achieve:
 
 | Requirement | Script | Level |
 |-------------|--------|-------|
-| **DSS-9.1.1: Secure Deployment** | deploy-with-multisig.ts | Silver+ |
-| **DSS-9.1.2: Verification** | verify-deployment.ts | Silver+ |
+| **DSS-9.1.1: Configuration Validation** | validate-config.ts | Silver+ |
+| **DSS-9.1.2: Secure Deployment** | deploy-with-multisig.ts | Silver+ |
+| **DSS-9.1.3: Verification** | verify-deployment.ts | Silver+ |
 | **DSS-9.2.1: Multi-Sig Governance** | deploy-with-multisig.ts | Silver+ |
 | **DSS-9.2.2: Timelock Protection** | upgrade-with-timelock.ts | Gold |
 

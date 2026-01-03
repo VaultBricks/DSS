@@ -17,6 +17,7 @@ All examples demonstrate:
 ```
 examples/operational/
 ├── README.md                          # This file
+├── DEPLOYMENT-GUIDE.md                # Complete deployment checklist
 ├── monitoring/                        # Real-time monitoring examples
 │   ├── health-monitor.ts             # Strategy health monitoring bot
 │   ├── event-monitor.ts              # Event-based monitoring
@@ -30,6 +31,7 @@ examples/operational/
 ├── deployment/                        # Secure deployment scripts
 │   ├── deploy-with-multisig.ts       # Multi-sig deployment
 │   ├── verify-deployment.ts          # Post-deployment verification
+│   ├── validate-config.ts            # Configuration validation
 │   ├── upgrade-with-timelock.ts      # Timelock upgrade script
 │   └── README.md
 ├── incident-response/                 # Incident response procedures
@@ -59,14 +61,20 @@ cp .env.example .env
 PRIVATE_KEY=your_private_key_here
 RPC_URL=https://mainnet.infura.io/v3/YOUR_KEY
 
+# For deployment examples (REQUIRED)
+MULTISIG_ADDRESS=0x...
+KEEPER_ADDRESS=0x...
+GUARDIAN_ADDRESS=0x...
+ASSET_ADDRESSES=0x...,0x...  # Comma-separated
+ASSET_WEIGHTS=5000,5000      # Must sum to 10000
+
 # For monitoring examples
 DEFENDER_API_KEY=your_defender_api_key
 DEFENDER_API_SECRET=your_defender_api_secret
 TENDERLY_ACCESS_KEY=your_tenderly_key
 TENDERLY_PROJECT_SLUG=your_project
 
-# For deployment examples
-MULTISIG_ADDRESS=0x...
+# Governance (optional)
 TIMELOCK_ADDRESS=0x...
 
 # Alerting (optional)
@@ -74,6 +82,8 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/...
 TELEGRAM_BOT_TOKEN=your_bot_token
 TELEGRAM_CHAT_ID=your_chat_id
 ```
+
+**See `.env.example` for complete configuration options.**
 
 ## 📚 Examples by Category
 
@@ -112,11 +122,13 @@ Automated bots for strategy maintenance and rebalancing.
 Secure deployment and upgrade procedures.
 
 **Examples:**
+- `validate-config.ts` - Pre-deployment configuration validation
 - `deploy-with-multisig.ts` - Multi-sig deployment workflow
 - `verify-deployment.ts` - Post-deployment verification
 - `upgrade-with-timelock.ts` - Timelock-protected upgrades
 
 **Use Cases:**
+- Validate configuration before deployment
 - Deploy strategies securely
 - Verify deployment correctness
 - Implement governance delays
@@ -185,6 +197,7 @@ All examples are based on production-tested patterns from real DeFi protocols an
 ## 📖 Next Steps
 
 - Review [DSS-9 Specification](../../specification/part-c-operational.md)
+- Follow [Deployment Guide](DEPLOYMENT-GUIDE.md) for step-by-step instructions
 - Check [Incident Response Playbook](incident-response/INCIDENT-RESPONSE-PLAYBOOK.md)
 - Set up [Monitoring](monitoring/README.md)
 - Configure [Keeper Bots](keeper/README.md)

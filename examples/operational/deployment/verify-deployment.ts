@@ -163,18 +163,55 @@ async function verifyNoDeployerAdmin(
 
 // ============ Main Verification ============
 
+function findLatestDeploymentReport(): string {
+  const deploymentsDir = './deployments';
+
+  if (!fs.existsSync(deploymentsDir)) {
+    throw new Error(`Deployments directory not found: ${deploymentsDir}`);
+  }
+
+  const reports = fs.readdirSync(deploymentsDir)
+    .filter(f => f.startsWith('deployment-') && f.endsWith('.json'))
+    .map(f => ({
+      name: f,
+      path: `${deploymentsDir}/${f}`,
+      mtime: fs.statSync(`${deploymentsDir}/${f}`).mtime
+    }))
+    .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
+
+  if (reports.length === 0) {
+    throw new Error('No deployment reports found in ./deployments/');
+  }
+
+  return reports[0].path;
+}
+
 async function main() {
   console.log(chalk.bold.cyan('\n🔍 DSS Deployment Verification\n'));
-  
+
   // Load deployment report
-  const deploymentPath = process.env.DEPLOYMENT_REPORT || './deployments/latest.json';
-  
+  let deploymentPath = process.env.DEPLOYMENT_REPORT;
+
+  if (!deploymentPath) {
+    console.log(chalk.gray('No DEPLOYMENT_REPORT specified, using latest...'));
+    try {
+      deploymentPath = findLatestDeploymentReport();
+      console.log(chalk.blue('Found:'), deploymentPath);
+    } catch (error) {
+      console.error(chalk.red('❌ Error finding deployment report:'), (error as Error).message);
+      console.error(chalk.yellow('\nOptions:'));
+      console.error(chalk.yellow('  1. Set DEPLOYMENT_REPORT env var to specific report path'));
+      console.error(chalk.yellow('  2. Run deploy-with-multisig.ts to create a new deployment'));
+      process.exit(1);
+    }
+  }
+
   if (!fs.existsSync(deploymentPath)) {
     console.error(chalk.red(`❌ Deployment report not found: ${deploymentPath}`));
-    console.error('Run deploy-with-multisig.ts first or specify DEPLOYMENT_REPORT');
+    console.error(chalk.yellow('Run deploy-with-multisig.ts first or check DEPLOYMENT_REPORT path'));
     process.exit(1);
   }
-  
+
   const deployment = JSON.parse(fs.readFileSync(deploymentPath, 'utf-8'));
   
   console.log(chalk.blue('Strategy:'), deployment.strategyAddress);
