@@ -83,20 +83,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
+      - name: Verify NPM_TOKEN
+        run: |
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "::error::NPM_TOKEN secret is not configured. Please add it in repository settings."
+            exit 1
+          fi
+          echo "✅ NPM_TOKEN is configured"
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
           scope: '@vaultbricks'
-
-      - name: Configure NPM authentication
+          always-auth: true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Verify npm configuration
         run: |
-          mkdir -p $HOME/.npm
-          echo "@vaultbricks:registry=${{ env.NPM_REGISTRY }}" > $HOME/.npmrc
-          echo "${{ env.NPM_REGISTRY }}/:_authToken=${{ secrets.NPM_TOKEN }}" >> $HOME/.npmrc
-          cat $HOME/.npmrc
-          chmod 600 $HOME/.npmrc
+          echo "Registry: $(npm config get registry)"
+          echo "Scope registry: $(npm config get @vaultbricks:registry || echo 'using default registry')"
+          echo "Auth token configured: $(npm config get //registry.npmjs.org/:_authToken | cut -c1-10)..."
 
       - name: Install dependencies
         run: npm install --ignore-scripts
@@ -104,7 +113,7 @@ jobs:
       - name: Update version
         run: |
           npm version ${{ needs.prepare-release.outputs.version }} --no-git-tag-version --allow-same-version
-          cat package.json | jq .version
+          node -e "console.log(require('./package.json').version)"
       
       - name: Build package
         run: |
@@ -112,13 +121,49 @@ jobs:
             npm run build
           fi
       
-      - name: Publish to npm
+      - name: Verify package configuration and authentication
         run: |
+          echo "=== Package Information ==="
+          echo "Package name: $(node -e "console.log(require('./package.json').name)")"
+          echo "Package version: $(node -e "console.log(require('./package.json').version)")"
+          echo ""
+          echo "=== NPM Configuration ==="
+          echo "Registry: $(npm config get registry)"
+          echo "Scope registry: $(npm config get @vaultbricks:registry || echo 'using default registry')"
+          echo ""
+          echo "=== Authentication ==="
+          NPM_USER=$(npm whoami 2>&1 || echo "NOT_AUTHENTICATED")
+          if [ "$NPM_USER" = "NOT_AUTHENTICATED" ]; then
+            echo "❌ Authentication failed!"
+            echo "Checking .npmrc file:"
+            cat $HOME/.npmrc || echo "No .npmrc file found"
+            exit 1
+          else
+            echo "✅ Authenticated as: $NPM_USER"
+          fi
+          
+          echo ""
+          echo "=== Organization Access ==="
+          npm org ls vaultbricks 2>&1 || echo "⚠️ Cannot list organization members (this is OK if you have publish rights)"
+      
+      - name: Publish to npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::NPM_TOKEN is not set"
+            exit 1
+          fi
+          
           if [ "${{ needs.prepare-release.outputs.is-prerelease }}" == "true" ]; then
+            echo "Publishing as prerelease with 'beta' tag..."
             npm publish --tag beta --access public
           else
+            echo "Publishing as stable release..."
             npm publish --access public
           fi
+          
+          echo "✅ Package published successfully!"
 
   # Create GitHub Release
   create-release:
@@ -179,6 +224,6 @@ jobs:
           echo "✅ GitHub release created" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Published packages:**" >> $GITHUB_STEP_SUMMARY
-          echo "- @vaultbricks/dss-core" >> $GITHUB_STEP_SUMMARY
+          echo "- @vaultbricks/core" >> $GITHUB_STEP_SUMMARY
           echo "- @vaultbricks/test" >> $GITHUB_STEP_SUMMARY
           echo "- @vaultbricks/cli" >> $GITHUB_STEP_SUMMARY

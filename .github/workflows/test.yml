@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['18', '20']
+        node-version: ['20']  # Hardhat requires Node.js 20+
         project:
           - examples/sdk/basic-strategy
           # Temporarily disabled until rebalancing-strategy is fully set up
