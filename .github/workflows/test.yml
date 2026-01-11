@@ -81,7 +81,7 @@ jobs:
       
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-${{ matrix.project }}-node${{ matrix.node-version }}
           path: ${{ matrix.project }}/test-results/
@@ -133,7 +133,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: foundry-test-results
           path: examples/foundry/
